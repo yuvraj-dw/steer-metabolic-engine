@@ -1,0 +1,38 @@
+{
+  "study_id": "STEP-1-2021",
+  "title": "Once-Weekly Semaglutide in Adults with Overweight or Obesity",
+  "journal": "New England Journal of Medicine",
+  "year": 2021,
+  "doi": "10.1056/NEJMoa2032183",
+  "sample_size": 1961,
+  "key_findings": [
+    {
+      "claim": "Average body weight reduction of 14.9% at 68 weeks on semaglutide",
+      "metric": "14.9%",
+      "p_value": "<0.001",
+      "citation_location": "NEJM 2021;384:989-1002, Table 2",
+      "clinical_interpretation": "Clinically proven substantial weight loss when coupled with lifestyle intervention."
+    },
+    {
+      "claim": "Two-thirds of lost weight was regained within 12 months after treatment cessation without an exit plan",
+      "metric": "67%",
+      "p_value": "<0.001",
+      "citation_location": "Diabetes Obes Metab 2022;24(8):1553-1564 (STEP 1 Trial Extension)",
+      "clinical_interpretation": "Weight regain is driven by set-point hormonal defense. Steer structures a doctor-led off-ramp so habits hold the weight."
+    },
+    {
+      "claim": "Caloric starvation causes circulating leptin to drop by 40% and ghrelin to surge by 240%",
+      "metric": "+240%",
+      "p_value": "<0.01",
+      "citation_location": "Sumithran et al., N Engl J Med 2011;365:1597-1604",
+      "clinical_interpretation": "Proves that persistent food noise is driven by neuro-endocrine signals rather than a moral willpower defect."
+    },
+    {
+      "claim": "Indian adults exhibit higher visceral fat and earlier insulin resistance at lower BMI (TOFI phenotype)",
+      "metric": "2.1x",
+      "p_value": "<0.001",
+      "citation_location": "Misra et al., Lancet Diabetes & Endocrinology 2021",
+      "clinical_interpretation": "Standard BMI is inadequate for Indians; DEXA scans and 55+ biomarkers are essential for clinical safety."
+    }
+  ]
+}

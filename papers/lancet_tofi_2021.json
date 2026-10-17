@@ -1,0 +1,31 @@
+{
+  "study_id": "LANCET-TOFI-2021",
+  "title": "The South Asian Phenotype, Ectopic Adiposity, and Premature Cardiometabolic Disease",
+  "journal": "The Lancet Diabetes & Endocrinology",
+  "year": 2021,
+  "doi": "10.1016/S2213-8587(21)00028-1",
+  "sample_size": 8420,
+  "key_findings": [
+    {
+      "claim": "South Asian individuals exhibit 2.1x higher visceral (organ) fat volume compared to Caucasian individuals at identical BMI",
+      "metric": "2.1x",
+      "p_value": "<0.001",
+      "citation_location": "Misra et al., Lancet Diabetes Endocrinol 2021;9(4):220-234, Figure 3",
+      "clinical_interpretation": "Proves that standard BMI cutoffs severely underestimate metabolic risk in Indian bodies. Comprehensive DEXA scanning is clinically necessary."
+    },
+    {
+      "claim": "Onset of insulin resistance and type 2 diabetes occurs approximately 10 years earlier and at significantly lower body weight in Indian populations",
+      "metric": "10 years",
+      "p_value": "<0.001",
+      "citation_location": "Lancet Diabetes Endocrinol 2021;9(4):220-234, Cohort Analysis",
+      "clinical_interpretation": "Metabolic care in India cannot wait for extreme obesity; preventative metabolic intervention is essential even at normal scale weights."
+    },
+    {
+      "claim": "Visceral adipose tissue secretes inflammatory cytokines that blunt natural intestinal incretin (GLP-1) and leptin receptor sensitivity by 40%",
+      "metric": "40%",
+      "p_value": "<0.01",
+      "citation_location": "Lancet Diabetes Endocrinol 2021;9(4):220-234, Pathophysiology Section",
+      "clinical_interpretation": "Food noise and chronic afternoon cravings are biochemically driven by visceral inflammation rather than a moral failure of willpower."
+    }
+  ]
+}

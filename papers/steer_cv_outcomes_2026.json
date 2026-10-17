@@ -1,0 +1,24 @@
+{
+  "study_id": "STEER-MACE-2026",
+  "title": "Semaglutide and Tirzepatide Effects on Cardiovascular Outcomes in People with Overweight or Obesity in the Real World (STEER)",
+  "journal": "Diabetes, Obesity and Metabolism",
+  "year": 2026,
+  "doi": "10.1111/dom.70436",
+  "sample_size": 24800,
+  "key_findings": [
+    {
+      "claim": "Continuous GLP-1 care demonstrated a 57% lower rate of major adverse cardiovascular events (heart attack, stroke, CV death) compared to inconsistent treatment",
+      "metric": "57%",
+      "p_value": "<0.001",
+      "citation_location": "Wilson et al., Diabetes Obes Metab 2026;28(3):2403-2415, Per-Protocol Analysis",
+      "clinical_interpretation": "Cardiovascular and metabolic protection requires continuous, doctor-guided care rather than sporadic off-label usage."
+    },
+    {
+      "claim": "Overall real-world risk reduction of 29% for serious cardiovascular complications even with occasional treatment interruptions",
+      "metric": "29%",
+      "p_value": "<0.01",
+      "citation_location": "Diabetes Obes Metab 2026;28(3):2403-2415, ITT Analysis",
+      "clinical_interpretation": "Metabolic health is directly tied to vascular protection; clinical weight management extends life expectancy."
+    }
+  ]
+}
