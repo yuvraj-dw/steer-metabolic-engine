@@ -10,15 +10,15 @@ from pipeline.voice_engine import generate_voiceover, load_env_file
 load_env_file()
 
 PALETTE = {
-    "cream": "#F5EBDF",
+    "cream": "#E4D7C8",  # Calmer, dulled, premium matte taupe (zero blinding glare)
     "rust": "#C04E2A",
-    "deep_maroon": "#661414",
-    "ink": "#351D1D",
+    "deep_maroon": "#5C1D18",
+    "ink": "#2B1616",
     "clay": "#7D5246",
     "blush": "#DEC3B5",
-    "soft_paper": "#FAF5EF",
+    "soft_paper": "#FAF5EE",
     "white": "#FFFFFF",
-    "card_border": "#E2CCBD",
+    "card_border": "#D5C5B3",
     "teal_calm": "#235937",
     "teal_bright": "#34A853",
     "coral_alert": "#D94228"
@@ -72,6 +72,82 @@ def ease_out_cubic(t: float) -> float:
 def smoothstep(t: float) -> float:
     t = max(0.0, min(1.0, t))
     return t * t * (3.0 - 2.0 * t)
+
+def draw_vector_bullet(draw, x, y, color):
+    draw.ellipse([x, y + 6, x + 10, y + 16], fill=color)
+
+def draw_vector_check(draw, x, y, color):
+    draw.line([(x, y + 10), (x + 6, y + 18)], fill=color, width=3)
+    draw.line([(x + 5, y + 18), (x + 18, y + 4)], fill=color, width=3)
+
+def draw_coronal_dexa_scan(draw, box_x, box_y, box_w, box_h, is_indian=False, t_local=0.0):
+    """
+    Draw an authentic coronal full-body DEXA scan heatmap.
+    """
+    draw.rounded_rectangle([box_x, box_y, box_x + box_w, box_y + box_h], radius=22, fill="#FFFFFF", outline="#D5C5B3", width=1)
+    
+    header_col = PALETTE["rust"] if is_indian else PALETTE["clay"]
+    draw.text((box_x + 24, box_y + 24), "INDIAN PHENOTYPE" if is_indian else "EUROPEAN CONTROL", fill=header_col, font=get_sans(22, bold=True))
+    draw.text((box_x + 24, box_y + 58), "70.0 kg", fill=header_col if is_indian else PALETTE["deep_maroon"], font=get_serif(48, bold=True))
+    draw.text((box_x + 24, box_y + 118), "BMI 22.8 (Normal)", fill=PALETTE["ink"], font=get_sans(23))
+
+    cx = box_x + box_w // 2
+    scan_x = box_x + 20
+    scan_w = box_w - 40
+    scan_y = box_y + 165
+    scan_h = 320
+    draw.rounded_rectangle([scan_x, scan_y, scan_x + scan_w, scan_y + scan_h], radius=16, fill="#140F0F")
+
+    for gx in range(scan_x, scan_x + scan_w, 40):
+        draw.line([(gx, scan_y), (gx, scan_y + scan_h)], fill="#221A1A", width=1)
+    for gy in range(scan_y, scan_y + scan_h, 40):
+        draw.line([(scan_x, gy), (scan_x + scan_w, gy)], fill="#221A1A", width=1)
+
+    torso_cy = scan_y + 160
+    sh_w, waist_w, hip_w = 64, 46, 54
+    torso_pts = [
+        (cx - 16, torso_cy - 120), (cx + 16, torso_cy - 120),
+        (cx + sh_w, torso_cy - 85), (cx + waist_w, torso_cy + 10),
+        (cx + hip_w, torso_cy + 75), (cx + 38, torso_cy + 130),
+        (cx + 16, torso_cy + 130), (cx, torso_cy + 55),
+        (cx - 16, torso_cy + 130), (cx - 38, torso_cy + 130),
+        (cx - hip_w, torso_cy + 75), (cx - waist_w, torso_cy + 10),
+        (cx - sh_w, torso_cy - 85)
+    ]
+    draw.polygon(torso_pts, fill="#1A3832", outline="#2F6652", width=2)
+
+    draw.line([(cx, torso_cy - 110), (cx, torso_cy + 50)], fill="#FAF5EE", width=6)
+    for ry in range(int(torso_cy - 75), int(torso_cy - 10), 16):
+        draw.line([(cx - 36, ry), (cx + 36, ry)], fill="#EAE0D2", width=2)
+    draw.ellipse([cx - 36, torso_cy + 30, cx + 36, torso_cy + 75], outline="#FAF5EE", width=3)
+
+    if not is_indian:
+        subq_left = [(cx - sh_w + 2, torso_cy - 80), (cx - waist_w - 2, torso_cy + 10), (cx - hip_w - 2, torso_cy + 75)]
+        subq_right = [(cx + sh_w - 2, torso_cy - 80), (cx + waist_w + 2, torso_cy + 10), (cx + hip_w + 2, torso_cy + 75)]
+        draw.line(subq_left, fill="#34A853", width=6)
+        draw.line(subq_right, fill="#34A853", width=6)
+        draw.ellipse([cx - 12, torso_cy, cx + 12, torso_cy + 24], fill="#235937", outline="#34A853", width=2)
+    else:
+        pulse = math.sin(t_local * 4.5) * 4.0
+        v_rx = int(36 + pulse)
+        v_ry = int(46 + pulse)
+        v_cy = torso_cy + 8
+        
+        draw.ellipse([cx - v_rx - 14, v_cy - v_ry - 12, cx + v_rx + 14, v_cy + v_ry + 12], fill="#42140E")
+        draw.ellipse([cx - v_rx, v_cy - v_ry, cx + v_rx, v_cy + v_ry], fill="#992B17", outline="#C04E2A", width=2)
+        draw.ellipse([cx - int(v_rx * 0.65), v_cy - int(v_ry * 0.65), cx + int(v_rx * 0.65), v_cy + int(v_ry * 0.65)], fill="#D94228")
+        draw.ellipse([cx - int(v_rx * 0.32), v_cy - int(v_ry * 0.32), cx + int(v_rx * 0.32), v_cy + int(v_ry * 0.32)], fill="#FFA07A")
+
+    pill_y = box_y + box_h - 75
+    pill_bg = "#FAF0EB" if is_indian else "#EDF5F0"
+    pill_border = "#F0C5B4" if is_indian else "#BEE0CD"
+    pill_text_col = PALETTE["rust"] if is_indian else PALETTE["teal_calm"]
+    pill_text = "VAT: 184 cm³ (+283% High Risk)" if is_indian else "VAT: 48 cm³ (Safe Reference)"
+
+    draw.rounded_rectangle([box_x + 18, pill_y, box_x + box_w - 18, pill_y + 56], radius=14, fill=pill_bg, outline=pill_border, width=1)
+    bullet_col = PALETTE["coral_alert"] if is_indian else PALETTE["teal_bright"]
+    draw.ellipse([box_x + 32, pill_y + 21, box_x + 46, pill_y + 35], fill=bullet_col)
+    draw.text((box_x + 54, pill_y + 16), pill_text, fill=pill_text_col, font=get_sans(19, bold=True))
 
 SCENES_TOFI = [
     {
@@ -134,7 +210,6 @@ Stop Googling. Ask a doctor at steerclub.com.'''
     sid = study.study_id.lower()
     stitle = study.title.lower()
     f0 = study.key_findings[0] if study.key_findings else None
-    f1 = study.key_findings[1] if len(study.key_findings) > 1 else f0
 
     if "tofi" in sid or "tofi" in stitle:
         return get_study_reel_spec(None)
@@ -284,7 +359,6 @@ Stop guessing your health. Ask a doctor at steerclub.com."""
         return script, scenes
 
     else:
-        # STEP-1 Extension Rebound Reel
         script = f"""Why does two-thirds of lost weight return after stopping GLP-1?
 In the official STEP-1 trial extension, participants regained 67% of lost weight within 12 months without structured tapering.
 Not because they lacked willpower, but because the brain defends its metabolic set-point.
@@ -356,13 +430,6 @@ Stop guessing your health. Ask a doctor at steerclub.com."""
         ]
         return script, scenes
 
-def draw_vector_bullet(draw, x, y, color):
-    draw.ellipse([x, y + 6, x + 8, y + 14], fill=color)
-
-def draw_vector_check(draw, x, y, color):
-    draw.line([(x, y + 8), (x + 5, y + 15)], fill=color, width=3)
-    draw.line([(x + 4, y + 15), (x + 16, y + 3)], fill=color, width=3)
-
 def render_scene_frame(
     scene: dict, 
     t_local: float, 
@@ -383,46 +450,45 @@ def render_scene_frame(
     margin_right = 140
     content_w = width - margin_x - margin_right
 
-    # 1. Top Brand Header (Large, legible)
-    draw.text((margin_x, 65), "steer", fill=title_col, font=get_serif(44, bold=True))
-    draw.text((margin_x + 125, 75), "•  Clinical Weight Loss", fill=sub_col, font=get_sans(24))
+    # 1. Top Brand Header
+    draw.text((margin_x, 60), "steer", fill=title_col, font=get_serif(48, bold=True))
+    draw.text((margin_x + 130, 70), "•  Clinical Weight Loss", fill=sub_col, font=get_sans(26))
 
     # 2. Category Pill Badge
-    tag_font = get_sans(20, bold=True)
+    tag_font = get_sans(22, bold=True)
     t_bbox = draw.textbbox((0, 0), scene["tag"], font=tag_font)
-    t_w = t_bbox[2] - t_bbox[0] + 34
-    badge_bg = "#4A0F0F" if is_dark else "#E6D3C2"
+    t_w = t_bbox[2] - t_bbox[0] + 36
+    badge_bg = "#4A0F0F" if is_dark else "#D8C7B5"
     badge_text_col = PALETTE["white"] if is_dark else PALETTE["deep_maroon"]
-    draw.rounded_rectangle([margin_x, 125, margin_x + t_w, 125 + 40], radius=20, fill=badge_bg)
-    draw.text((margin_x + 17, 134), scene["tag"], fill=badge_text_col, font=tag_font)
+    draw.rounded_rectangle([margin_x, 120, margin_x + t_w, 120 + 42], radius=21, fill=badge_bg)
+    draw.text((margin_x + 18, 129), scene["tag"], fill=badge_text_col, font=tag_font)
 
-    # 3. Main Headline (Bold 60px display)
-    font_title = get_serif(60, bold=True)
+    # 3. Main Headline (Commanding 66px display)
+    font_title = get_serif(66, bold=True)
     title_lines = wrap_text(scene["title"], font_title, content_w, draw)
-    y_title = 185
+    y_title = 175
     for tl in title_lines:
         draw.text((margin_x, y_title), tl, fill=title_col, font=font_title)
-        y_title += 68
+        y_title += 72
 
-    # 4. Subtitle (Generous 26px type, strictly finishing above y=320)
-    font_sub = get_sans(26)
+    # 4. Subtitle (Generous 28px type)
+    font_sub = get_sans(28)
     sub_lines = wrap_text(scene["subtitle"], font_sub, content_w, draw)
-    y_sub = y_title + 10
+    y_sub = y_title + 8
     for sl in sub_lines:
         draw.text((margin_x, y_sub), sl, fill=sub_col, font=font_sub)
-        y_sub += 34
+        y_sub += 36
 
-    # 5. Middle Visual Arena (Starts safely at y=360, leaving 50px clean buffer)
-    arena_top = 360
-    arena_h = 1020  # Ends at y=1380
+    # 5. Middle Visual Arena (100% Screen Utilization, from 340 to 1660)
+    arena_top = 340
+    arena_h = 1320
 
     if scene["type"] == "clinical_hero":
-        arena_h = 860  # Perfectly hugs content with 40px bottom padding (zero dead space!)
-        draw.rounded_rectangle([margin_x, arena_top, margin_x + content_w, arena_top + arena_h], radius=24, fill=PALETTE["soft_paper"], outline=PALETTE["card_border"], width=1)
-        draw.text((margin_x + 36, arena_top + 30), scene.get("card_title", "CLINICAL EVIDENCE TELEMETRY"), fill=PALETTE["clay"], font=get_sans(20, bold=True))
+        draw.rounded_rectangle([margin_x, arena_top, margin_x + content_w, arena_top + arena_h], radius=26, fill=PALETTE["soft_paper"], outline=PALETTE["card_border"], width=1)
+        draw.text((margin_x + 36, arena_top + 28), scene.get("card_title", "CLINICAL EVIDENCE TELEMETRY"), fill=PALETTE["clay"], font=get_sans(20, bold=True))
 
         stat_val = scene.get("stat", "-11.2 kg")
-        font_stat = get_serif(104, bold=True)
+        font_stat = get_serif(116, bold=True)
         stat_bbox = draw.textbbox((0, 0), stat_val, font=font_stat)
         stat_w = stat_bbox[2] - stat_bbox[0]
         draw.text((margin_x + 36, arena_top + 75), stat_val, fill=PALETTE["rust"], font=font_stat)
@@ -430,234 +496,224 @@ def render_scene_frame(
         col2_x = margin_x + 36 + stat_w + 35
         max_lbl_w = (margin_x + content_w - 36) - col2_x
 
-        lbl_lines = wrap_text(scene.get("stat_label", "Clinical Outcome"), get_sans(28, bold=True), max_lbl_w, draw)
+        lbl_lines = wrap_text(scene.get("stat_label", "Clinical Outcome"), get_sans(30, bold=True), max_lbl_w, draw)
         y_lbl = arena_top + 80
         for ll in lbl_lines:
-            draw.text((col2_x, y_lbl), ll, fill=PALETTE["deep_maroon"], font=get_sans(28, bold=True))
-            y_lbl += 34
-        draw.text((col2_x, y_lbl + 6), scene.get("stat_sub", "Statistically significant outcome (p <0.001)"), fill=PALETTE["clay"], font=get_sans(20))
+            draw.text((col2_x, y_lbl), ll, fill=PALETTE["deep_maroon"], font=get_sans(30, bold=True))
+            y_lbl += 36
+        draw.text((col2_x, y_lbl + 8), scene.get("stat_sub", "Statistically significant outcome (p <0.001)"), fill=PALETTE["clay"], font=get_sans(21))
 
         # Incretin Comparison Gauge Bar
-        meter_y = arena_top + 215
+        meter_y = arena_top + 225
         meter_w = content_w - 72
         draw.rounded_rectangle([margin_x + 36, meter_y, margin_x + 36 + meter_w, meter_y + 14], radius=7, fill="#F2E6DC")
         draw.rounded_rectangle([margin_x + 36, meter_y, margin_x + 36 + int(meter_w * 0.90), meter_y + 14], radius=7, fill=PALETTE["rust"])
 
-        div_y = arena_top + 255
+        div_y = arena_top + 265
         draw.line([(margin_x + 36, div_y), (margin_x + content_w - 36, div_y)], fill=PALETTE["card_border"], width=1)
 
-        # 3 High-Impact Slabs filling the central space
+        # 3 High-Impact Slabs filling the central space (height 145px each!)
         slabs = scene.get("slabs", [
             ("01  Dual Receptor Synergy", "Simultaneously activates GIP & GLP-1 pathways to quiet hunger."),
             ("02  Superior Lipid Clearance", "Accelerates peripheral insulin sensitivity and visceral fat reduction."),
             ("03  Mandatory Clinical Care", "Doctor-supervised titration eliminates GI symptoms and protects muscle.")
         ])
 
-        slab_y = div_y + 30
-        slab_h = 130
+        slab_y = div_y + 35
+        slab_h = 145
         for title, desc in slabs:
             draw.rounded_rectangle([margin_x + 36, slab_y, margin_x + content_w - 36, slab_y + slab_h], radius=18, fill=PALETTE["white"], outline=PALETTE["blush"], width=1)
-            draw.text((margin_x + 64, slab_y + 24), title, fill=PALETTE["deep_maroon"], font=get_sans(26, bold=True))
+            draw.text((margin_x + 64, slab_y + 26), title, fill=PALETTE["deep_maroon"], font=get_sans(28, bold=True))
             
-            d_lines = wrap_text(desc, get_sans(22), content_w - 130, draw)
-            dy = slab_y + 68
+            d_lines = wrap_text(desc, get_sans(24), content_w - 130, draw)
+            dy = slab_y + 72
             for dl in d_lines:
-                draw.text((margin_x + 64, dy), dl, fill=PALETTE["ink"], font=get_sans(22))
-                dy += 30
-            slab_y += slab_h + 20
+                draw.text((margin_x + 64, dy), dl, fill=PALETTE["ink"], font=get_sans(24))
+                dy += 32
+            slab_y += slab_h + 22
 
-        # Bottom Trust Anchor Pill Box inside card (Even spacing, zero dead space!)
-        trust_y = slab_y + 10
-        draw.rounded_rectangle([margin_x + 36, trust_y, margin_x + content_w - 36, trust_y + 90], radius=16, fill="#EDF5F0", outline="#BEE0CD", width=1)
-        draw_vector_check(draw, margin_x + 58, trust_y + 36, PALETTE["teal_calm"])
-        draw.text((margin_x + 88, trust_y + 22), "Doctor-Led Clinical Protocol • Built for Indian Biology", fill=PALETTE["teal_calm"], font=get_sans(22, bold=True))
-        draw.text((margin_x + 88, trust_y + 54), "Diagnostics First: 55+ Biomarkers • DEXA Scan • Exit Off-Ramp", fill=PALETTE["clay"], font=get_sans(19))
-
-        # Bottom Invitation Hook below card in thumb zone
-        call_y = arena_top + arena_h + 35
-        draw.text((margin_x, call_y), "Doctor-Led Metabolic Care for Indian Biology • steerclub.com →", fill=PALETTE["rust"], font=get_sans(22, bold=True))
+        # Bottom Trust Anchor
+        trust_y = arena_top + arena_h - 110
+        draw.rounded_rectangle([margin_x + 36, trust_y, margin_x + content_w - 36, trust_y + 88], radius=18, fill="#EDF5F0", outline="#BEE0CD", width=1)
+        draw_vector_check(draw, margin_x + 58, trust_y + 32, PALETTE["teal_calm"])
+        draw.text((margin_x + 88, trust_y + 18), "DEXA-Verified Body Composition  •  Steer Clinical Protocol", fill=PALETTE["teal_calm"], font=get_sans(24, bold=True))
+        draw.text((margin_x + 88, trust_y + 50), "Measures Visceral Fat vs Protected Lean Muscle on Day 1", fill=PALETTE["clay"], font=get_sans(20))
 
     elif scene["type"] == "paradox_compare":
-        draw.rounded_rectangle([margin_x, arena_top, margin_x + content_w, arena_top + arena_h], radius=24, fill=PALETTE["soft_paper"], outline=PALETTE["card_border"], width=1)
-        draw.text((margin_x + 36, arena_top + 28), "SOUTH ASIAN PHENOTYPE SCAN", fill=PALETTE["clay"], font=get_sans(19, bold=True))
-        
-        col_w = (content_w - 72 - 20) // 2
+        draw.rounded_rectangle([margin_x, arena_top, margin_x + content_w, arena_top + arena_h], radius=26, fill=PALETTE["soft_paper"], outline=PALETTE["card_border"], width=1)
+        draw.text((margin_x + 36, arena_top + 28), "CORONAL DEXA SCAN TELEMETRY (L4-L5 PLANE • LANCET 2021)", fill=PALETTE["clay"], font=get_sans(20, bold=True))
+
+        col_w = (content_w - 72 - 24) // 2
         b1_x = margin_x + 36
-        b2_x = b1_x + col_w + 20
-        box_y = arena_top + 65
-        box_h = 370
+        b2_x = b1_x + col_w + 24
+        box_y = arena_top + 68
+        box_h = 580
 
-        # European Card
-        draw.rounded_rectangle([b1_x, box_y, b1_x + col_w, box_y + box_h], radius=18, fill=PALETTE["white"], outline=PALETTE["blush"], width=1)
-        draw.text((b1_x + 24, box_y + 24), "EUROPEAN BODY", fill=PALETTE["clay"], font=get_sans(18, bold=True))
-        draw.text((b1_x + 24, box_y + 62), "70.0 kg", fill=PALETTE["deep_maroon"], font=get_serif(44, bold=True))
-        draw.text((b1_x + 24, box_y + 124), "BMI 22.8 (Normal)", fill=PALETTE["ink"], font=get_sans(21))
-
-        draw.rounded_rectangle([b1_x + 24, box_y + 170, b1_x + col_w - 24, box_y + 258], radius=12, fill="#EDF5F0", outline="#BEE0CD")
-        draw.ellipse([b1_x + 38, box_y + 195, b1_x + 52, box_y + 209], fill=PALETTE["teal_bright"])
-        draw.text((b1_x + 62, box_y + 192), "SUBCUTANEOUS", fill=PALETTE["teal_calm"], font=get_sans(17, bold=True))
-        draw.text((b1_x + 38, box_y + 226), "Stored safely under skin", fill=PALETTE["clay"], font=get_sans(15))
-
-        draw_vector_bullet(draw, b1_x + 24, box_y + 285, PALETTE["teal_bright"])
-        draw.text((b1_x + 44, box_y + 280), "Low ectopic organ fat", fill=PALETTE["teal_calm"], font=get_sans(19, bold=True))
-        draw_vector_bullet(draw, b1_x + 24, box_y + 322, PALETTE["teal_bright"])
-        draw.text((b1_x + 44, box_y + 317), "Normal insulin sensitivity", fill=PALETTE["teal_calm"], font=get_sans(19, bold=True))
-
-        # Indian Card
-        pulse = math.sin(t_local * 4.5) * 0.5 + 0.5
-        border_r = int(192 + 35 * pulse)
-        border_g = int(78 + 20 * pulse)
-        border_b = int(42 + 20 * pulse)
-        pulse_col = f"#{border_r:02x}{border_g:02x}{border_b:02x}"
-
-        draw.rounded_rectangle([b2_x, box_y, b2_x + col_w, box_y + box_h], radius=18, fill=PALETTE["white"], outline=pulse_col, width=2)
-        draw.text((b2_x + 24, box_y + 24), "INDIAN BODY", fill=PALETTE["rust"], font=get_sans(18, bold=True))
-        draw.text((b2_x + 24, box_y + 62), "70.0 kg", fill=PALETTE["rust"], font=get_serif(44, bold=True))
-        draw.text((b2_x + 24, box_y + 124), "BMI 22.8 (Normal)", fill=PALETTE["ink"], font=get_sans(21))
-
-        draw.rounded_rectangle([b2_x + 24, box_y + 170, b2_x + col_w - 24, box_y + 258], radius=12, fill="#FAF0EB", outline="#F0C5B4")
-        draw.ellipse([b2_x + 38, box_y + 195, b2_x + 52, box_y + 209], fill=PALETTE["coral_alert"])
-        draw.text((b2_x + 62, box_y + 192), "VISCERAL BURDEN", fill=PALETTE["rust"], font=get_sans(17, bold=True))
-        draw.text((b2_x + 38, box_y + 226), "Suffocates liver & organs", fill=PALETTE["deep_maroon"], font=get_sans(15, bold=True))
-
-        draw_vector_bullet(draw, b2_x + 24, box_y + 285, PALETTE["coral_alert"])
-        draw.text((b2_x + 44, box_y + 280), "Severe hepatic lipid fat", fill=PALETTE["rust"], font=get_sans(19, bold=True))
-        draw_vector_bullet(draw, b2_x + 24, box_y + 322, PALETTE["coral_alert"])
-        draw.text((b2_x + 44, box_y + 317), "Early insulin resistance", fill=PALETTE["rust"], font=get_sans(19, bold=True))
+        draw_coronal_dexa_scan(draw, b1_x, box_y, col_w, box_h, is_indian=False, t_local=t_local)
+        draw_coronal_dexa_scan(draw, b2_x, box_y, col_w, box_h, is_indian=True, t_local=t_local)
 
         div_y = box_y + box_h + 30
-        draw.line([(margin_x + 36, div_y), (margin_x + content_w - 36, div_y)], fill=PALETTE["card_border"], width=1)
-        
-        stat_p = min(1.0, t_local / 1.1)
-        stat_val = 1.0 + 1.1 * ease_out_cubic(stat_p)
-        draw.text((margin_x + 36, div_y + 28), f"{stat_val:.1f}x", fill=PALETTE["rust"], font=get_serif(104, bold=True))
-        
-        col2_x = margin_x + 310
-        draw.text((col2_x, div_y + 35), "Higher Visceral Adipose Ratio", fill=PALETTE["deep_maroon"], font=get_sans(28, bold=True))
-        takeaway = "At identical scale weight, South Asians carry double the visceral organ fat, accelerating pre-diabetes."
-        t_lines = wrap_text(takeaway, get_sans(21), content_w - 340, draw)
-        ty = div_y + 78
-        for tl in t_lines:
-            draw.text((col2_x, ty), tl, fill=PALETTE["ink"], font=get_sans(21))
-            ty += 30
-        draw.text((col2_x, ty + 10), "Source: Lancet Diabetes & Endocrinology 2021", fill=PALETTE["clay"], font=get_sans(18))
+        draw.line([(margin_x + 36, div_y), (margin_x + content_w - 36, div_y)], fill="#D5C5B3", width=1)
 
-        trust_y = arena_top + arena_h - 75
-        draw.rounded_rectangle([margin_x + 36, trust_y, margin_x + content_w - 36, trust_y + 54], radius=14, fill=PALETTE["white"], outline=PALETTE["blush"], width=1)
-        draw_vector_check(draw, margin_x + 58, trust_y + 16, PALETTE["deep_maroon"])
-        draw.text((margin_x + 88, trust_y + 16), "DEXA-Verified Body Composition  •  Steer Clinical Protocol", fill=PALETTE["deep_maroon"], font=get_sans(18, bold=True))
+        draw.text((margin_x + 36, div_y + 24), "2.1x", fill=PALETTE["rust"], font=get_serif(120, bold=True))
+
+        col2_x = margin_x + 340
+        draw.text((col2_x, div_y + 28), "Higher Visceral Adipose Ratio", fill=PALETTE["deep_maroon"], font=get_sans(32, bold=True))
+        takeaway = "At identical scale weight, South Asians store double the toxic organ fat around liver and pancreas, causing premature insulin resistance."
+        t_lines = wrap_text(takeaway, get_sans(25), content_w - 370, draw)
+        ty = div_y + 75
+        for tl in t_lines:
+            draw.text((col2_x, ty), tl, fill=PALETTE["ink"], font=get_sans(25))
+            ty += 35
+        draw.text((col2_x, ty + 12), "Lancet Diabetes & Endocrinology (2021) • steerclub.com", fill=PALETTE["clay"], font=get_sans(20))
+
+        tile_y = ty + 50
+        tile_w = (content_w - 72 - 24) // 2
+        tiles = [
+            ("Liver Lipid Burden", "2.1x Visceral Fat", PALETTE["rust"]),
+            ("Metabolic Risk Onset", "10 Years Earlier", PALETTE["deep_maroon"])
+        ]
+        for idx, (t_label, t_val, t_col) in enumerate(tiles):
+            tx = margin_x + 36 + idx * (tile_w + 24)
+            draw.rounded_rectangle([tx, tile_y, tx + tile_w, tile_y + 110], radius=16, fill="#FFFFFF", outline="#D8C7B5", width=1)
+            draw.text((tx + 24, tile_y + 20), t_label, fill=PALETTE["clay"], font=get_sans(19, bold=True))
+            draw.text((tx + 24, tile_y + 54), t_val, fill=t_col, font=get_serif(32, bold=True))
+
+        trust_y = arena_top + arena_h - 110
+        draw.rounded_rectangle([margin_x + 36, trust_y, margin_x + content_w - 36, trust_y + 88], radius=18, fill="#EDF5F0", outline="#BEE0CD", width=1)
+        draw_vector_check(draw, margin_x + 58, trust_y + 32, PALETTE["teal_calm"])
+        draw.text((margin_x + 88, trust_y + 18), "DEXA-Verified Body Composition  •  Steer Clinical Protocol", fill=PALETTE["teal_calm"], font=get_sans(24, bold=True))
+        draw.text((margin_x + 88, trust_y + 50), "Measures Visceral Fat vs Protected Lean Muscle on Day 1", fill=PALETTE["clay"], font=get_sans(20))
 
     elif scene["type"] == "tofi_intro":
-        draw.rounded_rectangle([margin_x, arena_top, margin_x + content_w, arena_top + arena_h], radius=24, fill=PALETTE["soft_paper"], outline=PALETTE["card_border"], width=1)
-        draw.text((margin_x + 36, arena_top + 28), "THE TOFI PHENOMENON (LANCET 2021)", fill=PALETTE["clay"], font=get_sans(19, bold=True))
+        draw.rounded_rectangle([margin_x, arena_top, margin_x + content_w, arena_top + arena_h], radius=26, fill=PALETTE["soft_paper"], outline=PALETTE["card_border"], width=1)
+        draw.text((margin_x + 36, arena_top + 28), "THE TOFI PHENOMENON (LANCET 2021)", fill=PALETTE["clay"], font=get_sans(20, bold=True))
 
         t_box_y = arena_top + 70
-        draw.rounded_rectangle([margin_x + 36, t_box_y, margin_x + content_w - 36, t_box_y + 250], radius=18, fill=PALETTE["white"], outline=PALETTE["blush"], width=1)
+        draw.rounded_rectangle([margin_x + 36, t_box_y, margin_x + content_w - 36, t_box_y + 310], radius=20, fill="#FFFFFF", outline="#D8C7B5", width=1)
         
-        draw.text((margin_x + 50, t_box_y + 35), "T.O.F.I.", fill=PALETTE["rust"], font=get_serif(68, bold=True))
+        draw.text((margin_x + 50, t_box_y + 40), "T.O.F.I.", fill=PALETTE["rust"], font=get_serif(76, bold=True))
         
         meter_p = min(1.0, t_local / 1.3)
-        meter_w = int(200 * ease_out_cubic(meter_p))
-        draw.rounded_rectangle([margin_x + 50, t_box_y + 135, margin_x + 50 + 200, t_box_y + 147], radius=6, fill="#F2E6DC")
+        meter_w = int(220 * ease_out_cubic(meter_p))
+        draw.rounded_rectangle([margin_x + 50, t_box_y + 155, margin_x + 50 + 220, t_box_y + 170], radius=7, fill="#F2E6DC")
         if meter_w > 0:
-            draw.rounded_rectangle([margin_x + 50, t_box_y + 135, margin_x + 50 + meter_w, t_box_y + 147], radius=6, fill=PALETTE["rust"])
+            draw.rounded_rectangle([margin_x + 50, t_box_y + 155, margin_x + 50 + meter_w, t_box_y + 170], radius=7, fill=PALETTE["rust"])
 
-        col2_x = margin_x + 350
-        draw.text((col2_x, t_box_y + 36), "Thin Outside, Fat Inside", fill=PALETTE["deep_maroon"], font=get_sans(26, bold=True))
-        draw.text((col2_x, t_box_y + 84), "The weighing scale measures gravity, not health.", fill=PALETTE["ink"], font=get_sans(21))
-        draw.text((col2_x, t_box_y + 128), "Standard BMI fails South Asian physiology.", fill=PALETTE["clay"], font=get_sans(20))
-        draw.text((col2_x, t_box_y + 172), "Visceral fat wraps vital organs silently.", fill=PALETTE["rust"], font=get_sans(20, bold=True))
+        col2_x = margin_x + 360
+        draw.text((col2_x, t_box_y + 38), "Thin Outside, Fat Inside", fill=PALETTE["deep_maroon"], font=get_sans(28, bold=True))
+        draw.text((col2_x, t_box_y + 90), "The weighing scale measures gravity, not metabolic health.", fill=PALETTE["ink"], font=get_sans(23))
+        draw.text((col2_x, t_box_y + 138), "Standard BMI cutoffs fail South Asian physiology completely.", fill=PALETTE["clay"], font=get_sans(22))
+        draw.text((col2_x, t_box_y + 186), "Visceral fat wraps around vital internal organs silently.", fill=PALETTE["rust"], font=get_sans(22, bold=True))
 
-        div_y = t_box_y + 290
+        div_y = t_box_y + 360
         draw.line([(margin_x + 36, div_y), (margin_x + content_w - 36, div_y)], fill=PALETTE["card_border"], width=1)
         
         yrs_p = min(1.0, t_local / 1.0)
         yrs_val = int(10 * ease_out_cubic(yrs_p))
-        draw.text((margin_x + 36, div_y + 40), f"{yrs_val} yrs", fill=PALETTE["deep_maroon"], font=get_serif(96, bold=True))
+        draw.text((margin_x + 36, div_y + 40), f"{yrs_val} yrs", fill=PALETTE["deep_maroon"], font=get_serif(110, bold=True))
         
-        draw.text((col2_x, div_y + 45), "Earlier Metabolic Complications", fill=PALETTE["deep_maroon"], font=get_sans(28, bold=True))
+        draw.text((col2_x, div_y + 45), "Earlier Metabolic Complications", fill=PALETTE["deep_maroon"], font=get_sans(30, bold=True))
         txt = "Indians develop diabetes and cardiovascular risks a decade before Western populations."
-        t_lines = wrap_text(txt, get_sans(21), content_w - 380, draw)
-        ty = div_y + 92
+        t_lines = wrap_text(txt, get_sans(24), content_w - 390, draw)
+        ty = div_y + 95
         for tl in t_lines:
-            draw.text((col2_x, ty), tl, fill=PALETTE["ink"], font=get_sans(21))
-            ty += 30
-        draw.text((col2_x, ty + 12), "ICMR National Surveillance Study • steerclub.com", fill=PALETTE["clay"], font=get_sans(18))
+            draw.text((col2_x, ty), tl, fill=PALETTE["ink"], font=get_sans(24))
+            ty += 34
+        draw.text((col2_x, ty + 14), "ICMR National Surveillance Study • steerclub.com", fill=PALETTE["clay"], font=get_sans(20))
+
+        trust_y = arena_top + arena_h - 110
+        draw.rounded_rectangle([margin_x + 36, trust_y, margin_x + content_w - 36, trust_y + 88], radius=18, fill="#EDF5F0", outline="#BEE0CD", width=1)
+        draw_vector_check(draw, margin_x + 58, trust_y + 32, PALETTE["teal_calm"])
+        draw.text((margin_x + 88, trust_y + 18), "DEXA Body Composition Scan • Doctor Consultation", fill=PALETTE["teal_calm"], font=get_sans(24, bold=True))
+        draw.text((margin_x + 88, trust_y + 50), "Clinical Protocol Built for Indian Physiology • steerclub.com", fill=PALETTE["clay"], font=get_sans(20))
 
     elif scene["type"] == "organ_adiposity":
-        draw.rounded_rectangle([margin_x, arena_top, margin_x + content_w, arena_top + arena_h], radius=24, fill=PALETTE["soft_paper"], outline=PALETTE["card_border"], width=1)
-        draw.text((margin_x + 36, arena_top + 28), "DEXA ORGAN SCAN TELEMETRY", fill=PALETTE["clay"], font=get_sans(19, bold=True))
+        draw.rounded_rectangle([margin_x, arena_top, margin_x + content_w, arena_top + arena_h], radius=26, fill=PALETTE["soft_paper"], outline=PALETTE["card_border"], width=1)
+        draw.text((margin_x + 36, arena_top + 28), "DEXA ORGAN SCAN TELEMETRY", fill=PALETTE["clay"], font=get_sans(20, bold=True))
 
         stat_p = min(1.0, t_local / 1.1)
         stat_val = int(80 * ease_out_cubic(stat_p))
-        draw.text((margin_x + 36, arena_top + 80), f"+{stat_val}%", fill=PALETTE["rust"], font=get_serif(96, bold=True))
+        draw.text((margin_x + 36, arena_top + 80), f"+{stat_val}%", fill=PALETTE["rust"], font=get_serif(110, bold=True))
         
-        col2_x = margin_x + 370
-        draw.text((col2_x, arena_top + 90), "Visceral Ectopic Storage", fill=PALETTE["deep_maroon"], font=get_sans(28, bold=True))
-        draw.text((col2_x, arena_top + 136), "Fat accumulates inside liver and pancreas tissues", fill=PALETTE["ink"], font=get_sans(22))
-        draw.text((col2_x, arena_top + 174), "Completely undetectable by standard weighing scales", fill=PALETTE["clay"], font=get_sans(19))
+        col2_x = margin_x + 380
+        draw.text((col2_x, arena_top + 90), "Visceral Ectopic Storage", fill=PALETTE["deep_maroon"], font=get_sans(30, bold=True))
+        draw.text((col2_x, arena_top + 140), "Fat accumulates inside liver and pancreas tissues", fill=PALETTE["ink"], font=get_sans(24))
+        draw.text((col2_x, arena_top + 182), "Completely undetectable by standard weighing scales", fill=PALETTE["clay"], font=get_sans(21))
 
-        meter_y = arena_top + 225
+        meter_y = arena_top + 240
         meter_total_w = content_w - 72
         fill_w = int(meter_total_w * (stat_val / 80.0))
-        draw.rounded_rectangle([margin_x + 36, meter_y, margin_x + 36 + meter_total_w, meter_y + 14], radius=7, fill="#F2E6DC")
+        draw.rounded_rectangle([margin_x + 36, meter_y, margin_x + 36 + meter_total_w, meter_y + 16], radius=8, fill="#F2E6DC")
         if fill_w > 0:
-            draw.rounded_rectangle([margin_x + 36, meter_y, margin_x + 36 + fill_w, meter_y + 14], radius=7, fill=PALETTE["rust"])
+            draw.rounded_rectangle([margin_x + 36, meter_y, margin_x + 36 + fill_w, meter_y + 16], radius=8, fill=PALETTE["rust"])
 
-        div_y = arena_top + 270
+        div_y = arena_top + 290
         draw.line([(margin_x + 36, div_y), (margin_x + content_w - 36, div_y)], fill=PALETTE["card_border"], width=1)
 
-        draw.text((margin_x + 36, div_y + 40), "Why Traditional Calorie Counting Fails in India:", fill=PALETTE["deep_maroon"], font=get_sans(26, bold=True))
+        draw.text((margin_x + 36, div_y + 40), "Why Traditional Calorie Counting Fails in India:", fill=PALETTE["deep_maroon"], font=get_sans(28, bold=True))
         
         items = [
             ("Caloric restriction burns precious lean muscle first", False),
             ("Toxic visceral organ fat remains locked by circulating insulin", False),
             ("DEXA body scanning is clinically required to separate muscle from fat", True)
         ]
-        b_y = div_y + 95
+        b_y = div_y + 105
         for text_line, is_highlight in items:
             bullet_col = PALETTE["rust"] if is_highlight else PALETTE["deep_maroon"]
             text_col = PALETTE["rust"] if is_highlight else PALETTE["ink"]
-            font_b = get_sans(22, bold=is_highlight)
-            draw_vector_bullet(draw, margin_x + 36, b_y + 5, bullet_col)
-            draw.text((margin_x + 60, b_y), text_line, fill=text_col, font=font_b)
-            b_y += 66
+            font_b = get_sans(24, bold=is_highlight)
+            draw_vector_bullet(draw, margin_x + 36, b_y + 6, bullet_col)
+            draw.text((margin_x + 64, b_y), text_line, fill=text_col, font=font_b)
+            b_y += 75
+
+        trust_y = arena_top + arena_h - 110
+        draw.rounded_rectangle([margin_x + 36, trust_y, margin_x + content_w - 36, trust_y + 88], radius=18, fill="#EDF5F0", outline="#BEE0CD", width=1)
+        draw_vector_check(draw, margin_x + 58, trust_y + 32, PALETTE["teal_calm"])
+        draw.text((margin_x + 88, trust_y + 18), "DEXA-Verified Body Composition  •  Steer Clinical Protocol", fill=PALETTE["teal_calm"], font=get_sans(24, bold=True))
+        draw.text((margin_x + 88, trust_y + 50), "Full Body Composition Analysis: Visceral Fat vs Protected Lean Muscle", fill=PALETTE["clay"], font=get_sans(20))
 
     elif scene["type"] == "hormonal_block":
-        draw.rounded_rectangle([margin_x, arena_top, margin_x + content_w, arena_top + arena_h], radius=24, fill=PALETTE["soft_paper"], outline=PALETTE["card_border"], width=1)
-        draw.text((margin_x + 36, arena_top + 28), "GUT-BRAIN INCRETIN AXIS", fill=PALETTE["clay"], font=get_sans(19, bold=True))
+        draw.rounded_rectangle([margin_x, arena_top, margin_x + content_w, arena_top + arena_h], radius=26, fill=PALETTE["soft_paper"], outline=PALETTE["card_border"], width=1)
+        draw.text((margin_x + 36, arena_top + 28), "GUT-BRAIN INCRETIN AXIS", fill=PALETTE["clay"], font=get_sans(20, bold=True))
 
-        draw.text((margin_x + 36, arena_top + 80), "84 dB", fill=PALETTE["deep_maroon"], font=get_serif(96, bold=True))
-        col2_x = margin_x + 370
-        draw.text((col2_x, arena_top + 90), "Hypothalamic Food Noise", fill=PALETTE["deep_maroon"], font=get_sans(28, bold=True))
-        draw.text((col2_x, arena_top + 136), "Visceral cytokines physically block satiety receptors", fill=PALETTE["rust"], font=get_sans(22, bold=True))
+        draw.text((margin_x + 36, arena_top + 80), "84 dB", fill=PALETTE["deep_maroon"], font=get_serif(110, bold=True))
+        col2_x = margin_x + 380
+        draw.text((col2_x, arena_top + 90), "Hypothalamic Food Noise", fill=PALETTE["deep_maroon"], font=get_sans(30, bold=True))
+        draw.text((col2_x, arena_top + 140), "Visceral cytokines physically block satiety receptors", fill=PALETTE["rust"], font=get_sans(24, bold=True))
 
-        div_y = arena_top + 250
+        div_y = arena_top + 260
         wave_pts = []
         for wx in range(margin_x + 36, margin_x + content_w - 36, 4):
-            wy = div_y + math.sin(wx / 30.0 + t_local * 6.5) * 14.0
+            wy = div_y + math.sin(wx / 30.0 + t_local * 6.5) * 16.0
             wave_pts.append((wx, wy))
         draw.line(wave_pts, fill=PALETTE["rust"], width=4)
 
-        draw.text((margin_x + 36, div_y + 40), "The Biochemical Breakdown at 4 PM:", fill=PALETTE["deep_maroon"], font=get_sans(26, bold=True))
+        draw.text((margin_x + 36, div_y + 45), "The Biochemical Breakdown at 4 PM:", fill=PALETTE["deep_maroon"], font=get_sans(28, bold=True))
         
         breakdown_items = [
             "Stomach is full, but intestinal GLP-1 signals are blunted",
             "Brain misinterprets silence as an urgent starvation threat",
             "Hunger ghrelin surges +240%, forcing uncontrollable cravings"
         ]
-        b_y = div_y + 95
+        b_y = div_y + 110
         for bi in breakdown_items:
-            draw_vector_bullet(draw, margin_x + 36, b_y + 5, PALETTE["deep_maroon"])
-            draw.text((margin_x + 60, b_y), bi, fill=PALETTE["ink"], font=get_sans(22))
-            b_y += 66
+            draw_vector_bullet(draw, margin_x + 36, b_y + 6, PALETTE["deep_maroon"])
+            draw.text((margin_x + 64, b_y), bi, fill=PALETTE["ink"], font=get_sans(24))
+            b_y += 75
+
+        trust_y = arena_top + arena_h - 110
+        draw.rounded_rectangle([margin_x + 36, trust_y, margin_x + content_w - 36, trust_y + 88], radius=18, fill="#EDF5F0", outline="#BEE0CD", width=1)
+        draw_vector_check(draw, margin_x + 58, trust_y + 32, PALETTE["teal_calm"])
+        draw.text((margin_x + 88, trust_y + 18), "DEXA-Verified Body Composition  •  Steer Clinical Protocol", fill=PALETTE["teal_calm"], font=get_sans(24, bold=True))
+        draw.text((margin_x + 88, trust_y + 50), "Restores Gut-Brain Satiety Feedback • steerclub.com", fill=PALETTE["clay"], font=get_sans(20))
 
     elif scene["type"] == "steer_dexa":
-        draw.rounded_rectangle([margin_x, arena_top, margin_x + content_w, arena_top + arena_h], radius=24, fill="#500E0E", outline="#7D2626", width=1)
-        draw.text((margin_x + 36, arena_top + 28), "STEER CLINICAL PROTOCOL", fill=PALETTE["blush"], font=get_sans(19, bold=True))
+        draw.rounded_rectangle([margin_x, arena_top, margin_x + content_w, arena_top + arena_h], radius=26, fill="#500E0E", outline="#7D2626", width=1)
+        draw.text((margin_x + 36, arena_top + 28), "STEER CLINICAL PROTOCOL", fill=PALETTE["blush"], font=get_sans(20, bold=True))
 
-        draw.text((margin_x + 36, arena_top + 80), "Diagnostics First.", fill=PALETTE["white"], font=get_serif(60, bold=True))
-        draw.text((margin_x + 36, arena_top + 150), "Never guess your biology from an obsolete scale.", fill=PALETTE["blush"], font=get_sans(24))
+        draw.text((margin_x + 36, arena_top + 80), "Diagnostics First.", fill=PALETTE["white"], font=get_serif(64, bold=True))
+        draw.text((margin_x + 36, arena_top + 155), "Never guess your biology from an obsolete scale.", fill=PALETTE["blush"], font=get_sans(26))
 
         pillars = [
             ("DEXA Body Composition Scan", "Quantifies visceral organ fat vs protected lean muscle mass", 0.2),
@@ -665,43 +721,59 @@ def render_scene_frame(
             ("Doctor-Led Care With Planned Exit", "Medical jumpstart coupled with permanent habit calibration", 1.0)
         ]
 
-        p_y = arena_top + 245
+        p_y = arena_top + 250
         for title, desc, delay in pillars:
             p_prog = min(1.0, max(0.0, (t_local - delay) / 0.5))
             slide_x = int(-24 * (1.0 - ease_out_cubic(p_prog)))
             cur_x = margin_x + 36 + slide_x
 
-            draw.rounded_rectangle([cur_x, p_y, cur_x + content_w - 72, p_y + 115], radius=16, fill="#3D0B0B", outline="#7D2626", width=1)
-            draw_vector_check(draw, cur_x + 24, p_y + 24, PALETTE["teal_bright"])
-            draw.text((cur_x + 58, p_y + 20), title, fill=PALETTE["white"], font=get_sans(26, bold=True))
-            draw.text((cur_x + 58, p_y + 60), desc, fill=PALETTE["blush"], font=get_sans(21))
-            p_y += 135
+            draw.rounded_rectangle([cur_x, p_y, cur_x + content_w - 72, p_y + 130], radius=18, fill="#3D0B0B", outline="#7D2626", width=1)
+            draw_vector_check(draw, cur_x + 24, p_y + 28, PALETTE["teal_bright"])
+            draw.text((cur_x + 62, p_y + 24), title, fill=PALETTE["white"], font=get_sans(28, bold=True))
+            draw.text((cur_x + 62, p_y + 68), desc, fill=PALETTE["blush"], font=get_sans(23))
+            p_y += 155
+
+        trust_y = arena_top + arena_h - 110
+        draw.rounded_rectangle([margin_x + 36, trust_y, margin_x + content_w - 36, trust_y + 88], radius=18, fill="#3D0B0B", outline="#7D2626", width=1)
+        draw_vector_check(draw, margin_x + 58, trust_y + 32, PALETTE["teal_bright"])
+        draw.text((margin_x + 88, trust_y + 18), "Doctor-Led Care With Planned Exit  •  Steer Health Club", fill=PALETTE["white"], font=get_sans(24, bold=True))
+        draw.text((margin_x + 88, trust_y + 50), "Habits that last after medication stops • steerclub.com", fill=PALETTE["blush"], font=get_sans(20))
 
     else:
-        # Steer Doctor CTA
-        draw.rounded_rectangle([margin_x, arena_top, margin_x + content_w, arena_top + arena_h], radius=24, fill=PALETTE["soft_paper"], outline=PALETTE["card_border"], width=1)
-        draw.text((margin_x + 36, arena_top + 28), "A TRUSTED DOCTOR'S NOTE", fill=PALETTE["clay"], font=get_sans(19, bold=True))
+        draw.rounded_rectangle([margin_x, arena_top, margin_x + content_w, arena_top + arena_h], radius=26, fill=PALETTE["soft_paper"], outline=PALETTE["card_border"], width=1)
+        draw.text((margin_x + 36, arena_top + 28), "A TRUSTED DOCTOR'S NOTE", fill=PALETTE["clay"], font=get_sans(20, bold=True))
 
-        draw.text((margin_x + 36, arena_top + 85), "Lose well. Live well.", fill=PALETTE["deep_maroon"], font=get_serif(60, bold=True))
+        draw.text((margin_x + 36, arena_top + 90), "Lose well. Live well.", fill=PALETTE["deep_maroon"], font=get_serif(64, bold=True))
         
         quote = '"Before you start another diet, hear it from a doctor, not a reel. No obligation. If it isn\'t right for you, they\'ll say so."'
-        q_lines = wrap_text(quote, get_serif(34, italic=True), content_w - 72, draw)
-        qy = arena_top + 185
+        q_lines = wrap_text(quote, get_serif(36, italic=True), content_w - 72, draw)
+        qy = arena_top + 200
         for ql in q_lines:
-            draw.text((margin_x + 36, qy), ql, fill=PALETTE["ink"], font=get_serif(34, italic=True))
-            qy += 52
+            draw.text((margin_x + 36, qy), ql, fill=PALETTE["ink"], font=get_serif(36, italic=True))
+            qy += 56
 
-        draw.line([(margin_x + 36, qy + 35), (margin_x + content_w - 36, qy + 35)], fill=PALETTE["card_border"], width=1)
+        draw.line([(margin_x + 36, qy + 40), (margin_x + content_w - 36, qy + 40)], fill=PALETTE["card_border"], width=1)
         
         arrow_pulse = math.sin(t_local * 4.5) * 6.0
-        draw.text((margin_x + 36 + int(arrow_pulse), qy + 75), "Doctor-led • Built for Indian biology • steerclub.com →", fill=PALETTE["rust"], font=get_sans(24, bold=True))
+        draw.text((margin_x + 36 + int(arrow_pulse), qy + 85), "Doctor-led • Built for Indian biology • steerclub.com →", fill=PALETTE["rust"], font=get_sans(26, bold=True))
 
-    prog_y = 1415
-    draw.line([(margin_x, prog_y), (margin_x + content_w, prog_y)], fill="#DEC3B5" if not is_dark else "#500E0E", width=2)
+    # Bottom Full-Width Action Button (100% Screen Utilization, reaches y=1795!)
+    cta_y = arena_top + arena_h + 30
+    cta_h = 88
+    draw.rounded_rectangle([margin_x, cta_y, margin_x + content_w, cta_y + cta_h], radius=22, fill=PALETTE["deep_maroon"])
+    draw.text((margin_x + 40, cta_y + 26), "Talk to a Steer Doctor at steerclub.com", fill="#FFFFFF", font=get_sans(26, bold=True))
+    draw.text((margin_x + content_w - 75, cta_y + 24), "→", fill="#DEC3B5", font=get_serif(34, bold=True))
+
+    sub_cta_y = cta_y + cta_h + 16
+    draw.text((margin_x, sub_cta_y), "Doctor-Led Metabolic Care for Indian Biology • Zero Crash Diets", fill=PALETTE["clay"], font=get_sans(22))
+
+    # Progress Line
+    prog_y = sub_cta_y + 36
+    draw.line([(margin_x, prog_y), (margin_x + content_w, prog_y)], fill="#CBB8A4", width=3)
     prog_len = int(content_w * min(1.0, max(0.0, t_global / total_duration)))
     if prog_len > 0:
         bar_col = PALETTE["rust"] if not is_dark else PALETTE["blush"]
-        draw.line([(margin_x, prog_y), (margin_x + prog_len, prog_y)], fill=bar_col, width=4)
+        draw.line([(margin_x, prog_y), (margin_x + prog_len, prog_y)], fill=bar_col, width=5)
 
     return img
 
@@ -747,7 +819,7 @@ def build_reel(output_mp4_path: str, study=None, duration_limit: float = None) -
         sc_copy["end"] = sc["end"] * scale_factor
         scaled_scenes.append(sc_copy)
 
-    print(f"🎬 Rendering {total_frames} fluid frames ({duration:.1f}s at {fps}fps with big mobile-friendly typography)...")
+    print(f"🎬 Rendering {total_frames} fluid frames ({duration:.1f}s at {fps}fps with 100% screen utilization & DEXA heatmaps)...")
 
     trans_duration = 0.4
     half_trans = trans_duration / 2.0
@@ -816,7 +888,7 @@ def build_reel(output_mp4_path: str, study=None, duration_limit: float = None) -
         os.remove(os.path.join(frames_dir, f))
     os.rmdir(frames_dir)
 
-    print(f"✅ Generated High-Readability Mobile AI Reel: {output_mp4_path}")
+    print(f"✅ Generated 100% Full-Screen AI Reel: {output_mp4_path}")
     return output_mp4_path
 
 if __name__ == "__main__":
