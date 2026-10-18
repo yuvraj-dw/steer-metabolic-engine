@@ -1,0 +1,44 @@
+{
+  "study_id": "BMJ-NARAYAN-2021",
+  "title": "Diabetes incidence in South Asians across weight categories: BMJ Open Diabetes Research & Care 2021",
+  "authors": "Narayan KMV, Gujral UP, Mohan V, et al.",
+  "journal": "BMJ Open Diabetes Research & Care",
+  "year": 2021,
+  "doi": "10.1136/bmjdrc-2020-001997",
+  "pmid": "33789912",
+  "pmcid": "PMC8006839",
+  "sample_size": 16240,
+  "study_type": "Prospective Multicenter Cohort Study (Chennai, Delhi, Karachi)",
+  "primary_intervention": "Epidemiological incidence tracking across normal BMI (<25 kg/m2) vs overweight",
+  "key_findings": [
+    {
+      "claim": "South Asian men with normal BMI (<25 kg/m2) have 2.9 times higher diabetes incidence adjusted for age compared to white counterparts.",
+      "metric": "2.9x Higher",
+      "p_value": "<0.001",
+      "citation_location": "BMJ Open Diabetes Res Care 2021;9:e001997 (PMC8006839), p4-s12",
+      "clinical_interpretation": "Normal BMI fails to detect catastrophic metabolic risk in lean Indian men.",
+      "page": 4,
+      "sentence_id": "p4-s12"
+    },
+    {
+      "claim": "South Asian women with normal BMI (<25 kg/m2) have 5.3 times higher diabetes incidence adjusted for age compared to white women.",
+      "metric": "5.3x Higher",
+      "p_value": "<0.001",
+      "citation_location": "BMJ Open Diabetes Res Care 2021;9:e001997 (PMC8006839), p4-s13",
+      "clinical_interpretation": "Lean Indian women suffer a 5.3-fold elevated risk due to hidden visceral ectopic fat.",
+      "page": 4,
+      "sentence_id": "p4-s13"
+    },
+    {
+      "claim": "Metabolic decompensation and ectopic visceral adiposity in South Asians triggers at BMI 22 kg/m2, well below the Western 25 kg/m2 threshold.",
+      "metric": "BMI 22.0 kg/m2",
+      "p_value": "<0.01",
+      "citation_location": "BMJ Open Diabetes Res Care 2021;9:e001997 (PMC8006839), p6-s21",
+      "clinical_interpretation": "DEXA visceral fat scanning and fasting insulin biomarkers must replace the weighing scale.",
+      "page": 6,
+      "sentence_id": "p6-s21"
+    }
+  ],
+  "adverse_events": "Epidemiological study; severe cardiometabolic risk occurs prematurely in lean South Asian adults.",
+  "clinical_implication": "Proves the weighing scale is an obsolete diagnostic for Indian bodies. DEXA visceral fat imaging and fasting insulin biomarkers must replace BMI to diagnose the thin-fat TOFI phenotype."
+}

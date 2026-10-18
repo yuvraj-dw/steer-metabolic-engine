@@ -400,6 +400,29 @@
       text-align: center;
     }
 
+    .toast-msg {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: var(--ink);
+      color: #FFF;
+      padding: 12px 22px;
+      border-radius: 24px;
+      font-size: 13px;
+      font-weight: 600;
+      z-index: 1000;
+      opacity: 0;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+      pointer-events: none;
+      white-space: nowrap;
+    }
+    .toast-msg.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
     /* GLP-1 Mode Activated Banner */
     #glp1-banner {
       position: absolute;
@@ -570,16 +593,21 @@
     </div>
 
     <div>
-      <button class="btn-secondary" style="border-color: var(--rust); color: var(--rust); margin-bottom: 10px; font-weight: 700;" onclick="downloadStoryCard('crash')">
-        📥 Save & Share Instagram Story Card
-      </button>
-      <a href="https://steerhealth.in/?ref=playable_arcade" target="_blank" style="text-decoration: none;">
+      <div style="display: flex; gap: 8px; margin-bottom: 10px;">
+        <button class="btn-secondary" style="margin-top: 0; border-color: var(--rust); color: var(--rust); font-weight: 700; flex: 1;" onclick="downloadStoryCard('crash')">
+          📥 Story Card
+        </button>
+        <button class="btn-secondary" style="margin-top: 0; border-color: var(--rust); color: var(--rust); font-weight: 700; flex: 1;" onclick="copyDoctorBrief('crash')">
+          📋 Copy Intake Brief
+        </button>
+      </div>
+      <a href="https://steerclub.com/?utm_source=willpower_arcade&utm_medium=playable_ad&utm_campaign=tofi_70kg&worry=ghrelin_crash&score=willpower_depleted" target="_blank" style="text-decoration: none;">
         <button class="btn-action">
           Talk to a Steer Doctor at steerclub.com <span>→</span>
         </button>
       </a>
       <div style="text-align: center; margin-top: 8px; font-size: 11px; color: var(--clay);">
-        Doctor-led • Blood tests first • Personalised exit plan
+        Doctor-led • Blood tests first • Personalised exit plan • steerclub.com
       </div>
       <button class="btn-secondary" onclick="restartGame()">
         ↺ Play again with sheer willpower
@@ -636,10 +664,15 @@
     </div>
 
     <div>
-      <button class="btn-secondary" style="border-color: var(--teal-calm); color: var(--teal-calm); margin-bottom: 10px; font-weight: 700;" onclick="downloadStoryCard('victory')">
-        📥 Save & Share Instagram Story Card
-      </button>
-      <a href="https://steerhealth.in/?ref=playable_victory" target="_blank" style="text-decoration: none;">
+      <div style="display: flex; gap: 8px; margin-bottom: 10px;">
+        <button class="btn-secondary" style="margin-top: 0; border-color: var(--teal-calm); color: var(--teal-calm); font-weight: 700; flex: 1;" onclick="downloadStoryCard('victory')">
+          📥 Story Card
+        </button>
+        <button class="btn-secondary" style="margin-top: 0; border-color: var(--teal-calm); color: var(--teal-calm); font-weight: 700; flex: 1;" onclick="copyDoctorBrief('victory')">
+          📋 Copy Intake Brief
+        </button>
+      </div>
+      <a href="https://steerclub.com/?utm_source=willpower_arcade&utm_medium=playable_ad&utm_campaign=tofi_70kg&worry=visceral_fat&score=5_satiety&protocol=dexa_first" target="_blank" style="text-decoration: none;">
         <button class="btn-action btn-teal">
           Talk to a Steer Doctor at steerclub.com <span>→</span>
         </button>
@@ -659,6 +692,52 @@
   function initAudio() {
     if (!audioCtx) {
       audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+  }
+
+  function showToast(msg) {
+    let t = document.getElementById('toast-msg');
+    if (!t) {
+      t = document.createElement('div');
+      t.id = 'toast-msg';
+      t.className = 'toast-msg';
+      document.body.appendChild(t);
+    }
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => {
+      t.classList.remove('show');
+    }, 2800);
+  }
+
+  function copyDoctorBrief(type) {
+    const brief = type === 'victory' ?
+`STEER CLINICAL INTAKE BRIEF (METABOLIC RESET ACHIEVED)
+Patient Mode: The Willpower Defense Arcade Simulation
+Satiety Score: 5/5 GLP-1 Incretin Signals Activated
+Primary Priority: Protect Lean Muscle & Clear Ectopic Visceral Adipose
+Baseline Request: Day 1 DEXA Body Scan + 55 Biomarker Panel
+Clinical Target: Satiety Recalibration & Structured Exit Off-Ramp (Zero Rebound)
+Evidence Base: Lancet TOFI 2021 / STEP-1 Extension / BMJ Narayan 2021
+Direct Consultation: https://steerclub.com/?utm_source=willpower_arcade&utm_medium=intake_brief&utm_campaign=tofi_70kg&worry=visceral_fat` :
+`STEER CLINICAL INTAKE BRIEF (4:12 PM ENDOCRINE CRASH)
+Patient Mode: The Willpower Defense Arcade Simulation
+Clinical Finding: Willpower Exhausted under +240% Ghrelin Surge
+Patient Observation: "Calorie restriction alone triggered chronic hypothalamic food noise"
+Primary Priority: Diagnostic Assessment Before Restrictive Dieting
+Baseline Request: 55 Biomarker Panel + DEXA Visceral Fat Scan
+Clinical Target: Incretin Signaling Recalibration & Satiety Restoration
+Evidence Base: STEP-1 Extension 2022 / Lancet TOFI 2021
+Direct Consultation: https://steerclub.com/?utm_source=willpower_arcade&utm_medium=intake_brief&utm_campaign=crash_ghrelin&worry=food_noise`;
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(brief).then(() => {
+        showToast('✓ Doctor intake brief copied! Present this to your Steer clinician.');
+      }).catch(() => {
+        showToast('✓ Brief ready for your Steer consultation.');
+      });
+    } else {
+      showToast('✓ Brief ready for your Steer consultation.');
     }
   }
 

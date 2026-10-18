@@ -1,0 +1,1335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>The Willpower Defense | steer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Caveat:wght@600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cream: #F5EBDF;
+      --soft-paper: #FAF5EF;
+      --rust: #C04E2A;
+      --deep-maroon: #661414;
+      --ink: #351D1D;
+      --clay: #7D5246;
+      --blush: #DEC3B5;
+      --teal-calm: #235937;
+      --font-serif: 'Instrument Serif', Georgia, serif;
+      --font-sans: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      --font-hand: 'Caveat', cursive;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    body {
+      background-color: #1A0F0F;
+      color: var(--ink);
+      font-family: var(--font-sans);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    #game-container {
+      width: 100vw;
+      max-width: 430px;
+      height: 100vh;
+      max-height: 932px;
+      background-color: var(--cream);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 35px 80px rgba(43, 22, 22, 0.45);
+      border-radius: 44px;
+      border: 8px solid #2B1616;
+    }
+
+    /* Apple Dynamic Island */
+    .dynamic-island {
+      width: 120px;
+      height: 26px;
+      background: #110808;
+      border-radius: 13px;
+      margin: 8px auto 4px;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      padding: 0 12px;
+      z-index: 30;
+      box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.1);
+    }
+
+    .island-cam {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #1C1D24;
+      border: 1px solid #2B2C38;
+    }
+
+    .island-sensor {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #15161C;
+    }
+
+    /* Top Navigation Bar */
+    .top-bar {
+      padding: 8px 20px 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--blush);
+      background: var(--cream);
+      z-index: 20;
+    }
+
+    .wordmark {
+      font-family: var(--font-serif);
+      font-size: 28px;
+      color: var(--deep-maroon);
+      font-weight: 400;
+      letter-spacing: -0.5px;
+    }
+
+    .live-clock-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--rust);
+      background: rgba(192, 78, 42, 0.12);
+      padding: 5px 12px;
+      border-radius: 100px;
+      border: 1px solid rgba(192, 78, 42, 0.2);
+    }
+
+    /* HUD Dashboard */
+    .hud {
+      padding: 10px 20px 6px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      background: var(--cream);
+      z-index: 20;
+    }
+
+    .hud-box {
+      background: var(--soft-paper);
+      border: 1px solid var(--blush);
+      border-radius: 12px;
+      padding: 8px 12px;
+    }
+
+    .hud-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--clay);
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+
+    .bar-bg {
+      width: 100%;
+      height: 8px;
+      background: rgba(53, 29, 29, 0.1);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.15s ease-out;
+    }
+
+    #willpower-bar {
+      background: var(--rust);
+      width: 100%;
+    }
+
+    #ghrelin-bar {
+      background: var(--deep-maroon);
+      width: 20%;
+    }
+
+    /* Active Game Canvas Area */
+    #canvas-wrap {
+      flex: 1;
+      position: relative;
+      touch-action: none;
+      background: var(--cream);
+      overflow: hidden;
+    }
+
+    canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Overlays */
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(245, 235, 223, 0.96);
+      backdrop-filter: blur(6px);
+      z-index: 50;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 24px 20px;
+      overflow-y: auto;
+    }
+
+    .overlay.hidden {
+      display: none;
+    }
+
+    /* Intro Overlay */
+    .intro-badge {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--rust);
+      background: rgba(192, 78, 42, 0.1);
+      padding: 4px 10px;
+      border-radius: 100px;
+      display: inline-block;
+      margin-bottom: 12px;
+    }
+
+    .headline {
+      font-family: var(--font-serif);
+      font-size: 36px;
+      line-height: 1.1;
+      color: var(--deep-maroon);
+      margin-bottom: 12px;
+    }
+
+    .headline em {
+      font-style: italic;
+      color: var(--rust);
+    }
+
+    .desc {
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--clay);
+      margin-bottom: 24px;
+    }
+
+    .target-preview-box {
+      background: var(--soft-paper);
+      border: 1.5px dashed var(--blush);
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 20px;
+    }
+
+    .trigger-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    .trigger-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .trigger-icon {
+      font-size: 20px;
+      background: #FFF;
+      border-radius: 8px;
+      width: 34px;
+      height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    }
+
+    /* Crash / Revelation Screen */
+    .crash-title {
+      font-family: var(--font-serif);
+      font-size: 32px;
+      color: var(--deep-maroon);
+      line-height: 1.15;
+      margin-bottom: 10px;
+    }
+
+    .stat-badge-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 16px 0;
+    }
+
+    .stat-badge {
+      background: #FFF;
+      border: 1.5px solid var(--blush);
+      border-radius: 14px;
+      padding: 12px;
+      text-align: center;
+    }
+
+    .stat-badge .num {
+      font-family: var(--font-serif);
+      font-size: 32px;
+      font-weight: bold;
+      color: var(--rust);
+      line-height: 1;
+    }
+
+    .stat-badge .lbl {
+      font-size: 11px;
+      color: var(--clay);
+      text-transform: uppercase;
+      margin-top: 4px;
+      font-weight: 600;
+    }
+
+    .doctor-box {
+      background: rgba(102, 20, 20, 0.05);
+      border-left: 3px solid var(--rust);
+      border-radius: 0 12px 12px 0;
+      padding: 14px;
+      font-size: 13px;
+      line-height: 1.45;
+      color: var(--ink);
+      margin-bottom: 16px;
+    }
+
+    /* Doubts accordion */
+    .doubt-card {
+      background: var(--soft-paper);
+      border: 1px solid var(--blush);
+      border-radius: 10px;
+      padding: 10px 12px;
+      margin-bottom: 8px;
+      cursor: pointer;
+    }
+
+    .doubt-header {
+      font-size: 13px;
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      color: var(--ink);
+    }
+
+    .doubt-body {
+      display: none;
+      font-size: 12px;
+      color: var(--clay);
+      line-height: 1.45;
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px dashed var(--blush);
+    }
+
+    .doubt-card.open .doubt-body {
+      display: block;
+    }
+
+    /* Buttons */
+    .btn-action {
+      width: 100%;
+      background: var(--rust);
+      color: #FFF;
+      border: none;
+      border-radius: 14px;
+      padding: 16px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 16px rgba(192, 78, 42, 0.3);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .btn-action:active {
+      transform: scale(0.98);
+      background: #A93E1D;
+    }
+
+    .btn-teal {
+      background: var(--teal-calm) !important;
+      box-shadow: 0 4px 16px rgba(35, 89, 55, 0.35) !important;
+    }
+
+    .btn-secondary {
+      width: 100%;
+      background: transparent;
+      color: var(--ink);
+      border: 1.5px solid var(--blush);
+      border-radius: 12px;
+      padding: 12px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 8px;
+      text-align: center;
+    }
+
+    .toast-msg {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: var(--ink);
+      color: #FFF;
+      padding: 12px 22px;
+      border-radius: 24px;
+      font-size: 13px;
+      font-weight: 600;
+      z-index: 1000;
+      opacity: 0;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+      pointer-events: none;
+      white-space: nowrap;
+    }
+    .toast-msg.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    /* GLP-1 Mode Activated Banner */
+    #glp1-banner {
+      position: absolute;
+      top: 12px;
+      left: 20px;
+      right: 20px;
+      background: rgba(35, 89, 55, 0.95);
+      color: #FFF;
+      border-radius: 12px;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      font-weight: 600;
+      z-index: 30;
+      transform: translateY(-80px);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 6px 18px rgba(35, 89, 55, 0.3);
+    }
+
+    #glp1-banner.visible {
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+<div id="game-container">
+  <div class="dynamic-island">
+    <div class="island-cam"></div>
+    <div class="island-sensor"></div>
+  </div>
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <div class="wordmark">steer</div>
+    <div class="live-clock-pill">
+      <span style="font-size: 15px;">🕒</span>
+      <span id="game-clock">01:30 PM</span>
+    </div>
+  </div>
+
+  <!-- Realtime Telemetry HUD -->
+  <div class="hud">
+    <div class="hud-box">
+      <div class="hud-label">
+        <span>Willpower Battery</span>
+        <span id="willpower-val" style="color: var(--rust);">100%</span>
+      </div>
+      <div class="bar-bg">
+        <div id="willpower-bar" class="bar-fill"></div>
+      </div>
+    </div>
+
+    <div class="hud-box">
+      <div class="hud-label">
+        <span>Ghrelin Hunger Surge</span>
+        <span id="ghrelin-val" style="color: var(--deep-maroon);">+0%</span>
+      </div>
+      <div class="bar-bg">
+        <div id="ghrelin-bar" class="bar-fill"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GLP-1 Satiety Pill Indicator -->
+  <div id="glp1-banner">
+    <div>
+      <div style="font-size: 13px; font-weight: 800;">✓ Incretin Receptor Activated</div>
+      <div style="font-size: 11px; opacity: 0.95;">Absorb Satiety Signals: <span id="satiety-counter" style="color: #64E78B; font-weight: bold;">0 / 5</span></div>
+    </div>
+    <span style="font-size: 20px;">🛡️</span>
+  </div>
+
+  <!-- Canvas Stage -->
+  <div id="canvas-wrap">
+    <canvas id="gameCanvas"></canvas>
+  </div>
+
+  <!-- OVERLAY 1: START SCREEN (0-second Hook) -->
+  <div id="overlay-start" class="overlay">
+    <div>
+      <span class="intro-badge">Interactive Arcade Challenge</span>
+      <h1 class="headline">Can your Willpower survive past <em>4:00 PM?</em></h1>
+      <p class="desc">You just had lunch at 1:30 PM. Deflect incoming Indian cravings using your Willpower Shield. Drag left and right to survive your workday.</p>
+
+      <div class="target-preview-box">
+        <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--clay); margin-bottom: 10px;">
+          Incoming Craving Triggers:
+        </div>
+        <div class="trigger-item">
+          <div class="trigger-icon">☕</div>
+          <div><strong>4 PM Masala Chai & Samosa</strong> <span style="font-size: 11px; color: var(--clay); display: block;">Spikes blood sugar, drains willpower</span></div>
+        </div>
+        <div class="trigger-item">
+          <div class="trigger-icon">📱</div>
+          <div><strong>Swiggy 50% Off Flash Notification</strong> <span style="font-size: 11px; color: var(--clay); display: block;">Dopamine emergency craving</span></div>
+        </div>
+        <div class="trigger-item">
+          <div class="trigger-icon">🍩</div>
+          <div><strong>Office Post-Lunch Jalebi Box</strong> <span style="font-size: 11px; color: var(--clay); display: block;">Fat storage valve lockdown</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <button class="btn-action" onclick="startGame()">
+        START SURVIVAL (TOUCH & DRAG) <span>→</span>
+      </button>
+      <div style="text-align: center; margin-top: 10px; font-size: 11px; color: var(--clay);">
+        Zero sign-up required • 100% Physics & Neurobiology
+      </div>
+    </div>
+  </div>
+
+  <!-- OVERLAY 2: CRASH & REVELATION SCREEN (The Epiphany) -->
+  <div id="overlay-crash" class="overlay hidden">
+    <div>
+      <span class="intro-badge" style="background: rgba(102, 20, 20, 0.1); color: var(--deep-maroon);">
+        SYSTEM COLLAPSE DETECTED
+      </span>
+      <h2 class="crash-title">Your Willpower ran out at <em>4:12 PM.</em></h2>
+      <p class="desc" style="margin-bottom: 14px;">
+        You deflected cravings on pure mental discipline until your biological stamina hit zero. That wasn't weak character—that was an endocrine crash.
+      </p>
+
+      <div class="stat-badge-row">
+        <div class="stat-badge">
+          <div class="num" id="crash-seconds">14s</div>
+          <div class="lbl">Willpower Depletion Time</div>
+        </div>
+        <div class="stat-badge">
+          <div class="num">+240%</div>
+          <div class="lbl">Ghrelin Hunger Surge</div>
+        </div>
+      </div>
+
+      <div class="doctor-box">
+        <strong>The Biological Truth:</strong> "Telling someone with metabolic dysregulation to 'just have discipline' is like asking someone to deflect fire alarms with an empty stamina bar. GLP-1 is the receptor mute button your gut stopped pressing."
+      </div>
+
+      <div style="margin-bottom: 10px;">
+        <button class="btn-action btn-teal" onclick="activateGLP1Mode()">
+          ⚡ ACTIVATE GLP-1 SATIETY MODE <span>→</span>
+        </button>
+      </div>
+
+      <!-- Doubts Clearance Accordion -->
+      <div style="margin-top: 14px;">
+        <div class="doubt-card" onclick="this.classList.toggle('open')">
+          <div class="doubt-header">
+            <span>Will I lose muscle mass?</span> <span>+</span>
+          </div>
+          <div class="doubt-body">
+            Not at Steer. Every member starts with a DEXA scan and a high-protein + strength plan. Real doctors protect your lean muscle from Day 1.
+          </div>
+        </div>
+
+        <div class="doubt-card" onclick="this.classList.toggle('open')">
+          <div class="doubt-header">
+            <span>Will the weight come back when I stop?</span> <span>+</span>
+          </div>
+          <div class="doubt-body">
+            Stopping without a plan causes rebound (as shown in the STEP-1 trial). Steer is built around a doctor-guided exit off-ramp to reset your biological set-point permanently.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div style="display: flex; gap: 8px; margin-bottom: 10px;">
+        <button class="btn-secondary" style="margin-top: 0; border-color: var(--rust); color: var(--rust); font-weight: 700; flex: 1;" onclick="downloadStoryCard('crash')">
+          📥 Story Card
+        </button>
+        <button class="btn-secondary" style="margin-top: 0; border-color: var(--rust); color: var(--rust); font-weight: 700; flex: 1;" onclick="copyDoctorBrief('crash')">
+          📋 Copy Intake Brief
+        </button>
+      </div>
+      <a href="https://steerclub.com/?utm_source=willpower_arcade&utm_medium=playable_ad&utm_campaign=tofi_70kg&worry=ghrelin_crash&score=willpower_depleted" target="_blank" style="text-decoration: none;">
+        <button class="btn-action">
+          Talk to a Steer Doctor at steerclub.com <span>→</span>
+        </button>
+      </a>
+      <div style="text-align: center; margin-top: 8px; font-size: 11px; color: var(--clay);">
+        Doctor-led • Blood tests first • Personalised exit plan • steerclub.com
+      </div>
+      <button class="btn-secondary" onclick="restartGame()">
+        ↺ Play again with sheer willpower
+      </button>
+    </div>
+  </div>
+
+  <!-- OVERLAY 3: METABOLIC RESET / VICTORY SCREEN -->
+  <div id="overlay-victory" class="overlay hidden">
+    <div>
+      <span class="intro-badge" style="background: rgba(35, 89, 55, 0.12); color: var(--teal-calm); border: 1px solid rgba(35, 89, 55, 0.25);">
+        ✓ FULL METABOLIC RESET ACHIEVED
+      </span>
+      <h2 class="crash-title" style="color: var(--teal-calm);">You just felt the biological difference.</h2>
+      <p class="desc" style="margin-bottom: 14px;">
+        When incretin receptors are stimulated, your brain stops screaming for dopamine. Satiety is calibrated, insulin levels smooth out, and food noise drops to 0 dB.
+      </p>
+
+      <div class="stat-badge-row">
+        <div class="stat-badge">
+          <div class="num" style="color: var(--teal-calm);">0 dB</div>
+          <div class="lbl">Food Noise Level</div>
+        </div>
+        <div class="stat-badge">
+          <div class="num" style="color: var(--teal-calm);">4.2 hrs</div>
+          <div class="lbl">Willpower Saved / Day</div>
+        </div>
+      </div>
+
+      <div class="doctor-box" style="border-left-color: var(--teal-calm);">
+        <strong>Clinical Takeaway:</strong> "You shouldn't spend your day fighting an invisible hormonal barrier. Steer's clinical program combines doctors, DEXA body composition scans, and targeted GLP-1 therapy with a structured exit plan."
+      </div>
+
+      <!-- Doubts Clearance Accordion -->
+      <div>
+        <div class="doubt-card" onclick="this.classList.toggle('open')">
+          <div class="doubt-header">
+            <span>Will I lose muscle mass?</span> <span>+</span>
+          </div>
+          <div class="doubt-body">
+            Not at Steer. Every member starts with a DEXA scan and a high-protein + strength plan. Real doctors protect your lean muscle from Day 1.
+          </div>
+        </div>
+
+        <div class="doubt-card" onclick="this.classList.toggle('open')">
+          <div class="doubt-header">
+            <span>Will the weight come back when I stop?</span> <span>+</span>
+          </div>
+          <div class="doubt-body">
+            Stopping without a plan causes rebound (as shown in the STEP-1 trial). Steer is built around a doctor-guided exit off-ramp to reset your biological set-point permanently.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div style="display: flex; gap: 8px; margin-bottom: 10px;">
+        <button class="btn-secondary" style="margin-top: 0; border-color: var(--teal-calm); color: var(--teal-calm); font-weight: 700; flex: 1;" onclick="downloadStoryCard('victory')">
+          📥 Story Card
+        </button>
+        <button class="btn-secondary" style="margin-top: 0; border-color: var(--teal-calm); color: var(--teal-calm); font-weight: 700; flex: 1;" onclick="copyDoctorBrief('victory')">
+          📋 Copy Intake Brief
+        </button>
+      </div>
+      <a href="https://steerclub.com/?utm_source=willpower_arcade&utm_medium=playable_ad&utm_campaign=tofi_70kg&worry=visceral_fat&score=5_satiety&protocol=dexa_first" target="_blank" style="text-decoration: none;">
+        <button class="btn-action btn-teal">
+          Talk to a Steer Doctor at steerclub.com <span>→</span>
+        </button>
+      </a>
+      <div style="text-align: center; margin-top: 8px; font-size: 11px; color: var(--clay);">
+        Doctor-led • Blood tests first • Personalised exit plan • steerclub.com
+      </div>
+      <button class="btn-secondary" onclick="restartGame()">
+        ↺ Play again from the start
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  let audioCtx = null;
+  function initAudio() {
+    if (!audioCtx) {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+  }
+
+  function showToast(msg) {
+    let t = document.getElementById('toast-msg');
+    if (!t) {
+      t = document.createElement('div');
+      t.id = 'toast-msg';
+      t.className = 'toast-msg';
+      document.body.appendChild(t);
+    }
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => {
+      t.classList.remove('show');
+    }, 2800);
+  }
+
+  function copyDoctorBrief(type) {
+    const brief = type === 'victory' ?
+`STEER CLINICAL INTAKE BRIEF (METABOLIC RESET ACHIEVED)
+Patient Mode: The Willpower Defense Arcade Simulation
+Satiety Score: 5/5 GLP-1 Incretin Signals Activated
+Primary Priority: Protect Lean Muscle & Clear Ectopic Visceral Adipose
+Baseline Request: Day 1 DEXA Body Scan + 55 Biomarker Panel
+Clinical Target: Satiety Recalibration & Structured Exit Off-Ramp (Zero Rebound)
+Evidence Base: Lancet TOFI 2021 / STEP-1 Extension / BMJ Narayan 2021
+Direct Consultation: https://steerclub.com/?utm_source=willpower_arcade&utm_medium=intake_brief&utm_campaign=tofi_70kg&worry=visceral_fat` :
+`STEER CLINICAL INTAKE BRIEF (4:12 PM ENDOCRINE CRASH)
+Patient Mode: The Willpower Defense Arcade Simulation
+Clinical Finding: Willpower Exhausted under +240% Ghrelin Surge
+Patient Observation: "Calorie restriction alone triggered chronic hypothalamic food noise"
+Primary Priority: Diagnostic Assessment Before Restrictive Dieting
+Baseline Request: 55 Biomarker Panel + DEXA Visceral Fat Scan
+Clinical Target: Incretin Signaling Recalibration & Satiety Restoration
+Evidence Base: STEP-1 Extension 2022 / Lancet TOFI 2021
+Direct Consultation: https://steerclub.com/?utm_source=willpower_arcade&utm_medium=intake_brief&utm_campaign=crash_ghrelin&worry=food_noise`;
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(brief).then(() => {
+        showToast('✓ Doctor intake brief copied! Present this to your Steer clinician.');
+      }).catch(() => {
+        showToast('✓ Brief ready for your Steer consultation.');
+      });
+    } else {
+      showToast('✓ Brief ready for your Steer consultation.');
+    }
+  }
+
+  function playBounceSound(pitch = 380) {
+    try {
+      initAudio();
+      if (!audioCtx) return;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(pitch, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(pitch * 1.5, audioCtx.currentTime + 0.08);
+      gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.08);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.08);
+    } catch(e) {}
+  }
+
+  function playCrashSound() {
+    try {
+      initAudio();
+      if (!audioCtx) return;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(140, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(40, audioCtx.currentTime + 0.4);
+      gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.4);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.4);
+    } catch(e) {}
+  }
+
+  function playCalmDrop() {
+    try {
+      initAudio();
+      if (!audioCtx) return;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(520, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(130, audioCtx.currentTime + 0.8);
+      gain.gain.setValueAtTime(0.25, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.8);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.8);
+    } catch(e) {}
+  }
+
+  function wrapCanvasLines(ctx, text, maxW) {
+    const words = text.split(' ');
+    const lines = [];
+    let cur = [];
+    for (let w of words) {
+      const test = cur.concat([w]).join(' ');
+      if (ctx.measureText(test).width <= maxW) {
+        cur.push(w);
+      } else {
+        if (cur.length) lines.push(cur.join(' '));
+        cur = [w];
+      }
+    }
+    if (cur.length) lines.push(cur.join(' '));
+    return lines;
+  }
+
+  function downloadStoryCard(type) {
+    const cardCanvas = document.createElement('canvas');
+    cardCanvas.width = 1080;
+    cardCanvas.height = 1920;
+    const c = cardCanvas.getContext('2d');
+
+    const isVictory = (type === 'victory');
+    c.fillStyle = isVictory ? '#235937' : '#2A1416';
+    c.fillRect(0, 0, 1080, 1920);
+
+    // Subtle background telemetry grid
+    c.strokeStyle = isVictory ? 'rgba(255, 255, 255, 0.06)' : 'rgba(255, 255, 255, 0.04)';
+    c.lineWidth = 1;
+    for (let x = 0; x < 1080; x += 60) {
+      c.beginPath(); c.moveTo(x, 0); c.lineTo(x, 1920); c.stroke();
+    }
+    for (let y = 0; y < 1920; y += 60) {
+      c.beginPath(); c.moveTo(0, y); c.lineTo(1080, y); c.stroke();
+    }
+
+    // Top Brand Lockup
+    c.font = 'bold 54px Georgia, serif';
+    c.fillStyle = '#FFFFFF';
+    c.fillText('steer', 90, 150);
+
+    c.font = '24px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+    c.fillStyle = '#DEC3B5';
+    c.fillText('•  Clinical Metabolic Care', 235, 142);
+
+    // Dynamic Pill Badge
+    const badgeText = isVictory ? '✓  FULL RESET ACHIEVED' : '⚠️  WILLPOWER EXHAUSTED';
+    const badgeW = isVictory ? 440 : 420;
+    c.fillStyle = 'rgba(255, 255, 255, 0.15)';
+    c.beginPath();
+    c.roundRect(90, 210, badgeW, 52, 26);
+    c.fill();
+    c.strokeStyle = 'rgba(255, 255, 255, 0.25)';
+    c.lineWidth = 1;
+    c.stroke();
+
+    c.font = 'bold 22px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+    c.fillStyle = '#FFFFFF';
+    c.fillText(badgeText, 125, 243);
+
+    // Hero Statement
+    c.font = 'bold 74px Georgia, serif';
+    c.fillStyle = '#FFFFFF';
+    if (isVictory) {
+      c.fillText('I felt the biological', 90, 345);
+      c.fillText('difference.', 90, 430);
+    } else {
+      c.fillText('My willpower lasted', 90, 345);
+      c.fillText('14 seconds.', 90, 430);
+    }
+
+    // Main Card Geometry
+    const cardX = 90;
+    const cardY = 525;
+    const cardW = 900;
+    const cardH = 750;
+    const innerX = cardX + 50;
+    const innerW = cardW - 100;
+
+    c.fillStyle = '#FAF5EF';
+    c.beginPath();
+    c.roundRect(cardX, cardY, cardW, cardH, 28);
+    c.fill();
+    c.strokeStyle = '#E2CCBD';
+    c.lineWidth = 1;
+    c.stroke();
+
+    // 1. Tag
+    c.font = 'bold 22px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+    c.fillStyle = '#661414';
+    c.fillText('METABOLIC TELEMETRY READOUT', innerX, cardY + 55);
+
+    // 2. Primary Metric
+    c.font = 'bold 116px Georgia, serif';
+    c.fillStyle = isVictory ? '#235937' : '#C04E2A';
+    c.fillText(isVictory ? '0 dB' : '84 dB', innerX, cardY + 175);
+
+    // 3. Metric Title
+    c.font = 'bold 36px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+    c.fillStyle = '#2B1616';
+    c.fillText(isVictory ? 'Hypothalamic Silence' : 'Food Noise Siren', innerX, cardY + 235);
+
+    // 4. Metric Subtitle (Cleanly Wrapped)
+    c.font = '24px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+    c.fillStyle = '#7D5246';
+    const subText = isVictory ? 
+      'Incretin satiety receptors actively pacing gastric emptying.' : 
+      'Insulin surging, fat stores locked, brain demanding fast sugar.';
+    const subLines = wrapCanvasLines(c, subText, innerW);
+    let ySub = cardY + 282;
+    for (let sl of subLines) {
+      c.fillText(sl, innerX, ySub);
+      ySub += 34;
+    }
+
+    // 5. Divider
+    const divY = ySub + 16;
+    c.strokeStyle = '#DEC3B5';
+    c.lineWidth = 1;
+    c.beginPath();
+    c.moveTo(innerX, divY);
+    c.lineTo(innerX + innerW, divY);
+    c.stroke();
+
+    // 6. Italic Quote (Cleanly Wrapped Across Lines with Zero Overflow)
+    c.font = 'italic 34px Georgia, serif';
+    c.fillStyle = '#2B1616';
+    const quote = isVictory ? 
+      '"When your biology is supported, willpower isn\'t a daily struggle."' :
+      '"Obesity is not a moral failure. It is a gut-brain receptor signal."';
+    const quoteLines = wrapCanvasLines(c, quote, innerW);
+    let yQ = divY + 46;
+    for (let ql of quoteLines) {
+      c.fillText(ql, innerX, yQ);
+      yQ += 48;
+    }
+
+    // 7. Clinical Proof Badge Box
+    const proofY = yQ + 20;
+    const proofH = 95;
+    c.fillStyle = isVictory ? '#EDF5F0' : '#FAF0EB';
+    c.beginPath();
+    c.roundRect(innerX, proofY, innerW, proofH, 16);
+    c.fill();
+    c.strokeStyle = isVictory ? '#B8DFCA' : '#F0C5B4';
+    c.lineWidth = 1;
+    c.stroke();
+
+    c.font = 'bold 22px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+    c.fillStyle = isVictory ? '#235937' : '#C04E2A';
+    const proofTitle = isVictory ? '✓  STEP-1 CLINICAL TRIAL VERIFIED (NEJM)' : '⚠️  GLP-1 RECEPTOR RESISTANCE DETECTED';
+    c.fillText(proofTitle, innerX + 24, proofY + 38);
+
+    c.font = '20px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+    c.fillStyle = '#7D5246';
+    c.fillText('Doctor-Led Care • Lean Muscle Defense • Planned Exit Off-Ramp', innerX + 24, proofY + 70);
+
+    // Bottom Action Area
+    const ctaY = cardY + cardH + 50;
+    c.font = 'bold 28px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+    c.fillStyle = '#FFFFFF';
+    c.fillText('Can your willpower survive 4 PM? Try the simulator:', cardX, ctaY);
+
+    const btnY = ctaY + 40;
+    const btnH = 98;
+    c.fillStyle = '#FAF5EF';
+    c.beginPath();
+    c.roundRect(cardX, btnY, cardW, btnH, 24);
+    c.fill();
+
+    c.font = 'bold 36px Georgia, serif';
+    c.fillStyle = '#2B1616';
+    c.fillText('steerclub.com/arcade', cardX + 35, btnY + 60);
+
+    c.font = 'bold 36px -apple-system, BlinkMacSystemFont, sans-serif';
+    c.fillStyle = '#C04E2A';
+    c.fillText('→', cardX + cardW - 75, btnY + 60);
+
+    const footY = btnY + btnH + 42;
+    c.font = '22px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+    c.fillStyle = '#DEC3B5';
+    c.fillText('Doctor-Led Metabolic Care for Indian Biology • Zero Crash Diets', cardX, footY);
+
+    const link = document.createElement('a');
+    link.download = `steer-story-${type}.png`;
+    link.href = cardCanvas.toDataURL('image/png');
+    link.click();
+  }
+
+  const canvas = document.getElementById('gameCanvas');
+  const ctx = canvas.getContext('2d');
+
+  let width = 0;
+  let height = 0;
+  let dpr = 1;
+
+  let gameState = 'intro';
+  let willpower = 100;
+  let ghrelin = 0;
+  let simulatedHour = 13.5;
+  let startTime = 0;
+  let glp1Active = false;
+  let satietyCount = 0;
+  const maxSatiety = 5;
+
+  const paddle = {
+    x: 0,
+    y: 0,
+    w: 120,
+    h: 22,
+    targetX: 0
+  };
+
+  let items = [];
+  let particles = [];
+  let lastSpawn = 0;
+
+  const ITEM_TYPES = [
+    { label: "Masala Chai", icon: "☕", color: "#C04E2A", drain: 14 },
+    { label: "Swiggy Alert", icon: "📱", color: "#661414", drain: 18 },
+    { label: "Sugar Jalebi", icon: "🍩", color: "#D97736", drain: 16 },
+    { label: "Pantry Raid", icon: "🍪", color: "#7D5246", drain: 15 }
+  ];
+
+  function resize() {
+    const rect = canvas.parentElement.getBoundingClientRect();
+    width = rect.width;
+    height = rect.height;
+    dpr = window.devicePixelRatio || 1;
+    canvas.width = width * dpr;
+    canvas.height = height * dpr;
+    ctx.scale(dpr, dpr);
+
+    paddle.y = height - 60;
+    if (paddle.x === 0) {
+      paddle.x = width / 2;
+      paddle.targetX = width / 2;
+    }
+  }
+
+  window.addEventListener('resize', resize);
+  setTimeout(resize, 50);
+
+  function handlePointer(clientX) {
+    const rect = canvas.getBoundingClientRect();
+    paddle.targetX = Math.max(paddle.w / 2, Math.min(width - paddle.w / 2, clientX - rect.left));
+  }
+
+  canvas.addEventListener('touchmove', (e) => {
+    e.preventDefault();
+    handlePointer(e.touches[0].clientX);
+  }, { passive: false });
+
+  canvas.addEventListener('mousemove', (e) => {
+    handlePointer(e.clientX);
+  });
+
+  function spawnItem() {
+    if (glp1Active) {
+      items.push({
+        x: Math.random() * (width - 60) + 30,
+        y: -30,
+        radius: 20,
+        vy: 2.2,
+        icon: "✨",
+        label: "+ Paced Satiety",
+        color: "#235937",
+        isCalm: true
+      });
+      return;
+    }
+
+    const type = ITEM_TYPES[Math.floor(Math.random() * ITEM_TYPES.length)];
+    items.push({
+      x: Math.random() * (width - 70) + 35,
+      y: -30,
+      radius: 24,
+      vy: 3.2 + Math.random() * 2.0,
+      icon: type.icon,
+      label: type.label,
+      color: type.color,
+      drain: type.drain,
+      isCalm: false
+    });
+  }
+
+  function spawnParticles(x, y, color) {
+    for (let i = 0; i < 12; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const speed = 2 + Math.random() * 4;
+      particles.push({
+        x: x,
+        y: y,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+        life: 1.0,
+        color: color
+      });
+    }
+  }
+
+  function startGame() {
+    initAudio();
+    document.getElementById('overlay-start').classList.add('hidden');
+    document.getElementById('overlay-crash').classList.add('hidden');
+    document.getElementById('overlay-victory').classList.add('hidden');
+    document.getElementById('glp1-banner').classList.remove('visible');
+    
+    gameState = 'playing';
+    willpower = 100;
+    ghrelin = 0;
+    simulatedHour = 13.5;
+    startTime = performance.now();
+    items = [];
+    particles = [];
+    glp1Active = false;
+    satietyCount = 0;
+  }
+
+  function restartGame() {
+    startGame();
+  }
+
+  function playVictoryChime() {
+    try {
+      initAudio();
+      if (!audioCtx) return;
+      [523.25, 659.25, 783.99, 1046.50].forEach((freq, i) => {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime + i * 0.1);
+        gain.gain.setValueAtTime(0.18, audioCtx.currentTime + i * 0.1);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + i * 0.1 + 0.45);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(audioCtx.currentTime + i * 0.1);
+        osc.stop(audioCtx.currentTime + i * 0.1 + 0.45);
+      });
+    } catch(e) {}
+  }
+
+  function activateGLP1Mode() {
+    document.getElementById('overlay-crash').classList.add('hidden');
+    document.getElementById('glp1-banner').classList.add('visible');
+    
+    playCalmDrop();
+    gameState = 'glp1';
+    glp1Active = true;
+    willpower = 100;
+    ghrelin = 10;
+    items = [];
+    particles = [];
+    satietyCount = 0;
+
+    const counterEl = document.getElementById('satiety-counter');
+    if (counterEl) counterEl.innerText = "0 / 5";
+    
+    document.getElementById('willpower-bar').style.background = "var(--teal-calm)";
+    document.getElementById('willpower-val').innerText = "100% (STABILIZED)";
+    document.getElementById('ghrelin-val').innerText = "+0% (MUTED)";
+  }
+
+  function triggerVictory() {
+    gameState = 'victory';
+    playVictoryChime();
+    for (let k = 0; k < 30; k++) {
+      spawnParticles(width / 2 + (Math.random() * 200 - 100), height / 2 + (Math.random() * 200 - 100), "#4EBD76");
+    }
+    setTimeout(() => {
+      document.getElementById('glp1-banner').classList.remove('visible');
+      document.getElementById('overlay-victory').classList.remove('hidden');
+    }, 700);
+  }
+
+  function triggerCrash() {
+    gameState = 'crashed';
+    playCrashSound();
+    
+    const elapsedSec = Math.round((performance.now() - startTime) / 1000);
+    document.getElementById('crash-seconds').innerText = `${elapsedSec}s`;
+    document.getElementById('overlay-crash').classList.remove('hidden');
+  }
+
+  let lastTime = performance.now();
+
+  function loop(now) {
+    const dt = (now - lastTime) / 1000;
+    lastTime = now;
+
+    ctx.clearRect(0, 0, width, height);
+
+    if (gameState === 'playing' || gameState === 'glp1') {
+      if (gameState === 'playing') {
+        simulatedHour += dt * 0.25;
+        if (simulatedHour >= 16.25) simulatedHour = 16.25;
+        
+        const hourInt = Math.floor(simulatedHour);
+        const minsInt = Math.round((simulatedHour - hourInt) * 60);
+        const hourFmt = hourInt > 12 ? (hourInt - 12) : hourInt;
+        const minsFmt = minsInt < 10 ? '0' + minsInt : minsInt;
+        document.getElementById('game-clock').innerText = `0${hourFmt}:${minsFmt} PM`;
+
+        ghrelin = Math.min(240, Math.round((simulatedHour - 13.5) / 2.75 * 240));
+        document.getElementById('ghrelin-val').innerText = `+${ghrelin}%`;
+        document.getElementById('ghrelin-bar').style.width = `${Math.min(100, ghrelin / 2.4)}%`;
+
+        if (willpower <= 0) {
+          willpower = 0;
+          triggerCrash();
+        }
+      }
+
+      document.getElementById('willpower-bar').style.width = `${willpower}%`;
+      if (!glp1Active) {
+        document.getElementById('willpower-val').innerText = `${Math.round(willpower)}%`;
+      }
+
+      paddle.x += (paddle.targetX - paddle.x) * 0.22;
+
+      if (now - lastSpawn > (glp1Active ? 700 : 850)) {
+        spawnItem();
+        lastSpawn = now;
+      }
+
+      for (let i = items.length - 1; i >= 0; i--) {
+        const item = items[i];
+        item.y += item.vy;
+
+        const paddleTop = paddle.y - paddle.h / 2;
+        const paddleBottom = paddle.y + paddle.h / 2;
+        const paddleLeft = paddle.x - paddle.w / 2;
+        const paddleRight = paddle.x + paddle.w / 2;
+
+        if (
+          item.y + item.radius >= paddleTop &&
+          item.y - item.radius <= paddleBottom &&
+          item.x >= paddleLeft - 10 &&
+          item.x <= paddleRight + 10
+        ) {
+          if (glp1Active) {
+            satietyCount++;
+            playBounceSound(480 + satietyCount * 80);
+            spawnParticles(item.x, item.y, "#34A853");
+            const counterEl = document.getElementById('satiety-counter');
+            if (counterEl) counterEl.innerText = `${satietyCount} / ${maxSatiety}`;
+            items.splice(i, 1);
+            if (satietyCount >= maxSatiety) {
+              triggerVictory();
+              break;
+            }
+            continue;
+          } else {
+            playBounceSound(320);
+            willpower -= item.drain;
+            spawnParticles(item.x, item.y, item.color);
+          }
+          items.splice(i, 1);
+          continue;
+        }
+
+        if (item.y > height + 40) {
+          if (!glp1Active) {
+            willpower -= 10;
+          }
+          items.splice(i, 1);
+          continue;
+        }
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(item.x, item.y, item.radius, 0, Math.PI * 2);
+        ctx.fillStyle = item.isCalm ? "#E8F4EC" : "#FFFDFB";
+        ctx.fill();
+        ctx.strokeStyle = item.color;
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        ctx.font = "18px 'Plus Jakarta Sans'";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(item.icon, item.x, item.y);
+        ctx.restore();
+      }
+
+      for (let p = particles.length - 1; p >= 0; p--) {
+        const pt = particles[p];
+        pt.x += pt.vx;
+        pt.y += pt.vy;
+        pt.life -= dt * 2.2;
+        if (pt.life <= 0) {
+          particles.splice(p, 1);
+          continue;
+        }
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(pt.x, pt.y, 4 * pt.life, 0, Math.PI * 2);
+        ctx.fillStyle = pt.color;
+        ctx.globalAlpha = pt.life;
+        ctx.fill();
+        ctx.restore();
+      }
+
+      ctx.save();
+      const pw = paddle.w;
+      const ph = paddle.h;
+      const px = paddle.x - pw / 2;
+      const py = paddle.y - ph / 2;
+
+      ctx.beginPath();
+      ctx.roundRect(px, py, pw, ph, 11);
+      ctx.fillStyle = glp1Active ? "var(--teal-calm)" : (willpower < 30 ? "var(--deep-maroon)" : "var(--rust)");
+      ctx.fill();
+      ctx.strokeStyle = "#FFF";
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      const mascotEmoji = glp1Active ? "😌" : (willpower > 60 ? "🧠" : (willpower > 25 ? "😰" : "😵"));
+      ctx.font = "26px sans-serif";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(mascotEmoji, paddle.x, paddle.y - 24);
+
+      ctx.font = "10px 'Plus Jakarta Sans'";
+      ctx.fillStyle = "#FFF";
+      ctx.fontWeight = "800";
+      ctx.fillText(glp1Active ? "GLP-1 SATIETY FIELD" : "WILLPOWER SHIELD", paddle.x, paddle.y + 1);
+      ctx.restore();
+    }
+
+    requestAnimationFrame(loop);
+  }
+
+  requestAnimationFrame(loop);
+</script>
+</body>
+</html>
