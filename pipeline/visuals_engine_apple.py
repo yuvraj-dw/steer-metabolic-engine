@@ -1,6 +1,13 @@
 import os
 import sys
 from PIL import Image, ImageDraw, ImageFont
+from pipeline.clinical_graphics import (
+    draw_tofi_dexa_diagram,
+    draw_surpass_diagram,
+    draw_mace_diagram,
+    draw_step1_diagram,
+    draw_narayan_diagram
+)
 
 PALETTE = {
     "cream": "#F5EBDF",
@@ -167,9 +174,9 @@ def build_study_slides(study):
                 "tag": "DUAL RECEPTOR MECHANISM",
                 "title": "GIP + GLP-1: The Metabolic Synergy.",
                 "subtitle": "Why dual incretin agonists achieve deeper glycemic & lipid control.",
-                "type": "dual_incretin",
-                "p1": "GLP-1 receptor activation quiets hypothalamic food noise and slows gastric emptying.",
-                "p2": "Simultaneously, GIP receptor activation improves adipose tissue insulin sensitivity and lipid buffering, uncoupling hunger while protecting metabolic rate.",
+                "type": "clinical_diagram",
+                "diagram_key": "SURPASS-2-2021",
+                "p1": "GLP-1 receptor activation quiets hypothalamic food noise while GIP receptor activation restores adipose insulin sensitivity.",
                 "takeaway": "Dual receptor synergy protects resting metabolic burn during fat loss.",
                 "citation": "Source: The Lancet Diabetes & Endocrinology 2021;9:747-762"
             },
@@ -220,9 +227,9 @@ def build_study_slides(study):
                 "tag": "VASCULAR PATHOPHYSIOLOGY",
                 "title": "Decompressing the Arterial System.",
                 "subtitle": "How visceral fat reduction protects endothelial blood flow.",
-                "type": "hormone_scales",
+                "type": "clinical_diagram",
+                "diagram_key": "STEER-MACE-2026",
                 "p1": "Excess visceral fat secretes inflammatory adipokines that trigger chronic arterial wall stiffness and micro-vascular strain.",
-                "p2": "Clearing toxic visceral fat directly decompresses arterial blood vessels and restores nitric oxide-mediated endothelial dilation.",
                 "takeaway": "Clearing toxic visceral cytokines directly relieves cardiac workload.",
                 "citation": "Source: Circulation 2023;148:1532-1544"
             },
@@ -273,9 +280,9 @@ def build_study_slides(study):
                 "tag": "NEURO-ENDOCRINE REGULATION",
                 "title": "Your body has a weight thermostat.",
                 "subtitle": "Science calls it the hypothalamic 'set-point'.",
-                "type": "hormone_scales",
-                "p1": "When you restrict calories through sheer willpower, your hypothalamus registers an emergency famine threat. It is mathematically designed to fight you.",
-                "p2": "Telling someone to 'just eat less' is like asking someone in a burning room to ignore a 120 dB fire alarm. Your hunger hormones will always outlast your willpower.",
+                "type": "clinical_diagram",
+                "diagram_key": "STEP-1-EXT-2022",
+                "p1": "When you restrict calories through sheer willpower, your hypothalamus registers an emergency famine threat and drives appetite alarms.",
                 "takeaway": "Steer protocols bypass willpower by recalibrating these exact neuro-chemical signals.",
                 "citation": "Source: Sumithran et al., N Engl J Med 2011;365:1597-1604"
             },
@@ -326,12 +333,9 @@ def build_study_slides(study):
                 "tag": "PREMATURE DECOMPENSATION",
                 "title": "The BMI 22.0 Threshold in India.",
                 "subtitle": "Metabolic breakdown triggers 3 points lower than Western benchmarks.",
-                "type": "tofi_breakdown",
-                "stat": "BMI 22.0",
-                "stat_label": "South Asian Metabolic Inflexion Point",
-                "stat_sub": "vs BMI 25.0 in Western populations",
+                "type": "clinical_diagram",
+                "diagram_key": "BMJ-NARAYAN-2021",
                 "p1": "In South Asian genetics, visceral fat starts depositing into internal organs at BMI 22.0 rather than Western thresholds of 25.0.",
-                "p2": "A 70 kg individual in India often carries the metabolic disease burden of a 95 kg European individual.",
                 "takeaway": "Screening cannot wait until BMI enters the traditional 'overweight' range.",
                 "citation": "Source: BMJ Open 2021;9:e001897, Sentence p4-s13"
             },
@@ -383,12 +387,9 @@ def build_study_slides(study):
                 "tag": "THE TOFI PHENOMENON",
                 "title": "Thin on the Outside, Fat on the Inside.",
                 "subtitle": "Why the weighing scale fails Indian biology.",
-                "type": "tofi_breakdown",
-                "stat": "2.8x",
-                "stat_label": "Higher Visceral Adipose Tissue (VAT)",
-                "stat_sub": "184 cm³ vs 48 cm³ in matched controls",
-                "p1": "In India, you can look lean in the mirror while storing dangerous amounts of metabolic fat internally.",
-                "p2": "This ectopic lipid infiltration directly blocks intestinal GLP-1 satiety receptors, causing intense food noise and cravings.",
+                "type": "clinical_diagram",
+                "diagram_key": "LANCET-TOFI-2021",
+                "p1": "In India, an individual can look lean in the mirror while storing dangerous amounts of metabolic fat internally.",
                 "takeaway": "DEXA scanning reveals what traditional BMI completely misses.",
                 "citation": "Source: Lancet Diabetes Endocrinol 2021;9(3):142-154"
             },
@@ -536,6 +537,55 @@ def generate_apple_carousel(output_dir: str, study=None) -> list[str]:
             for cl in cit_lines:
                 draw.text((120, y_cit), cl, fill=PALETTE["clay"], font=font_cit)
                 y_cit += 22
+
+        elif slide["type"] == "clinical_diagram":
+            draw.rounded_rectangle([90, arena_top, 90 + card_w, arena_top + card_h], radius=24, fill=PALETTE["soft_paper"], outline=PALETTE["card_border"], width=1)
+            
+            font_body = get_sans(22)
+            y_p = arena_top + 35
+            p1 = slide.get("p1", "")
+            if p1:
+                plines = wrap_text(p1, font_body, inner_w, draw)
+                for pl in plines:
+                    draw.text((120, y_p), pl, fill=PALETTE["ink"], font=font_body)
+                    y_p += 32
+                y_p += 12
+
+            # Render clinical diagram image
+            dkey = slide.get("diagram_key", "")
+            if "SURPASS" in dkey:
+                diag_img = draw_surpass_diagram(inner_w, 360)
+            elif "MACE" in dkey or "STEER" in dkey:
+                diag_img = draw_mace_diagram(inner_w, 360)
+            elif "STEP" in dkey:
+                diag_img = draw_step1_diagram(inner_w, 360)
+            elif "NARAYAN" in dkey:
+                diag_img = draw_narayan_diagram(inner_w, 360)
+            else:
+                diag_img = draw_tofi_dexa_diagram(inner_w, 360)
+
+            img.paste(diag_img, (120, y_p), diag_img if diag_img.mode == "RGBA" else None)
+            y_p += diag_img.height + 18
+
+            # Takeaway Box (With vector checkmark, zero unrendered glyphs)
+            font_note = get_sans(20, bold=True)
+            note_lines = wrap_text(slide.get("takeaway", ""), font_note, inner_w - 70, draw)
+            note_h = max(66, 20 + len(note_lines) * 26)
+            draw.rounded_rectangle([120, y_p, 120 + inner_w, y_p + note_h], radius=12, fill="#EDF5F0", outline="#D3E8D9", width=1)
+            y_note = y_p + 14
+            for i, nl in enumerate(note_lines):
+                if i == 0:
+                    draw_vector_check(draw, 142, y_note + 4, color=PALETTE["teal_calm"])
+                draw.text((170, y_note), nl, fill=PALETTE["teal_calm"], font=font_note)
+                y_note += 26
+
+            # Citation
+            font_cit = get_sans(16)
+            cit_lines = wrap_text(slide.get("citation", ""), font_cit, inner_w, draw)
+            y_cit = arena_top + card_h - 18 - (len(cit_lines) * 20)
+            for cl in cit_lines:
+                draw.text((120, y_cit), cl, fill=PALETTE["clay"], font=font_cit)
+                y_cit += 20
 
         elif slide["type"] == "dual_incretin":
             draw.rounded_rectangle([90, arena_top, 90 + card_w, arena_top + card_h], radius=24, fill=PALETTE["soft_paper"], outline=PALETTE["card_border"], width=1)
