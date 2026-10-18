@@ -188,37 +188,37 @@ def draw_step1_diagram(w=840, h=360) -> Image.Image:
 
     draw.rounded_rectangle([2, 2, w - 2, h - 2], radius=16, fill=PALETTE["white"], outline=PALETTE["border"], width=1)
 
-    draw.text((24, 20), "STEP-1 TRIAL EXTENSION (n=327)", fill=PALETTE["clay"], font=get_font(14, bold=True))
-    draw.text((24, 42), "The Neuro-Endocrine Rebound Alarm", fill=PALETTE["oxblood"], font=get_font(24, bold=True, serif=True))
+    draw.text((24, 18), "STEP-1 TRIAL EXTENSION (n=327)", fill=PALETTE["clay"], font=get_font(13, bold=True))
+    draw.text((24, 38), "The Neuro-Endocrine Rebound Alarm", fill=PALETTE["oxblood"], font=get_font(22, bold=True, serif=True))
 
     # Center Fulcrum & Balance Beam
     cx = w // 2
-    beam_y = 150
+    beam_y = 115
     # Angled beam tilting down on Ghrelin side
-    draw.line([(cx - 240, beam_y + 40), (cx + 240, beam_y - 40)], fill=PALETTE["clay"], width=5)
+    draw.line([(cx - 240, beam_y + 25), (cx + 240, beam_y - 25)], fill=PALETTE["clay"], width=5)
     # Triangular fulcrum
-    draw.polygon([(cx, beam_y), (cx - 22, beam_y + 50), (cx + 22, beam_y + 50)], fill=PALETTE["oxblood"])
+    draw.polygon([(cx, beam_y), (cx - 20, beam_y + 42), (cx + 20, beam_y + 42)], fill=PALETTE["oxblood"])
 
     # Left Pan (Heavy: Ghrelin Surge)
-    pan1_x, pan1_y = cx - 220, beam_y + 65
-    draw.line([(cx - 220, beam_y + 40), (pan1_x, pan1_y)], fill=PALETTE["clay"], width=2)
-    draw.rounded_rectangle([pan1_x - 90, pan1_y, pan1_x + 90, pan1_y + 90], radius=12, fill=PALETTE["rust_light"], outline=PALETTE["rust"], width=2)
-    draw.text((pan1_x - 75, pan1_y + 12), "GHRELIN (HUNGER)", fill=PALETTE["rust"], font=get_font(15, bold=True))
-    draw.text((pan1_x - 75, pan1_y + 36), "+240% Surge", fill=PALETTE["oxblood"], font=get_font(22, bold=True, serif=True))
-    draw.text((pan1_x - 75, pan1_y + 66), "Urgent Food Noise", fill=PALETTE["clay"], font=get_font(14))
+    pan1_x, pan1_y = cx - 220, beam_y + 48
+    draw.line([(cx - 220, beam_y + 25), (pan1_x, pan1_y)], fill=PALETTE["clay"], width=2)
+    draw.rounded_rectangle([pan1_x - 90, pan1_y, pan1_x + 90, pan1_y + 80], radius=12, fill=PALETTE["rust_light"], outline=PALETTE["rust"], width=2)
+    draw.text((pan1_x - 75, pan1_y + 10), "GHRELIN (HUNGER)", fill=PALETTE["rust"], font=get_font(14, bold=True))
+    draw.text((pan1_x - 75, pan1_y + 30), "+240% Surge", fill=PALETTE["oxblood"], font=get_font(20, bold=True, serif=True))
+    draw.text((pan1_x - 75, pan1_y + 56), "Urgent Food Noise", fill=PALETTE["clay"], font=get_font(13))
 
     # Right Pan (Light: Leptin Crash)
-    pan2_x, pan2_y = cx + 220, beam_y - 15
-    draw.line([(cx + 220, beam_y - 40), (pan2_x, pan2_y)], fill=PALETTE["clay"], width=2)
-    draw.rounded_rectangle([pan2_x - 90, pan2_y, pan2_x + 90, pan2_y + 90], radius=12, fill=PALETTE["teal_light"], outline=PALETTE["teal"], width=2)
-    draw.text((pan2_x - 75, pan2_y + 12), "LEPTIN (SATIETY)", fill=PALETTE["teal"], font=get_font(15, bold=True))
-    draw.text((pan2_x - 75, pan2_y + 36), "-40% Crash", fill=PALETTE["teal"], font=get_font(22, bold=True, serif=True))
-    draw.text((pan2_x - 75, pan2_y + 66), "Starvation Alarm", fill=PALETTE["clay"], font=get_font(14))
+    pan2_x, pan2_y = cx + 220, beam_y - 8
+    draw.line([(cx + 220, beam_y - 25), (pan2_x, pan2_y)], fill=PALETTE["clay"], width=2)
+    draw.rounded_rectangle([pan2_x - 90, pan2_y, pan2_x + 90, pan2_y + 80], radius=12, fill=PALETTE["teal_light"], outline=PALETTE["teal"], width=2)
+    draw.text((pan2_x - 75, pan2_y + 10), "LEPTIN (SATIETY)", fill=PALETTE["teal"], font=get_font(14, bold=True))
+    draw.text((pan2_x - 75, pan2_y + 30), "-40% Crash", fill=PALETTE["teal"], font=get_font(20, bold=True, serif=True))
+    draw.text((pan2_x - 75, pan2_y + 56), "Starvation Alarm", fill=PALETTE["clay"], font=get_font(13))
 
-    # Bottom Takeaway Slab
-    ban_y = 285
-    draw.rounded_rectangle([24, ban_y, w - 24, ban_y + 55], radius=10, fill="#FAF3EB", outline=PALETTE["border"], width=1)
-    draw.text((44, ban_y + 16), "Unmonitored stopping regains 67% of weight. Steer's planned off-ramp recalibrates the thermostat.", fill=PALETTE["oxblood"], font=get_font(15, bold=True))
+    # Bottom Takeaway Slab (Positioned with 30px clear space below pans)
+    ban_y = 275
+    draw.rounded_rectangle([24, ban_y, w - 24, ban_y + 60], radius=10, fill="#FAF3EB", outline=PALETTE["border"], width=1)
+    draw.text((44, ban_y + 20), "Unmonitored stopping regains 67% of weight. Steer's planned off-ramp recalibrates the thermostat.", fill=PALETTE["oxblood"], font=get_font(14, bold=True))
 
     return img
 
@@ -256,6 +256,297 @@ def draw_narayan_diagram(w=840, h=360) -> Image.Image:
     draw.text((bx2 + 18, by + 136), "• Weighing scale completely misses internal fat", fill=PALETTE["clay"], font=get_font(15))
     draw.rounded_rectangle([bx2 + 18, by + 175, bx2 + box_w - 18, by + 210], radius=8, fill="#FFFFFF")
     draw.text((bx2 + 28, by + 185), "Requires DEXA Scan on Day 1", fill=PALETTE["rust"], font=get_font(14, bold=True))
+
+    return img
+
+def draw_slide1_telemetry(study_id: str = "", w=840, h=240) -> Image.Image:
+    """Renders publication-grade vector trajectory/telemetry for Carousel Slide 1."""
+    img = Image.new("RGBA", (w, h), PALETTE["soft_paper"])
+    draw = ImageDraw.Draw(img)
+    sid = (study_id or "").upper()
+
+    draw.rounded_rectangle([2, 2, w - 2, h - 2], radius=16, fill=PALETTE["white"], outline=PALETTE["border"], width=1)
+
+    if "STEP" in sid or "REBOUND" in sid:
+        draw.text((24, 16), "STEP-1 REBOUND TRAJECTORY (WEEKS 0 -> 120)", fill=PALETTE["clay"], font=get_font(14, bold=True))
+        
+        # Grid area
+        gx1, gx2 = 110, w - 40
+        gy_top, gy_bot = 55, 185
+        
+        # Y-Axis Ticks & Labels
+        draw.line([(gx1, gy_top), (gx2, gy_top)], fill="#F0E8DF", width=1)
+        draw.text((24, gy_top - 7), "0.0% Base", fill=PALETTE["clay"], font=get_font(12))
+        
+        gy_mid = gy_top + (gy_bot - gy_top) // 3
+        draw.line([(gx1, gy_mid), (gx2, gy_mid)], fill="#F0E8DF", width=1)
+        draw.text((24, gy_mid - 7), "-5.0% Loss", fill=PALETTE["clay"], font=get_font(12))
+        
+        gy_mid2 = gy_top + 2 * (gy_bot - gy_top) // 3
+        draw.line([(gx1, gy_mid2), (gx2, gy_mid2)], fill="#F0E8DF", width=1)
+        draw.text((24, gy_mid2 - 7), "-10.0% Loss", fill=PALETTE["clay"], font=get_font(12))
+
+        draw.line([(gx1, gy_bot), (gx2, gy_bot)], fill="#F0E8DF", width=1)
+        draw.text((24, gy_bot - 7), "-15.0% Peak", fill=PALETTE["rust"], font=get_font(12, bold=True))
+        
+        # Vertical axis
+        draw.line([(gx1, gy_top), (gx1, gy_bot)], fill="#D8C8B8", width=2)
+        
+        # Timeline X Labels
+        draw.text((gx1 - 10, gy_bot + 12), "Wk 0", fill=PALETTE["clay"], font=get_font(13))
+        draw.text((gx1 + 250, gy_bot + 12), "Wk 68 (Medication Stop)", fill=PALETTE["oxblood"], font=get_font(13, bold=True))
+        draw.text((gx2 - 50, gy_bot + 12), "Wk 120", fill=PALETTE["clay"], font=get_font(13))
+        
+        # Dotted line at Wk 68
+        wk68_x = gx1 + 290
+        for y_dash in range(gy_top, gy_bot, 7):
+            draw.line([(wk68_x, y_dash), (wk68_x, y_dash + 4)], fill=PALETTE["clay"], width=1)
+            
+        # Curve 1: Weeks 0 to 68 Smooth sigmoidal clinical descent (-15% Peak Loss)
+        descent_pts = []
+        for i in range(25):
+            t = i / 24.0
+            curve_factor = (1.0 - math.exp(-2.8 * t)) / (1.0 - math.exp(-2.8))
+            x = gx1 + t * (wk68_x - gx1)
+            y = (gy_top + 8) + curve_factor * (gy_bot - (gy_top + 8))
+            descent_pts.append((x, y))
+        for j in range(len(descent_pts) - 1):
+            draw.line([descent_pts[j], descent_pts[j + 1]], fill=PALETTE["rust"], width=4)
+        
+        # Callout placed cleanly at the nadir
+        draw.text((wk68_x - 130, gy_bot - 20), "-15.0% Peak Loss", fill=PALETTE["rust"], font=get_font(12, bold=True))
+        
+        # Curve 2: Week 68 to 120 Unguided Rebound (+67% Regain)
+        rebound_pts = []
+        for i in range(20):
+            t = i / 19.0
+            rebound_factor = (1.0 - math.exp(-2.5 * t)) / (1.0 - math.exp(-2.5))
+            x = wk68_x + t * (gx2 - 10 - wk68_x)
+            y = gy_bot - rebound_factor * (gy_bot - gy_mid)
+            rebound_pts.append((x, y))
+        for j in range(len(rebound_pts) - 1):
+            draw.line([rebound_pts[j], rebound_pts[j + 1]], fill=PALETTE["oxblood"], width=4)
+        
+        draw.rounded_rectangle([gx2 - 225, gy_mid - 24, gx2 - 5, gy_mid + 6], radius=6, fill=PALETTE["rust_light"], outline=PALETTE["rust"], width=1)
+        draw.text((gx2 - 215, gy_mid - 19), "Unguided (+67% Regained)", fill=PALETTE["oxblood"], font=get_font(13, bold=True))
+        
+        # Curve 3: Steer Planned Exit (Plateau Defended)
+        draw.line([(wk68_x, gy_bot), (gx2 - 10, gy_bot)], fill=PALETTE["teal"], width=4)
+        draw.rounded_rectangle([gx2 - 225, gy_bot - 24, gx2 - 5, gy_bot + 6], radius=6, fill=PALETTE["teal_light"], outline=PALETTE["teal"], width=1)
+        draw.text((gx2 - 215, gy_bot - 19), "Steer Exit (Set-Point Maintained)", fill=PALETTE["teal"], font=get_font(13, bold=True))
+
+    elif "SURPASS" in sid or "TIRZEPATIDE" in sid:
+        draw.text((24, 16), "HEAD-TO-HEAD WEIGHT CLEARANCE AT 40 WEEKS (NEJM)", fill=PALETTE["clay"], font=get_font(14, bold=True))
+        
+        # Bar 1: Semaglutide 1.0mg
+        draw.text((28, 54), "Semaglutide 1.0 mg (GLP-1 Mono-Agonist)", fill=PALETTE["ink"], font=get_font(15, bold=True))
+        b1_w = 340
+        draw.rounded_rectangle([28, 82, 28 + b1_w, 122], radius=8, fill=PALETTE["blush"], outline="#D2B5A5", width=1)
+        draw.text((45, 92), "-7.0 kg average reduction", fill=PALETTE["ink"], font=get_font(16, bold=True))
+        
+        # Bar 2: Tirzepatide 15mg
+        draw.text((28, 136), "Tirzepatide 15 mg (Dual GIP/GLP-1 Co-Agonist)", fill=PALETTE["oxblood"], font=get_font(15, bold=True))
+        b2_w = 540
+        draw.rounded_rectangle([28, 164, 28 + b2_w, 204], radius=8, fill=PALETTE["rust_light"], outline=PALETTE["rust"], width=2)
+        draw.text((45, 174), "-11.2 kg average reduction (+60% Superior Clearance)", fill=PALETTE["oxblood"], font=get_font(16, bold=True))
+        
+        # Side Badge
+        draw.rounded_rectangle([w - 220, 95, w - 24, 185], radius=10, fill=PALETTE["teal_light"], outline=PALETTE["teal"], width=1)
+        draw.text((w - 205, 110), "+4.2 KG DELTA", fill=PALETTE["teal"], font=get_font(14, bold=True))
+        draw.text((w - 205, 134), "p < 0.001 vs Mono", fill=PALETTE["oxblood"], font=get_font(15, bold=True))
+        draw.text((w - 205, 156), "Muscle Preserved", fill=PALETTE["clay"], font=get_font(13))
+
+    elif "MACE" in sid or "CARDIO" in sid or "STEER" in sid:
+        draw.text((24, 16), "4-YEAR CARDIOVASCULAR EVENT-FREE SURVIVAL (n=24,800)", fill=PALETTE["clay"], font=get_font(14, bold=True))
+        
+        gx1, gx2 = 100, w - 40
+        gy_top, gy_bot = 55, 180
+        
+        draw.line([(gx1, gy_top), (gx2, gy_top)], fill="#F0E8DF", width=1)
+        draw.text((24, gy_top - 7), "100%", fill=PALETTE["clay"], font=get_font(12))
+        
+        gy_mid = gy_top + (gy_bot - gy_top) // 2
+        draw.line([(gx1, gy_mid), (gx2, gy_mid)], fill="#F5EFEB", width=1)
+        draw.text((24, gy_mid - 7), "90%", fill=PALETTE["clay"], font=get_font(12))
+        
+        draw.line([(gx1, gy_bot), (gx2, gy_bot)], fill="#F0E8DF", width=1)
+        draw.text((24, gy_bot - 7), "80%", fill=PALETTE["clay"], font=get_font(12))
+        draw.line([(gx1, gy_top), (gx1, gy_bot)], fill="#D8C8B8", width=2)
+        
+        # Timeline X
+        draw.text((gx1 - 5, gy_bot + 10), "Year 0", fill=PALETTE["clay"], font=get_font(12))
+        draw.text((gx1 + 180, gy_bot + 10), "Year 2", fill=PALETTE["clay"], font=get_font(12))
+        draw.text((gx2 - 50, gy_bot + 10), "Year 4", fill=PALETTE["clay"], font=get_font(12))
+        
+        # Survival curves
+        draw.line([(gx1, gy_top + 4), (gx2 - 10, gy_top + 28)], fill=PALETTE["teal"], width=4)
+        draw.rounded_rectangle([gx2 - 240, gy_top + 14, gx2 - 5, gy_top + 42], radius=6, fill=PALETTE["teal_light"], outline=PALETTE["teal"], width=1)
+        draw.text((gx2 - 230, gy_top + 20), "Steer Continuous Care (94.2%)", fill=PALETTE["teal"], font=get_font(13, bold=True))
+        
+        draw.line([(gx1, gy_top + 4), (gx2 - 10, gy_bot - 14)], fill=PALETTE["oxblood"], width=4)
+        draw.rounded_rectangle([gx2 - 240, gy_bot - 34, gx2 - 5, gy_bot - 6], radius=6, fill=PALETTE["rust_light"], outline=PALETTE["rust"], width=1)
+        draw.text((gx2 - 230, gy_bot - 28), "Standard Caloric Care (86.5%)", fill=PALETTE["oxblood"], font=get_font(13, bold=True))
+
+    elif "NARAYAN" in sid:
+        draw.text((24, 16), "DIABETES INFLEXION THRESHOLD AT NORMAL WEIGHT (BMJ OPEN)", fill=PALETTE["clay"], font=get_font(14, bold=True))
+        
+        mw = (w - 70) // 2
+        # Western
+        draw.rounded_rectangle([24, 52, 24 + mw, 210], radius=12, fill=PALETTE["teal_light"], outline="#CDE4D6", width=1)
+        draw.text((44, 66), "WESTERN POPULATION REFERENCE", fill=PALETTE["teal"], font=get_font(13, bold=True))
+        draw.text((44, 90), "BMI 25.0 Saturation Threshold", fill=PALETTE["ink"], font=get_font(18, bold=True))
+        draw.text((44, 122), "• Subcutaneous adipose stores expand safely", fill=PALETTE["clay"], font=get_font(14))
+        draw.text((44, 148), "• Organs protected from premature lipid spillover", fill=PALETTE["clay"], font=get_font(14))
+        draw.text((44, 174), "• Low diabetes incidence at BMI 22.0", fill=PALETTE["teal"], font=get_font(14, bold=True))
+        
+        # South Asian
+        x2 = 24 + mw + 22
+        draw.rounded_rectangle([x2, 52, x2 + mw, 210], radius=12, fill=PALETTE["rust_light"], outline="#F5C5B5", width=1)
+        draw.text((x2 + 20, 66), "SOUTH ASIAN PHENOTYPE", fill=PALETTE["rust"], font=get_font(13, bold=True))
+        draw.text((x2 + 20, 90), "BMI 22.0 Premature Inflexion", fill=PALETTE["oxblood"], font=get_font(18, bold=True))
+        draw.text((x2 + 20, 122), "• Adipose saturation occurs 3 BMI points lower", fill=PALETTE["oxblood"], font=get_font(14, bold=True))
+        draw.text((x2 + 20, 148), "• Ectopic fat spills into liver and pancreas", fill=PALETTE["oxblood"], font=get_font(14, bold=True))
+        draw.text((x2 + 20, 174), "• 5.3x Diabetes Risk at normal scale weight!", fill=PALETTE["oxblood"], font=get_font(14, bold=True))
+
+    else:
+        # Default: Lancet TOFI Adiposity Split-Bar
+        draw.text((24, 16), "INTERNAL VISCERAL VS SUBCUTANEOUS ADIPOSITY SPLIT (AT 70.0 KG)", fill=PALETTE["clay"], font=get_font(14, bold=True))
+        
+        # Bar 1: European 70kg
+        draw.text((28, 52), "European Control (70.0 kg • BMI 22.8)", fill=PALETTE["ink"], font=get_font(15, bold=True))
+        draw.rounded_rectangle([28, 78, 28 + 480, 116], radius=8, fill=PALETTE["teal_light"], outline="#CBE2D3", width=1)
+        draw.text((45, 88), "82% Subcutaneous Safe Buffer  •  18% Visceral (48 cm³)", fill=PALETTE["teal"], font=get_font(15, bold=True))
+        
+        # Bar 2: South Asian TOFI 70kg
+        draw.text((28, 132), "South Asian TOFI (70.0 kg • BMI 22.8)", fill=PALETTE["oxblood"], font=get_font(15, bold=True))
+        draw.rounded_rectangle([28, 158, 28 + 620, 196], radius=8, fill=PALETTE["rust_light"], outline=PALETTE["rust"], width=2)
+        draw.text((45, 168), "45% Subcutaneous  •  55% Visceral (184 cm³, +283% Toxic Organ Fat)", fill=PALETTE["oxblood"], font=get_font(15, bold=True))
+        
+        draw.text((28, 212), "External body scale reads identical while internal visceral fat strangles organs.", fill=PALETTE["oxblood"], font=get_font(13, bold=True))
+
+    return img
+
+def draw_slide3_telemetry(study_id: str = "", w=840, h=230) -> Image.Image:
+    """Renders publication-grade secondary biomarker panels for Carousel Slide 3."""
+    img = Image.new("RGBA", (w, h), PALETTE["soft_paper"])
+    draw = ImageDraw.Draw(img)
+    sid = (study_id or "").upper()
+
+    draw.rounded_rectangle([2, 2, w - 2, h - 2], radius=16, fill=PALETTE["white"], outline=PALETTE["border"], width=1)
+
+    if "STEP" in sid or "REBOUND" in sid:
+        draw.text((24, 16), "SECONDARY CARDIOMETABOLIC DRIFT AT 12 MONTHS (POST-CESSATION)", fill=PALETTE["clay"], font=get_font(14, bold=True))
+        
+        tile_w = (w - 70) // 3
+        # Tile 1: Blood Pressure
+        tx1 = 24
+        draw.rounded_rectangle([tx1, 50, tx1 + tile_w, 205], radius=12, fill="#FAF4F0", outline="#ECDCD4", width=1)
+        draw.text((tx1 + 18, 64), "BLOOD PRESSURE", fill=PALETTE["clay"], font=get_font(13, bold=True))
+        draw.text((tx1 + 18, 88), "+6.2 mmHg", fill=PALETTE["oxblood"], font=get_font(26, bold=True, serif=True))
+        draw.text((tx1 + 18, 130), "Systolic pressure reverted", fill=PALETTE["ink"], font=get_font(14))
+        draw.text((tx1 + 18, 154), "entirely to pre-trial baseline", fill=PALETTE["ink"], font=get_font(14))
+        draw.text((tx1 + 18, 180), "• Vascular Strain", fill=PALETTE["oxblood"], font=get_font(12, bold=True))
+
+        # Tile 2: HbA1c
+        tx2 = tx1 + tile_w + 11
+        draw.rounded_rectangle([tx2, 50, tx2 + tile_w, 205], radius=12, fill="#FAF4F0", outline="#ECDCD4", width=1)
+        draw.text((tx2 + 18, 64), "HbA1c GLYCEMIC", fill=PALETTE["clay"], font=get_font(13, bold=True))
+        draw.text((tx2 + 18, 88), "+0.4% Drift", fill=PALETTE["rust"], font=get_font(26, bold=True, serif=True))
+        draw.text((tx2 + 18, 130), "Glycemic improvements", fill=PALETTE["ink"], font=get_font(14))
+        draw.text((tx2 + 18, 154), "lost post-discontinuation", fill=PALETTE["ink"], font=get_font(14))
+        draw.text((tx2 + 18, 180), "• Insulin Resistance", fill=PALETTE["rust"], font=get_font(12, bold=True))
+
+        # Tile 3: Fasting Lipids
+        tx3 = tx2 + tile_w + 11
+        draw.rounded_rectangle([tx3, 50, tx3 + tile_w, 205], radius=12, fill="#FAF4F0", outline="#ECDCD4", width=1)
+        draw.text((tx3 + 18, 64), "FASTING LIPIDS", fill=PALETTE["clay"], font=get_font(13, bold=True))
+        draw.text((tx3 + 18, 88), "+22 mg/dL", fill=PALETTE["oxblood"], font=get_font(26, bold=True, serif=True))
+        draw.text((tx3 + 18, 130), "Circulating triglycerides", fill=PALETTE["ink"], font=get_font(14))
+        draw.text((tx3 + 18, 154), "surged back to baseline", fill=PALETTE["ink"], font=get_font(14))
+        draw.text((tx3 + 18, 180), "• Lipid Relapse", fill=PALETTE["oxblood"], font=get_font(12, bold=True))
+
+    elif "SURPASS" in sid or "TIRZEPATIDE" in sid:
+        draw.text((24, 16), "SECONDARY ENDPOINTS & MUSCLE DEFENSE (NEJM)", fill=PALETTE["clay"], font=get_font(14, bold=True))
+        
+        tile_w = (w - 60) // 2
+        # Tile 1: Glycemic Remission
+        tx1 = 24
+        draw.rounded_rectangle([tx1, 50, tx1 + tile_w, 205], radius=12, fill=PALETTE["teal_light"], outline="#CBE2D3", width=1)
+        draw.text((tx1 + 20, 66), "GLYCEMIC NORMALIZATION", fill=PALETTE["teal"], font=get_font(14, bold=True))
+        draw.text((tx1 + 20, 92), "86% Under 6.5%", fill=PALETTE["teal"], font=get_font(28, bold=True, serif=True))
+        draw.text((tx1 + 20, 136), "Participants achieved clinical target HbA1c <6.5%", fill=PALETTE["ink"], font=get_font(15))
+        draw.text((tx1 + 20, 162), "with profound visceral lipid clearance.", fill=PALETTE["clay"], font=get_font(14))
+        draw.text((tx1 + 20, 184), "• Profound Metabolic Remission", fill=PALETTE["teal"], font=get_font(13, bold=True))
+
+        # Tile 2: Lean Muscle Defense
+        tx2 = tx1 + tile_w + 12
+        draw.rounded_rectangle([tx2, 50, tx2 + tile_w, 205], radius=12, fill=PALETTE["rust_light"], outline="#F5C5B5", width=1)
+        draw.text((tx2 + 20, 66), "LEAN MUSCLE DEFENSE NEED", fill=PALETTE["rust"], font=get_font(14, bold=True))
+        draw.text((tx2 + 20, 92), "Up to 35% Loss", fill=PALETTE["oxblood"], font=get_font(28, bold=True, serif=True))
+        draw.text((tx2 + 20, 136), "Rapid unguided weight loss risks lean tissue wasting.", fill=PALETTE["ink"], font=get_font(15))
+        draw.text((tx2 + 20, 162), "Steer monitors muscle preservation via regular DEXA.", fill=PALETTE["clay"], font=get_font(14))
+        draw.text((tx2 + 20, 184), "• Doctor-Supervised Protein Protocol", fill=PALETTE["oxblood"], font=get_font(13, bold=True))
+
+    elif "MACE" in sid or "CARDIO" in sid or "STEER" in sid:
+        draw.text((24, 16), "SECONDARY HEMODYNAMIC ENDPOINTS (DOM 2026)", fill=PALETTE["clay"], font=get_font(14, bold=True))
+        
+        tile_w = (w - 60) // 2
+        tx1 = 24
+        draw.rounded_rectangle([tx1, 50, tx1 + tile_w, 205], radius=12, fill=PALETTE["teal_light"], outline="#CBE2D3", width=1)
+        draw.text((tx1 + 20, 66), "SYSTOLIC BLOOD PRESSURE", fill=PALETTE["teal"], font=get_font(14, bold=True))
+        draw.text((tx1 + 20, 92), "-8.4 mmHg", fill=PALETTE["teal"], font=get_font(28, bold=True, serif=True))
+        draw.text((tx1 + 20, 136), "Direct decompression of arterial vessel wall", fill=PALETTE["ink"], font=get_font(15))
+        draw.text((tx1 + 20, 162), "delivers sustained vascular pressure relief.", fill=PALETTE["clay"], font=get_font(14))
+        draw.text((tx1 + 20, 184), "• Endothelial Decompression", fill=PALETTE["teal"], font=get_font(13, bold=True))
+
+        tx2 = tx1 + tile_w + 12
+        draw.rounded_rectangle([tx2, 50, tx2 + tile_w, 205], radius=12, fill=PALETTE["rust_light"], outline="#F5C5B5", width=1)
+        draw.text((tx2 + 20, 66), "SYSTEMIC INFLAMMATION", fill=PALETTE["rust"], font=get_font(14, bold=True))
+        draw.text((tx2 + 20, 92), "-32% hs-CRP", fill=PALETTE["oxblood"], font=get_font(28, bold=True, serif=True))
+        draw.text((tx2 + 20, 136), "High-sensitivity CRP reduction stabilizes plaques", fill=PALETTE["ink"], font=get_font(15))
+        draw.text((tx2 + 20, 162), "preventing micro-vascular ischemic rupture.", fill=PALETTE["clay"], font=get_font(14))
+        draw.text((tx2 + 20, 184), "• Plaque Stabilization", fill=PALETTE["oxblood"], font=get_font(13, bold=True))
+
+    elif "NARAYAN" in sid:
+        draw.text((24, 16), "RELATIVE RISK MULTIPLIER AT NORMAL BMI 22.0 (BMJ OPEN)", fill=PALETTE["clay"], font=get_font(14, bold=True))
+        
+        tile_w = (w - 60) // 2
+        tx1 = 24
+        draw.rounded_rectangle([tx1, 50, tx1 + tile_w, 205], radius=12, fill=PALETTE["rust_light"], outline="#F5C5B5", width=1)
+        draw.text((tx1 + 20, 66), "SOUTH ASIAN MEN (BMI 22.0)", fill=PALETTE["rust"], font=get_font(14, bold=True))
+        draw.text((tx1 + 20, 92), "2.9x Risk", fill=PALETTE["oxblood"], font=get_font(28, bold=True, serif=True))
+        draw.text((tx1 + 20, 136), "Nearly triple the diabetes incidence rate", fill=PALETTE["ink"], font=get_font(15))
+        draw.text((tx1 + 20, 162), "compared to matched European men of same weight.", fill=PALETTE["clay"], font=get_font(14))
+        draw.text((tx1 + 20, 184), "• Premature Metabolic Saturation", fill=PALETTE["oxblood"], font=get_font(13, bold=True))
+
+        tx2 = tx1 + tile_w + 12
+        draw.rounded_rectangle([tx2, 50, tx2 + tile_w, 205], radius=12, fill=PALETTE["rust_light"], outline=PALETTE["oxblood"], width=2)
+        draw.text((tx2 + 20, 66), "SOUTH ASIAN WOMEN (BMI 22.0)", fill=PALETTE["oxblood"], font=get_font(14, bold=True))
+        draw.text((tx2 + 20, 92), "5.3x Risk", fill=PALETTE["oxblood"], font=get_font(28, bold=True, serif=True))
+        draw.text((tx2 + 20, 136), "Over five times higher diabetes vulnerability", fill=PALETTE["ink"], font=get_font(15))
+        draw.text((tx2 + 20, 162), "completely hidden under a normal bathroom scale reading.", fill=PALETTE["clay"], font=get_font(14))
+        draw.text((tx2 + 20, 184), "• Severe Ectopic Vulnerability", fill=PALETTE["oxblood"], font=get_font(13, bold=True))
+
+    else:
+        # Default: Lancet TOFI Organ Steatosis
+        draw.text((24, 16), "ORGAN ECTOPIC STEATOSIS BREAKDOWN (LANCET 2021)", fill=PALETTE["clay"], font=get_font(14, bold=True))
+        
+        tile_w = (w - 60) // 2
+        tx1 = 24
+        draw.rounded_rectangle([tx1, 50, tx1 + tile_w, 205], radius=12, fill=PALETTE["rust_light"], outline="#F5C5B5", width=1)
+        draw.text((tx1 + 20, 66), "HEPATIC STEATOSIS (LIVER)", fill=PALETTE["rust"], font=get_font(14, bold=True))
+        draw.text((tx1 + 20, 92), "+80% Organ Fat", fill=PALETTE["oxblood"], font=get_font(28, bold=True, serif=True))
+        draw.text((tx1 + 20, 136), "Severe visceral fat infiltration triggers non-alcoholic", fill=PALETTE["ink"], font=get_font(15))
+        draw.text((tx1 + 20, 162), "fatty liver and fasting insulin resistance at BMI 22.", fill=PALETTE["clay"], font=get_font(14))
+        draw.text((tx1 + 20, 184), "• Primary Driver of Insulin Resistance", fill=PALETTE["oxblood"], font=get_font(13, bold=True))
+
+        tx2 = tx1 + tile_w + 12
+        draw.rounded_rectangle([tx2, 50, tx2 + tile_w, 205], radius=12, fill=PALETTE["rust_light"], outline=PALETTE["rust"], width=1)
+        draw.text((tx2 + 20, 66), "PANCREATIC BETA-CELL STRAIN", fill=PALETTE["oxblood"], font=get_font(14, bold=True))
+        draw.text((tx2 + 20, 92), "Lipotoxicity", fill=PALETTE["oxblood"], font=get_font(28, bold=True, serif=True))
+        draw.text((tx2 + 20, 136), "Fat droplets around islets directly exhaust beta-cells,", fill=PALETTE["ink"], font=get_font(15))
+        draw.text((tx2 + 20, 162), "shutting down natural insulin secretion early.", fill=PALETTE["clay"], font=get_font(14))
+        draw.text((tx2 + 20, 184), "• Beta-Cell Secretory Exhaustion", fill=PALETTE["oxblood"], font=get_font(13, bold=True))
 
     return img
 

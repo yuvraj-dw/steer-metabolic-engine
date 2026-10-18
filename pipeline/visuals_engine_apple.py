@@ -6,7 +6,9 @@ from pipeline.clinical_graphics import (
     draw_surpass_diagram,
     draw_mace_diagram,
     draw_step1_diagram,
-    draw_narayan_diagram
+    draw_narayan_diagram,
+    draw_slide1_telemetry,
+    draw_slide3_telemetry
 )
 
 PALETTE = {
@@ -455,36 +457,37 @@ def generate_apple_carousel(output_dir: str, study=None) -> list[str]:
             y_text += 36
 
         # 4. Main Editorial Arena (Fills space gracefully without awkward voids)
-        arena_top = max(y_text + 30, 310)
+        arena_top = max(y_text + 25, 295)
         card_w = width - 180
         inner_w = card_w - 60
         card_h = 780
 
         if slide["type"] == "rebound_hero" or slide["type"] == "tofi_breakdown":
+            card_h = 790
             draw.rounded_rectangle([90, arena_top, 90 + card_w, arena_top + card_h], radius=24, fill=PALETTE["soft_paper"], outline=PALETTE["card_border"], width=1)
             
             # Narrative paragraphs with generous editorial line-height
-            font_body = get_sans(24)
-            y_p = arena_top + 48
+            font_body = get_sans(23)
+            y_p = arena_top + 36
             for p in [slide.get("p1", ""), slide.get("p2", "")]:
                 if not p:
                     continue
                 plines = wrap_text(p, font_body, inner_w, draw)
                 for pl in plines:
                     draw.text((120, y_p), pl, fill=PALETTE["ink"], font=font_body)
-                    y_p += 36
-                y_p += 18
+                    y_p += 32
+                y_p += 12
 
             # Highlight Stat Card inside (Intelligently handles both short metrics and phrases)
             stat_str = slide.get("stat", "")
             is_short_metric = len(stat_str) <= 8 and not any(c.isspace() for c in stat_str.strip())
-            stat_top = y_p + 18
+            stat_top = y_p + 14
 
             if is_short_metric:
-                stat_h = 155
+                stat_h = 125
                 draw.rounded_rectangle([120, stat_top, 120 + inner_w, stat_top + stat_h], radius=16, fill=PALETTE["white"], outline=PALETTE["blush"], width=1)
                 
-                font_stat = get_serif(66, bold=True)
+                font_stat = get_serif(60, bold=True)
                 stat_bbox = draw.textbbox((0, 0), stat_str, font=font_stat)
                 stat_w = stat_bbox[2] - stat_bbox[0]
                 stat_h_text = stat_bbox[3] - stat_bbox[1]
@@ -492,100 +495,124 @@ def generate_apple_carousel(output_dir: str, study=None) -> list[str]:
                 
                 lbl_x = 150 + stat_w + 35
                 max_lbl_w = (120 + inner_w) - lbl_x - 20
-                lbl_lines = wrap_text(slide["stat_label"], get_sans(22, bold=True), max_lbl_w, draw)
-                y_lbl = stat_top + 28
+                lbl_lines = wrap_text(slide["stat_label"], get_sans(21, bold=True), max_lbl_w, draw)
+                y_lbl = stat_top + 20
                 for ll in lbl_lines[:3]:
-                    draw.text((lbl_x, y_lbl), ll, fill=PALETTE["deep_maroon"], font=get_sans(22, bold=True))
-                    y_lbl += 28
-                draw.text((lbl_x, y_lbl + 6), slide["stat_sub"], fill=PALETTE["clay"], font=get_sans(18))
+                    draw.text((lbl_x, y_lbl), ll, fill=PALETTE["deep_maroon"], font=get_sans(21, bold=True))
+                    y_lbl += 26
+                draw.text((lbl_x, y_lbl + 4), slide["stat_sub"], fill=PALETTE["clay"], font=get_sans(17))
             else:
                 # Descriptive stat phrase (e.g. "Reversion to baseline") - Clean Stacked Layout!
-                font_stat_phrase = get_serif(30, bold=True)
+                font_stat_phrase = get_serif(28, bold=True)
                 stat_lines = wrap_text(stat_str, font_stat_phrase, inner_w - 60, draw)
-                lbl_lines = wrap_text(slide["stat_label"], get_sans(21, bold=True), inner_w - 60, draw)
-                stat_h = 24 + len(stat_lines) * 38 + len(lbl_lines) * 28 + 36
+                lbl_lines = wrap_text(slide["stat_label"], get_sans(20, bold=True), inner_w - 60, draw)
+                stat_h = 18 + len(stat_lines) * 32 + len(lbl_lines) * 26 + 26
                 draw.rounded_rectangle([120, stat_top, 120 + inner_w, stat_top + stat_h], radius=16, fill=PALETTE["white"], outline=PALETTE["blush"], width=1)
                 
-                y_st = stat_top + 20
+                y_st = stat_top + 16
                 for sl in stat_lines[:2]:
                     draw.text((150, y_st), sl, fill=PALETTE["rust"], font=font_stat_phrase)
-                    y_st += 38
+                    y_st += 32
                 
                 for ll in lbl_lines[:2]:
-                    draw.text((150, y_st), ll, fill=PALETTE["ink"], font=get_sans(21, bold=True))
-                    y_st += 28
-                draw.text((150, y_st + 6), slide["stat_sub"], fill=PALETTE["clay"], font=get_sans(18))
+                    draw.text((150, y_st), ll, fill=PALETTE["ink"], font=get_sans(20, bold=True))
+                    y_st += 26
+                draw.text((150, y_st + 4), slide["stat_sub"], fill=PALETTE["clay"], font=get_sans(17))
 
             # Takeaway Doctor Callout Banner (Always wrapped with dynamic height)
-            note_top = stat_top + stat_h + 28
-            font_note = get_sans(21, bold=True)
+            note_top = stat_top + stat_h + 16
+            font_note = get_sans(20, bold=True)
             note_lines = wrap_text(slide["takeaway"], font_note, inner_w - 70, draw)
-            note_h = max(74, 24 + len(note_lines) * 28)
+            note_h = max(64, 18 + len(note_lines) * 25)
             draw.rounded_rectangle([120, note_top, 120 + inner_w, note_top + note_h], radius=14, fill="#EDF5F0", outline="#D3E8D9", width=1)
             
-            y_note = note_top + 16
+            y_note = note_top + 14
             for i, nl in enumerate(note_lines):
                 if i == 0:
                     draw_vector_check(draw, 142, y_note + 4, color=PALETTE["teal_calm"])
                 draw.text((170, y_note), nl, fill=PALETTE["teal_calm"], font=font_note)
-                y_note += 28
+                y_note += 25
+
+            # Embedded Publication-Grade Vector Telemetry (Fills lower 240px of Slide 1 & Slide 3)
+            sid = (study.study_id if study else "step1").upper()
+            y_telem = note_top + note_h + 16
+            if idx == 1:
+                telem_img = draw_slide1_telemetry(sid, inner_w, 240)
+                img.paste(telem_img, (120, y_telem), telem_img if telem_img.mode == "RGBA" else None)
+                y_after = y_telem + telem_img.height + 16
+            elif idx == 3:
+                telem_img = draw_slide3_telemetry(sid, inner_w, 230)
+                img.paste(telem_img, (120, y_telem), telem_img if telem_img.mode == "RGBA" else None)
+                y_after = y_telem + telem_img.height + 16
+            else:
+                y_after = note_top + note_h + 16
 
             # Citation safely wrapped inside card bottom
-            font_cit = get_sans(16)
+            font_cit = get_sans(15)
             cit_lines = wrap_text(slide["citation"], font_cit, inner_w, draw)
-            y_cit = arena_top + card_h - 22 - (len(cit_lines) * 22)
+            y_cit = max(y_after, arena_top + card_h - 18 - (len(cit_lines) * 19))
             for cl in cit_lines:
                 draw.text((120, y_cit), cl, fill=PALETTE["clay"], font=font_cit)
-                y_cit += 22
+                y_cit += 19
 
         elif slide["type"] == "clinical_diagram":
+            card_h = 760
             draw.rounded_rectangle([90, arena_top, 90 + card_w, arena_top + card_h], radius=24, fill=PALETTE["soft_paper"], outline=PALETTE["card_border"], width=1)
             
             font_body = get_sans(22)
-            y_p = arena_top + 35
+            y_p = arena_top + 32
             p1 = slide.get("p1", "")
             if p1:
                 plines = wrap_text(p1, font_body, inner_w, draw)
                 for pl in plines:
                     draw.text((120, y_p), pl, fill=PALETTE["ink"], font=font_body)
-                    y_p += 32
-                y_p += 12
+                    y_p += 30
+                y_p += 10
 
             # Render clinical diagram image
             dkey = slide.get("diagram_key", "")
             if "SURPASS" in dkey:
-                diag_img = draw_surpass_diagram(inner_w, 360)
+                diag_img = draw_surpass_diagram(inner_w, 350)
             elif "MACE" in dkey or "STEER" in dkey:
-                diag_img = draw_mace_diagram(inner_w, 360)
+                diag_img = draw_mace_diagram(inner_w, 350)
             elif "STEP" in dkey:
-                diag_img = draw_step1_diagram(inner_w, 360)
+                diag_img = draw_step1_diagram(inner_w, 350)
             elif "NARAYAN" in dkey:
-                diag_img = draw_narayan_diagram(inner_w, 360)
+                diag_img = draw_narayan_diagram(inner_w, 350)
             else:
-                diag_img = draw_tofi_dexa_diagram(inner_w, 360)
+                diag_img = draw_tofi_dexa_diagram(inner_w, 350)
 
             img.paste(diag_img, (120, y_p), diag_img if diag_img.mode == "RGBA" else None)
-            y_p += diag_img.height + 18
+            y_p += diag_img.height + 16
 
             # Takeaway Box (With vector checkmark, zero unrendered glyphs)
-            font_note = get_sans(20, bold=True)
+            font_note = get_sans(19, bold=True)
             note_lines = wrap_text(slide.get("takeaway", ""), font_note, inner_w - 70, draw)
-            note_h = max(66, 20 + len(note_lines) * 26)
+            note_h = max(64, 18 + len(note_lines) * 25)
             draw.rounded_rectangle([120, y_p, 120 + inner_w, y_p + note_h], radius=12, fill="#EDF5F0", outline="#D3E8D9", width=1)
             y_note = y_p + 14
             for i, nl in enumerate(note_lines):
                 if i == 0:
                     draw_vector_check(draw, 142, y_note + 4, color=PALETTE["teal_calm"])
                 draw.text((170, y_note), nl, fill=PALETTE["teal_calm"], font=font_note)
-                y_note += 26
+                y_note += 25
+            y_p += note_h + 16
+
+            # Steer Doctor Protocol Directive Slab (Fills lower space with high clinical authority)
+            proto_h = 72
+            draw.rounded_rectangle([120, y_p, 120 + inner_w, y_p + proto_h], radius=12, fill="#FAF3EB", outline="#E2D3C4", width=1)
+            draw.text((144, y_p + 12), "STEER CLINICAL DIRECTIVE", fill=PALETTE["rust"], font=get_sans(13, bold=True))
+            draw.text((144, y_p + 32), "Continuous physician-led metabolic titration replaces unguided guesswork.", fill=PALETTE["deep_maroon"], font=get_sans(15, bold=True))
+            draw.text((144, y_p + 50), "Routine DEXA tracking guarantees lean muscle retention during fat loss.", fill=PALETTE["clay"], font=get_sans(14))
+            y_p += proto_h + 16
 
             # Citation
-            font_cit = get_sans(16)
+            font_cit = get_sans(15)
             cit_lines = wrap_text(slide.get("citation", ""), font_cit, inner_w, draw)
-            y_cit = arena_top + card_h - 18 - (len(cit_lines) * 20)
+            y_cit = max(y_p, arena_top + card_h - 18 - (len(cit_lines) * 19))
             for cl in cit_lines:
                 draw.text((120, y_cit), cl, fill=PALETTE["clay"], font=font_cit)
-                y_cit += 20
+                y_cit += 19
 
         elif slide["type"] == "dual_incretin":
             draw.rounded_rectangle([90, arena_top, 90 + card_w, arena_top + card_h], radius=24, fill=PALETTE["soft_paper"], outline=PALETTE["card_border"], width=1)
@@ -687,26 +714,27 @@ def generate_apple_carousel(output_dir: str, study=None) -> list[str]:
 
         else:
             # Slide 4: Clean Steer 4-Pillar Off-Ramp Architecture
+            card_h = 710
             draw.rounded_rectangle([90, arena_top, 90 + card_w, arena_top + card_h], radius=24, fill=PALETTE["soft_paper"], outline=PALETTE["card_border"], width=1)
-            draw.text((120, arena_top + 40), "THE STEER CLINICAL OFF-RAMP", fill=PALETTE["clay"], font=get_sans(18, bold=True))
+            draw.text((120, arena_top + 34), "THE STEER CLINICAL OFF-RAMP", fill=PALETTE["clay"], font=get_sans(17, bold=True))
 
-            slab_y = arena_top + 85
+            slab_y = arena_top + 72
             for title, desc in slide.get("pillars", []):
-                draw.rounded_rectangle([120, slab_y, 120 + inner_w, slab_y + 115], radius=16, fill=PALETTE["white"], outline=PALETTE["blush"], width=1)
-                draw.text((150, slab_y + 18), title, fill=PALETTE["deep_maroon"], font=get_sans(23, bold=True))
-                desc_lines = wrap_text(desc, get_sans(19), inner_w - 60, draw)
-                yd = slab_y + 56
+                draw.rounded_rectangle([120, slab_y, 120 + inner_w, slab_y + 112], radius=16, fill=PALETTE["white"], outline=PALETTE["blush"], width=1)
+                draw.text((150, slab_y + 16), title, fill=PALETTE["deep_maroon"], font=get_sans(22, bold=True))
+                desc_lines = wrap_text(desc, get_sans(18), inner_w - 60, draw)
+                yd = slab_y + 52
                 for dl in desc_lines:
-                    draw.text((150, yd), dl, fill=PALETTE["ink"], font=get_sans(19))
+                    draw.text((150, yd), dl, fill=PALETTE["ink"], font=get_sans(18))
                     yd += 24
-                slab_y += 135
+                slab_y += 130
 
-            font_cit = get_sans(16)
+            font_cit = get_sans(15)
             cit_lines = wrap_text(slide["citation"], font_cit, inner_w, draw)
-            y_cit = arena_top + card_h - 18 - (len(cit_lines) * 20)
+            y_cit = arena_top + card_h - 18 - (len(cit_lines) * 19)
             for cl in cit_lines:
                 draw.text((120, y_cit), cl, fill=PALETTE["clay"], font=font_cit)
-                y_cit += 20
+                y_cit += 19
 
         # 5. Footer
         draw_footer(draw, idx, total, width, height)
