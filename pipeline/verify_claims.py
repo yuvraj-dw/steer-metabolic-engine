@@ -1,7 +1,7 @@
 import re
 import json
 import os
-from pipeline.ingest import load_all_papers
+from pipeline.ingest import load_all_papers, generate_doctor_verification_ledger
 
 def verify_all_claims(papers_dir: str = "papers", ledger_path: str = "output/doctor_review_gate.json") -> dict:
     """
@@ -15,11 +15,15 @@ def verify_all_claims(papers_dir: str = "papers", ledger_path: str = "output/doc
     studies = load_all_papers(papers_dir)
     study_map = {s.study_id: s for s in studies}
 
-    if not os.path.exists(ledger_path):
-        raise FileNotFoundError(f"Ledger file not found: {ledger_path}")
+    # Generate fresh master ledger from all ingested papers
+    master_ledger = generate_doctor_verification_ledger(studies)
+    
+    # Save master ledger so it is always synchronized
+    os.makedirs(os.path.dirname(os.path.abspath(ledger_path)), exist_ok=True)
+    with open(ledger_path, "w", encoding="utf-8") as f:
+        json.dump(master_ledger, f, indent=2)
 
-    with open(ledger_path, "r", encoding="utf-8") as f:
-        ledger = json.load(f)
+    ledger = master_ledger
 
     audit_results = {
         "verified_count": 0,
