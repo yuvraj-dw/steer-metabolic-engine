@@ -424,6 +424,135 @@
       border-color: var(--deep-maroon);
     }
 
+    /* Lunch Selector */
+    .lunch-selector-wrap {
+      margin-bottom: 16px;
+    }
+    .section-label {
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--clay);
+      margin-bottom: 8px;
+    }
+    .lunch-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+    .lunch-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--soft-paper);
+      border: 1.5px solid var(--blush);
+      border-radius: 12px;
+      padding: 9px 12px;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .lunch-card:hover, .lunch-card.active {
+      background: #FFF;
+      border-color: var(--rust);
+      box-shadow: 0 3px 12px rgba(192, 78, 42, 0.12);
+    }
+    .lunch-card.active {
+      border-width: 2px;
+      border-color: var(--rust);
+    }
+    .lunch-card.active .lunch-name {
+      color: var(--deep-maroon);
+    }
+    .lunch-icon {
+      font-size: 24px;
+      width: 32px;
+      text-align: center;
+    }
+    .lunch-info {
+      flex: 1;
+    }
+    .lunch-name {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+    .lunch-tag {
+      font-size: 10.5px;
+      font-weight: 600;
+      margin-top: 2px;
+    }
+    .tag-high { color: var(--rust); }
+    .tag-med { color: var(--clay); }
+    .tag-low { color: var(--teal-calm); }
+
+    /* Doubt Audit Box */
+    .doubt-audit-box {
+      background: #FFF;
+      border: 1.5px solid var(--blush);
+      border-radius: 14px;
+      padding: 12px 14px;
+      margin-top: 14px;
+      margin-bottom: 12px;
+    }
+    .doubt-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px dashed rgba(222, 195, 181, 0.6);
+      cursor: pointer;
+    }
+    .doubt-row:last-child {
+      border-bottom: none;
+      padding-bottom: 2px;
+    }
+    .doubt-row-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+    .doubt-pill {
+      font-size: 10px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 100px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+    .doubt-pill-green {
+      background: rgba(35, 89, 55, 0.12);
+      color: var(--teal-calm);
+      border: 1px solid rgba(35, 89, 55, 0.25);
+    }
+    .doubt-detail {
+      display: none;
+      font-size: 11px;
+      color: var(--clay);
+      line-height: 1.45;
+      padding: 6px 10px 8px;
+      background: var(--soft-paper);
+      border-radius: 8px;
+      margin-top: 4px;
+      margin-bottom: 6px;
+    }
+    .doubt-row.open + .doubt-detail {
+      display: block;
+    }
+
+    /* WhatsApp Button */
+    .btn-whatsapp {
+      background: #25D366 !important;
+      color: #FFF !important;
+      box-shadow: 0 4px 16px rgba(37, 211, 102, 0.3) !important;
+    }
+    .btn-whatsapp:active {
+      background: #1EBE5D !important;
+    }
+
     /* GLP-1 Mode Activated Banner */
     #glp1-banner {
       position: absolute;
@@ -506,21 +635,53 @@
       <h1 class="headline">Can your Willpower survive past <em>4:00 PM?</em></h1>
       <p class="desc">You just had lunch at 1:30 PM. Deflect incoming Indian cravings using your Willpower Shield. Drag left and right to survive your workday.</p>
 
+      <!-- 1-Tap Lunch Selector (Glycemic Load Engine) -->
+      <div class="lunch-selector-wrap">
+        <div class="section-label">1. Choose Your 1:30 PM Lunch:</div>
+        <div class="lunch-grid">
+          <div class="lunch-card active" id="lunch-heavy" onclick="selectLunch('heavy', this)">
+            <div class="lunch-icon">🫓</div>
+            <div class="lunch-info">
+              <div class="lunch-name">2 Aloo Parathas + Sweet Lassi</div>
+              <div class="lunch-tag tag-high">High Glycemic Load • Rapid 3:45 PM Crash</div>
+            </div>
+          </div>
+          <div class="lunch-card" id="lunch-balanced" onclick="selectLunch('balanced', this)">
+            <div class="lunch-icon">🍛</div>
+            <div class="lunch-info">
+              <div class="lunch-name">Dal Tadka + Basmati + Dahi</div>
+              <div class="lunch-tag tag-med">Standard Indian Mix • Baseline 4:12 PM Crash</div>
+            </div>
+          </div>
+          <div class="lunch-card" id="lunch-fiber" onclick="selectLunch('fiber', this)">
+            <div class="lunch-icon">🥗</div>
+            <div class="lunch-info">
+              <div class="lunch-name">Paneer Tikka Salad + Sattu</div>
+              <div class="lunch-tag tag-low">High Protein & Fiber Buffer • Sustained Satiety</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="target-preview-box">
         <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--clay); margin-bottom: 10px;">
           Incoming Craving Triggers:
         </div>
         <div class="trigger-item">
           <div class="trigger-icon">☕</div>
-          <div><strong>4 PM Masala Chai & Samosa</strong> <span style="font-size: 11px; color: var(--clay); display: block;">Spikes blood sugar, drains willpower</span></div>
+          <div><strong>4 PM Masala Chai & Fried Samosa</strong> <span style="font-size: 11px; color: var(--clay); display: block;">Spikes blood sugar, drains willpower (-15)</span></div>
         </div>
         <div class="trigger-item">
           <div class="trigger-icon">📱</div>
-          <div><strong>Swiggy 50% Off Flash Notification</strong> <span style="font-size: 11px; color: var(--clay); display: block;">Dopamine emergency craving</span></div>
+          <div><strong>Swiggy 50% Off Flash Push</strong> <span style="font-size: 11px; color: var(--clay); display: block;">Dopamine emergency food noise (-18)</span></div>
         </div>
         <div class="trigger-item">
           <div class="trigger-icon">🍩</div>
-          <div><strong>Office Post-Lunch Jalebi Box</strong> <span style="font-size: 11px; color: var(--clay); display: block;">Fat storage valve lockdown</span></div>
+          <div><strong>Office Post-Lunch Jalebi Box</strong> <span style="font-size: 11px; color: var(--clay); display: block;">Fat storage valve lockdown (-16)</span></div>
+        </div>
+        <div class="trigger-item">
+          <div class="trigger-icon">📲</div>
+          <div><strong>Mom's WhatsApp: "Ladoo Kha Lo"</strong> <span style="font-size: 11px; color: var(--clay); display: block;">Family cultural food noise (-15)</span></div>
         </div>
       </div>
     </div>
@@ -541,7 +702,10 @@
       <span class="intro-badge" style="background: rgba(102, 20, 20, 0.1); color: var(--deep-maroon);">
         SYSTEM COLLAPSE DETECTED
       </span>
-      <h2 class="crash-title">Your Willpower ran out at <em>4:12 PM.</em></h2>
+      <h2 class="crash-title">Your Willpower ran out at <em id="crash-time-display">4:12 PM.</em></h2>
+      <div id="lunch-impact-msg" style="font-size: 12px; color: var(--rust); font-weight: 700; margin-bottom: 10px; line-height: 1.4;">
+        High-glycemic lunch spiked insulin, locking fat stores and triggering starvation alarms.
+      </div>
       <p class="desc" style="margin-bottom: 14px;">
         You deflected cravings on pure mental discipline until your biological stamina hit zero. That wasn't weak character—that was an endocrine crash.
       </p>
@@ -598,35 +762,69 @@
         </div>
       </div>
 
-      <!-- Doubts Clearance Accordion -->
-      <div style="margin-top: 14px;">
-        <div class="doubt-card" onclick="this.classList.toggle('open')">
-          <div class="doubt-header">
-            <span>Will I lose muscle mass?</span> <span>+</span>
+      <!-- 4-Point Clinical Doubt Audit Report Card -->
+      <div class="doubt-audit-box">
+        <div style="font-size: 11px; font-weight: 800; color: var(--clay); text-transform: uppercase; margin-bottom: 8px; display: flex; justify-content: space-between;">
+          <span>Clinical Receipts & Doubt Audit</span>
+          <span style="color: var(--teal-calm);">4 / 4 Cleared</span>
+        </div>
+        
+        <div class="doubt-row" onclick="this.classList.toggle('open')">
+          <div class="doubt-row-left">
+            <span>🥩</span>
+            <span>Will I lose lean muscle mass?</span>
           </div>
-          <div class="doubt-body">
-            Not at Steer. Every member starts with a DEXA scan and a high-protein + strength plan. Real doctors protect your lean muscle from Day 1.
-          </div>
+          <span class="doubt-pill doubt-pill-green">✓ Defended</span>
+        </div>
+        <div class="doubt-detail">
+          <strong>Steer Protocol:</strong> Every member receives a Day-1 DEXA scan and physician-guided resistance protein targets. Fat is cleared while lean muscle and metabolic rate are strictly preserved.
         </div>
 
-        <div class="doubt-card" onclick="this.classList.toggle('open')">
-          <div class="doubt-header">
-            <span>Will the weight come back when I stop?</span> <span>+</span>
+        <div class="doubt-row" onclick="this.classList.toggle('open')">
+          <div class="doubt-row-left">
+            <span>🔄</span>
+            <span>Will weight rebound after stopping?</span>
           </div>
-          <div class="doubt-body">
-            Stopping without a plan causes rebound (as shown in the STEP-1 trial). Steer is built around a doctor-guided exit off-ramp to reset your biological set-point permanently.
+          <span class="doubt-pill doubt-pill-green">✓ Solved</span>
+        </div>
+        <div class="doubt-detail">
+          <strong>STEP-1 Extension (Wilding 2022):</strong> Stopping abruptly causes 67% rebound because the brain interprets weight loss as starvation. Steer’s 12-week off-ramp locks in your reset set-point.
+        </div>
+
+        <div class="doubt-row" onclick="this.classList.toggle('open')">
+          <div class="doubt-row-left">
+            <span>🧠</span>
+            <span>Is food noise just lack of willpower?</span>
           </div>
+          <span class="doubt-pill doubt-pill-green">✓ Debunked</span>
+        </div>
+        <div class="doubt-detail">
+          <strong>Endocrine Evidence:</strong> Satiety is controlled by hypothalamic incretin signaling. When GLP-1 receptors are activated, food noise drops from 84 dB siren to 0 dB silence.
+        </div>
+
+        <div class="doubt-row" onclick="this.classList.toggle('open')">
+          <div class="doubt-row-left">
+            <span>🇮🇳</span>
+            <span>The Indian 70 kg Belly Fat Anomaly?</span>
+          </div>
+          <span class="doubt-pill doubt-pill-green">✓ Targeted</span>
+        </div>
+        <div class="doubt-detail">
+          <strong>Lancet TOFI (2021) & BMJ:</strong> South Asians store dangerous ectopic fat in the liver and pancreas at normal BMI. Steer clears toxic visceral fat through diagnostic medical care.
         </div>
       </div>
     </div>
 
     <div>
-      <div style="display: flex; gap: 8px; margin-bottom: 10px;">
-        <button class="btn-secondary" style="margin-top: 0; border-color: var(--rust); color: var(--rust); font-weight: 700; flex: 1;" onclick="downloadStoryCard('crash')">
+      <div style="display: flex; gap: 6px; margin-bottom: 10px;">
+        <button class="btn-secondary" style="margin-top: 0; border-color: var(--rust); color: var(--rust); font-weight: 700; flex: 1; padding: 10px 8px; font-size: 11.5px;" onclick="downloadStoryCard('crash')">
           📥 Story Card
         </button>
-        <button class="btn-secondary" style="margin-top: 0; border-color: var(--rust); color: var(--rust); font-weight: 700; flex: 1;" onclick="copyDoctorBrief('crash')">
-          📋 Copy Intake Brief
+        <button class="btn-secondary" style="margin-top: 0; border-color: var(--rust); color: var(--rust); font-weight: 700; flex: 1; padding: 10px 8px; font-size: 11.5px;" onclick="copyDoctorBrief('crash')">
+          📋 Copy Brief
+        </button>
+        <button class="btn-secondary btn-whatsapp" style="margin-top: 0; font-weight: 700; flex: 1.2; padding: 10px 8px; font-size: 11.5px;" onclick="sendDoctorWhatsApp('crash')">
+          📲 WhatsApp
         </button>
       </div>
       <a href="https://steerclub.com/?utm_source=willpower_arcade&utm_medium=playable_ad&utm_campaign=tofi_70kg&worry=ghrelin_crash&score=willpower_depleted" target="_blank" style="text-decoration: none;">
@@ -669,35 +867,69 @@
         <strong>Clinical Takeaway:</strong> "You shouldn't spend your day fighting an invisible hormonal barrier. Steer's clinical program combines doctors, DEXA body composition scans, and targeted GLP-1 therapy with a structured exit plan."
       </div>
 
-      <!-- Doubts Clearance Accordion -->
-      <div>
-        <div class="doubt-card" onclick="this.classList.toggle('open')">
-          <div class="doubt-header">
-            <span>Will I lose muscle mass?</span> <span>+</span>
+      <!-- 4-Point Clinical Doubt Audit Report Card -->
+      <div class="doubt-audit-box">
+        <div style="font-size: 11px; font-weight: 800; color: var(--clay); text-transform: uppercase; margin-bottom: 8px; display: flex; justify-content: space-between;">
+          <span>Clinical Receipts & Doubt Audit</span>
+          <span style="color: var(--teal-calm);">4 / 4 Cleared</span>
+        </div>
+        
+        <div class="doubt-row" onclick="this.classList.toggle('open')">
+          <div class="doubt-row-left">
+            <span>🥩</span>
+            <span>Will I lose lean muscle mass?</span>
           </div>
-          <div class="doubt-body">
-            Not at Steer. Every member starts with a DEXA scan and a high-protein + strength plan. Real doctors protect your lean muscle from Day 1.
-          </div>
+          <span class="doubt-pill doubt-pill-green">✓ Defended</span>
+        </div>
+        <div class="doubt-detail">
+          <strong>Steer Protocol:</strong> Every member receives a Day-1 DEXA scan and physician-guided resistance protein targets. Fat is cleared while lean muscle and metabolic rate are strictly preserved.
         </div>
 
-        <div class="doubt-card" onclick="this.classList.toggle('open')">
-          <div class="doubt-header">
-            <span>Will the weight come back when I stop?</span> <span>+</span>
+        <div class="doubt-row" onclick="this.classList.toggle('open')">
+          <div class="doubt-row-left">
+            <span>🔄</span>
+            <span>Will weight rebound after stopping?</span>
           </div>
-          <div class="doubt-body">
-            Stopping without a plan causes rebound (as shown in the STEP-1 trial). Steer is built around a doctor-guided exit off-ramp to reset your biological set-point permanently.
+          <span class="doubt-pill doubt-pill-green">✓ Solved</span>
+        </div>
+        <div class="doubt-detail">
+          <strong>STEP-1 Extension (Wilding 2022):</strong> Stopping abruptly causes 67% rebound because the brain interprets weight loss as starvation. Steer’s 12-week off-ramp locks in your reset set-point.
+        </div>
+
+        <div class="doubt-row" onclick="this.classList.toggle('open')">
+          <div class="doubt-row-left">
+            <span>🧠</span>
+            <span>Is food noise just lack of willpower?</span>
           </div>
+          <span class="doubt-pill doubt-pill-green">✓ Debunked</span>
+        </div>
+        <div class="doubt-detail">
+          <strong>Endocrine Evidence:</strong> Satiety is controlled by hypothalamic incretin signaling. When GLP-1 receptors are activated, food noise drops from 84 dB siren to 0 dB silence.
+        </div>
+
+        <div class="doubt-row" onclick="this.classList.toggle('open')">
+          <div class="doubt-row-left">
+            <span>🇮🇳</span>
+            <span>The Indian 70 kg Belly Fat Anomaly?</span>
+          </div>
+          <span class="doubt-pill doubt-pill-green">✓ Targeted</span>
+        </div>
+        <div class="doubt-detail">
+          <strong>Lancet TOFI (2021) & BMJ:</strong> South Asians store dangerous ectopic fat in the liver and pancreas at normal BMI. Steer clears toxic visceral fat through diagnostic medical care.
         </div>
       </div>
     </div>
 
     <div>
-      <div style="display: flex; gap: 8px; margin-bottom: 10px;">
-        <button class="btn-secondary" style="margin-top: 0; border-color: var(--teal-calm); color: var(--teal-calm); font-weight: 700; flex: 1;" onclick="downloadStoryCard('victory')">
+      <div style="display: flex; gap: 6px; margin-bottom: 10px;">
+        <button class="btn-secondary" style="margin-top: 0; border-color: var(--teal-calm); color: var(--teal-calm); font-weight: 700; flex: 1; padding: 10px 8px; font-size: 11.5px;" onclick="downloadStoryCard('victory')">
           📥 Story Card
         </button>
-        <button class="btn-secondary" style="margin-top: 0; border-color: var(--teal-calm); color: var(--teal-calm); font-weight: 700; flex: 1;" onclick="copyDoctorBrief('victory')">
-          📋 Copy Intake Brief
+        <button class="btn-secondary" style="margin-top: 0; border-color: var(--teal-calm); color: var(--teal-calm); font-weight: 700; flex: 1; padding: 10px 8px; font-size: 11.5px;" onclick="copyDoctorBrief('victory')">
+          📋 Copy Brief
+        </button>
+        <button class="btn-secondary btn-whatsapp" style="margin-top: 0; font-weight: 700; flex: 1.2; padding: 10px 8px; font-size: 11.5px;" onclick="sendDoctorWhatsApp('victory')">
+          📲 WhatsApp
         </button>
       </div>
       <a href="https://steerclub.com/?utm_source=willpower_arcade&utm_medium=playable_ad&utm_campaign=tofi_70kg&worry=visceral_fat&score=5_satiety&protocol=dexa_first" target="_blank" style="text-decoration: none;">
@@ -741,25 +973,94 @@
     }, 2800);
   }
 
+  let selectedLunch = 'heavy';
+  const LUNCH_CONFIG = {
+    heavy: {
+      name: "2 Aloo Parathas + Sweet Lassi",
+      tag: "High Glycemic Load • Rapid 3:45 PM Crash",
+      speedMult: 1.35,
+      drainMult: 1.3,
+      crashTimeStr: "3:48 PM",
+      explanation: "2 Aloo Parathas triggered a sharp postprandial glucose spike, followed by a steep insulin surge that locked your fat stores and caused an endocrine crash at 3:48 PM."
+    },
+    balanced: {
+      name: "Dal Tadka + Basmati + Dahi",
+      tag: "Standard Indian Mix • Baseline 4:12 PM Crash",
+      speedMult: 1.0,
+      drainMult: 1.0,
+      crashTimeStr: "4:12 PM",
+      explanation: "A standard carb-protein mix carried you to 4:12 PM before baseline metabolic dysregulation and ghrelin (+240%) depleted your willpower stamina bar."
+    },
+    fiber: {
+      name: "Paneer Tikka Salad + Sattu",
+      tag: "High Protein & Fiber Buffer • Sustained Satiety",
+      speedMult: 0.85,
+      drainMult: 0.85,
+      crashTimeStr: "4:48 PM",
+      explanation: "High protein and fiber buffered your glucose levels, but by 4:48 PM, baseline hypothalamic signaling triggered the inevitable hunger siren."
+    }
+  };
+
+  function selectLunch(type, el) {
+    selectedLunch = type;
+    document.querySelectorAll('.lunch-card').forEach(c => c.classList.remove('active'));
+    if (el) el.classList.add('active');
+    try { sessionStorage.setItem('steer_lunch', type); } catch(e) {}
+  }
+
+  function sendDoctorWhatsApp(type) {
+    const isVictory = (type === 'victory');
+    const lunchInfo = LUNCH_CONFIG[selectedLunch] || LUNCH_CONFIG['heavy'];
+    const crashTimeText = document.getElementById('crash-time-display')?.innerText || lunchInfo.crashTimeStr;
+    const worryMap = {
+      visceral_fat: "Indian Ectopic Visceral Belly Fat (Lancet TOFI)",
+      muscle_loss: "Lean Muscle Mass Protection & DEXA Scan",
+      weight_regain: "Weight Rebound Defense (STEP-1 Extension)",
+      food_noise: "4 PM Food Noise & Craving Modulation"
+    };
+    const worryText = worryMap[selectedWorry] || "Metabolic Health Evaluation";
+
+    const text = isVictory ?
+`Hi Dr. at Steer! I just completed The Willpower Defense Arcade on steerclub.com:
+• Simulation Result: 5/5 GLP-1 Incretin Signals Activated (Full Satiety Reset)
+• 1:30 PM Lunch: ${lunchInfo.name}
+• Primary Concern: ${worryText}
+• Request: Day 1 DEXA Scan + Doctor-guided metabolic protocol with planned exit off-ramp.
+Can I schedule my consultation?` :
+`Hi Dr. at Steer! I just tested my willpower on your 4 PM Metabolic Crash Simulator:
+• 1:30 PM Lunch: ${lunchInfo.name}
+• System Collapse: ${crashTimeText} (Willpower 0%, Ghrelin +240%)
+• Primary Concern: ${worryText}
+• Observation: Calorie restriction triggered intense hypothalamic food noise.
+I'd like to consult a Steer doctor for a 55-biomarker panel and metabolic assessment.`;
+
+    const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
+    window.open(url, '_blank');
+  }
+
   function copyDoctorBrief(type) {
+    const lunchInfo = LUNCH_CONFIG[selectedLunch] || LUNCH_CONFIG['heavy'];
+    const crashTimeText = document.getElementById('crash-time-display')?.innerText || lunchInfo.crashTimeStr;
     const brief = type === 'victory' ?
 `STEER CLINICAL INTAKE BRIEF (METABOLIC RESET ACHIEVED)
 Patient Mode: The Willpower Defense Arcade Simulation
+Selected Lunch: ${lunchInfo.name}
 Satiety Score: 5/5 GLP-1 Incretin Signals Activated
 Primary Priority: Protect Lean Muscle & Clear Ectopic Visceral Adipose
 Baseline Request: Day 1 DEXA Body Scan + 55 Biomarker Panel
 Clinical Target: Satiety Recalibration & Structured Exit Off-Ramp (Zero Rebound)
 Evidence Base: Lancet TOFI 2021 / STEP-1 Extension / BMJ Narayan 2021
-Direct Consultation: https://steerclub.com/?utm_source=willpower_arcade&utm_medium=intake_brief&utm_campaign=tofi_70kg&worry=visceral_fat` :
-`STEER CLINICAL INTAKE BRIEF (4:12 PM ENDOCRINE CRASH)
+Direct Consultation: https://steerclub.com/?utm_source=willpower_arcade&utm_medium=intake_brief&utm_campaign=tofi_70kg&worry=${selectedWorry}&lunch=${selectedLunch}` :
+`STEER CLINICAL INTAKE BRIEF (${crashTimeText} ENDOCRINE CRASH)
 Patient Mode: The Willpower Defense Arcade Simulation
-Clinical Finding: Willpower Exhausted under +240% Ghrelin Surge
-Patient Observation: "Calorie restriction alone triggered chronic hypothalamic food noise"
+Selected Lunch: ${lunchInfo.name}
+Clinical Finding: Willpower Exhausted at ${crashTimeText} under +240% Ghrelin Surge
+Patient Observation: "${lunchInfo.explanation}"
 Primary Priority: Diagnostic Assessment Before Restrictive Dieting
 Baseline Request: 55 Biomarker Panel + DEXA Visceral Fat Scan
 Clinical Target: Incretin Signaling Recalibration & Satiety Restoration
 Evidence Base: STEP-1 Extension 2022 / Lancet TOFI 2021
-Direct Consultation: https://steerclub.com/?utm_source=willpower_arcade&utm_medium=intake_brief&utm_campaign=crash_ghrelin&worry=food_noise`;
+Direct Consultation: https://steerclub.com/?utm_source=willpower_arcade&utm_medium=intake_brief&utm_campaign=crash_ghrelin&worry=${selectedWorry}&lunch=${selectedLunch}`;
 
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(brief).then(() => {
@@ -824,6 +1125,50 @@ Direct Consultation: https://steerclub.com/?utm_source=willpower_arcade&utm_medi
       osc.start();
       osc.stop(audioCtx.currentTime + 0.8);
     } catch(e) {}
+  }
+
+  let foodNoiseOsc = null;
+  let foodNoiseGain = null;
+
+  function startFoodNoise() {
+    try {
+      initAudio();
+      if (!audioCtx) return;
+      if (foodNoiseOsc) return;
+      foodNoiseOsc = audioCtx.createOscillator();
+      foodNoiseGain = audioCtx.createGain();
+      foodNoiseOsc.type = 'sine';
+      foodNoiseOsc.frequency.setValueAtTime(68, audioCtx.currentTime);
+      foodNoiseGain.gain.setValueAtTime(0.015, audioCtx.currentTime);
+      foodNoiseOsc.connect(foodNoiseGain);
+      foodNoiseGain.connect(audioCtx.destination);
+      foodNoiseOsc.start();
+    } catch(e) {}
+  }
+
+  function updateFoodNoise(willpowerPct) {
+    if (!foodNoiseGain || !audioCtx) return;
+    try {
+      const stress = Math.max(0, (100 - willpowerPct) / 100);
+      foodNoiseGain.gain.setTargetAtTime(0.01 + stress * 0.08, audioCtx.currentTime, 0.1);
+      foodNoiseOsc.frequency.setTargetAtTime(68 + stress * 55, audioCtx.currentTime, 0.1);
+    } catch(e) {}
+  }
+
+  function stopFoodNoise() {
+    if (foodNoiseGain && audioCtx) {
+      try {
+        foodNoiseGain.gain.setTargetAtTime(0.0001, audioCtx.currentTime, 0.1);
+        setTimeout(() => {
+          if (foodNoiseOsc) {
+            foodNoiseOsc.stop();
+            foodNoiseOsc.disconnect();
+            foodNoiseOsc = null;
+            foodNoiseGain = null;
+          }
+        }, 150);
+      } catch(e) {}
+    }
   }
 
   function wrapCanvasLines(ctx, text, maxW) {
@@ -1045,10 +1390,12 @@ Direct Consultation: https://steerclub.com/?utm_source=willpower_arcade&utm_medi
   let lastSpawn = 0;
 
   const ITEM_TYPES = [
-    { label: "Masala Chai", icon: "☕", color: "#C04E2A", drain: 14 },
-    { label: "Swiggy Alert", icon: "📱", color: "#661414", drain: 18 },
-    { label: "Sugar Jalebi", icon: "🍩", color: "#D97736", drain: 16 },
-    { label: "Pantry Raid", icon: "🍪", color: "#7D5246", drain: 15 }
+    { label: "Masala Chai & Samosa", icon: "☕", color: "#C04E2A", drain: 15 },
+    { label: "Swiggy Flash Alert", icon: "📱", color: "#661414", drain: 18 },
+    { label: "Office Jalebi Box", icon: "🍩", color: "#D97736", drain: 16 },
+    { label: "Mom's WhatsApp Ladoo", icon: "📲", color: "#8E44AD", drain: 15 },
+    { label: "Colleague Chai Break", icon: "🗣️", color: "#2E86C1", drain: 12 },
+    { label: "Desk Haldiram Bhujia", icon: "🥨", color: "#7D5246", drain: 14 }
   ];
 
   function resize() {
@@ -1058,6 +1405,7 @@ Direct Consultation: https://steerclub.com/?utm_source=willpower_arcade&utm_medi
     dpr = window.devicePixelRatio || 1;
     canvas.width = width * dpr;
     canvas.height = height * dpr;
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.scale(dpr, dpr);
 
     paddle.y = height - 60;
@@ -1178,16 +1526,17 @@ Direct Consultation: https://steerclub.com/?utm_source=willpower_arcade&utm_medi
       return;
     }
 
+    const lunchInfo = LUNCH_CONFIG[selectedLunch] || LUNCH_CONFIG['heavy'];
     const type = ITEM_TYPES[Math.floor(Math.random() * ITEM_TYPES.length)];
     items.push({
       x: Math.random() * (width - 70) + 35,
       y: -30,
       radius: 24,
-      vy: 3.2 + Math.random() * 2.0,
+      vy: (3.0 + Math.random() * 2.0) * lunchInfo.speedMult,
       icon: type.icon,
       label: type.label,
       color: type.color,
-      drain: type.drain,
+      drain: Math.round(type.drain * lunchInfo.drainMult),
       isCalm: false
     });
   }
@@ -1209,6 +1558,7 @@ Direct Consultation: https://steerclub.com/?utm_source=willpower_arcade&utm_medi
 
   function startGame() {
     initAudio();
+    startFoodNoise();
     resize();
     document.getElementById('overlay-start').classList.add('hidden');
     document.getElementById('overlay-crash').classList.add('hidden');
@@ -1253,6 +1603,7 @@ Direct Consultation: https://steerclub.com/?utm_source=willpower_arcade&utm_medi
     document.getElementById('overlay-crash').classList.add('hidden');
     document.getElementById('glp1-banner').classList.add('visible');
     
+    stopFoodNoise();
     playCalmDrop();
     gameState = 'glp1';
     glp1Active = true;
@@ -1272,6 +1623,7 @@ Direct Consultation: https://steerclub.com/?utm_source=willpower_arcade&utm_medi
 
   function triggerVictory() {
     gameState = 'victory';
+    stopFoodNoise();
     playVictoryChime();
     for (let k = 0; k < 30; k++) {
       spawnParticles(width / 2 + (Math.random() * 200 - 100), height / 2 + (Math.random() * 200 - 100), "#4EBD76");
@@ -1284,10 +1636,19 @@ Direct Consultation: https://steerclub.com/?utm_source=willpower_arcade&utm_medi
 
   function triggerCrash() {
     gameState = 'crashed';
+    stopFoodNoise();
     playCrashSound();
     
     const elapsedSec = Math.round((performance.now() - startTime) / 1000);
     document.getElementById('crash-seconds').innerText = `${elapsedSec}s`;
+
+    const lunchInfo = LUNCH_CONFIG[selectedLunch] || LUNCH_CONFIG['heavy'];
+    const crashTimeEl = document.getElementById('crash-time-display');
+    if (crashTimeEl) crashTimeEl.innerText = lunchInfo.crashTimeStr;
+
+    const lunchImpactEl = document.getElementById('lunch-impact-msg');
+    if (lunchImpactEl) lunchImpactEl.innerText = lunchInfo.explanation;
+
     document.getElementById('overlay-crash').classList.remove('hidden');
   }
 
@@ -1301,8 +1662,10 @@ Direct Consultation: https://steerclub.com/?utm_source=willpower_arcade&utm_medi
 
     if (gameState === 'playing' || gameState === 'glp1') {
       if (gameState === 'playing') {
-        simulatedHour += dt * 0.25;
-        if (simulatedHour >= 16.25) simulatedHour = 16.25;
+        updateFoodNoise(willpower);
+        const lunchInfo = LUNCH_CONFIG[selectedLunch] || LUNCH_CONFIG['heavy'];
+        simulatedHour += dt * 0.25 * lunchInfo.speedMult;
+        if (simulatedHour >= 16.8) simulatedHour = 16.8;
         
         const hourInt = Math.floor(simulatedHour);
         const minsInt = Math.round((simulatedHour - hourInt) * 60);
