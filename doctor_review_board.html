@@ -511,6 +511,9 @@
         <video controls id="studio-video" style="width: 100%; border-radius: 12px; background: #000; margin-bottom: 12px;" src="output/reel/steer_papercut_explainer.mp4">
           Your browser does not support video tag.
         </video>
+        <div id="video-fallback-msg" style="display: none; background: #FFF5F2; border: 1px solid #F5C5B8; border-radius: 10px; padding: 12px; margin-bottom: 12px; font-size: 12px; color: var(--oxblood); line-height: 1.4;">
+          🎬 <strong>Remotion Reel Generated:</strong> This 1080x1920 60fps stop-motion explainer is rendered locally via Remotion & FFmpeg at <code style="font-size: 11px; background: #FFF; padding: 2px 6px; border-radius: 4px;" id="video-fallback-path">output/reel/steer_papercut_explainer.mp4</code>. To preview inside this browser, run <code style="font-size: 11px; background: #FFF; padding: 2px 6px; border-radius: 4px;">python -m http.server</code>, or compile directly using <code style="font-size: 11px; background: #FFF; padding: 2px 6px; border-radius: 4px;">python -m pipeline.runner</code>.
+        </div>
         <div style="display: flex; justify-content: space-between; align-items: center;">
           <span style="font-size: 12px; color: var(--teal); font-weight: 700;" id="reel-badge">✓ DEXA Scan Telemetry</span>
           <a id="reel-download" href="output/reel/steer_papercut_explainer.mp4" download style="text-decoration: none;">
@@ -955,6 +958,18 @@
     document.getElementById('reel-badge').innerHTML = data.badge;
 
     const vid = document.getElementById('studio-video');
+    const fallback = document.getElementById('video-fallback-msg');
+    const pathSpan = document.getElementById('video-fallback-path');
+    if (fallback) fallback.style.display = 'none';
+
+    vid.onerror = function() {
+      if (fallback) fallback.style.display = 'block';
+      if (pathSpan) pathSpan.textContent = data.video;
+    };
+    vid.onloadeddata = function() {
+      if (fallback) fallback.style.display = 'none';
+    };
+
     vid.src = data.video;
     vid.load();
 
