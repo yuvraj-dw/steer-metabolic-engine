@@ -522,21 +522,39 @@
         </div>
       </div>
 
-      <!-- Instagram Carousel Card -->
+      <!-- Instagram Carousel Card with Interactive Image Viewer -->
       <div class="visual-card">
-        <h3>📱 Apple-Grade 4-Slide Carousel (1080x1350)</h3>
-        <p style="font-size: 13px; color: var(--clay); margin-bottom: 12px;">
-          100% SFW vector diagrams formatted for Instagram (4:5 portrait ratio).
-        </p>
-        <div style="margin-bottom: 12px; display: flex; gap: 8px;">
-          <a id="hero-img-link" href="output/posts/lancet_tofi_70kg/visuals/instagram_hero_4x5.png" target="_blank" style="text-decoration: none;">
-            <button class="action-btn" style="font-size: 11px; padding: 6px 12px;">View 1080x1350 Hero Card ↗</button>
-          </a>
-          <a id="vector-img-link" href="output/posts/lancet_tofi_70kg/visuals/clinical_illustration_card.png" target="_blank" style="text-decoration: none;">
-            <button class="action-btn" style="font-size: 11px; padding: 6px 12px;">View Vector Diagram ↗</button>
-          </a>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <h3 style="margin: 0;">📱 Instagram Carousel & Visual Assets (1080x1350)</h3>
+          <span class="badge" style="background: #EBF5F0; color: #1E5638; font-size: 11px;">✓ 100% SFW Vector & AI Imagery</span>
         </div>
-        <div style="background: #FAF5EE; border: 1px solid var(--border); border-radius: 12px; padding: 16px; font-size: 13px;" id="carousel-slides-box">
+        <p style="font-size: 13px; color: var(--clay); margin-bottom: 12px;">
+          Interactive carousel slides, clinical diagrams, and AI-generated visuals for this clinical trial.
+        </p>
+
+        <!-- Slide Tabs Selector -->
+        <div style="display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap;">
+          <button id="ctab-slide1" class="choice-pill active-choice carousel-tab-btn" onclick="setCarouselPreview('slide1')" style="font-size: 11px; padding: 5px 10px;">Slide 1</button>
+          <button id="ctab-slide2" class="choice-pill carousel-tab-btn" onclick="setCarouselPreview('slide2')" style="font-size: 11px; padding: 5px 10px;">Slide 2</button>
+          <button id="ctab-slide3" class="choice-pill carousel-tab-btn" onclick="setCarouselPreview('slide3')" style="font-size: 11px; padding: 5px 10px;">Slide 3</button>
+          <button id="ctab-slide4" class="choice-pill carousel-tab-btn" onclick="setCarouselPreview('slide4')" style="font-size: 11px; padding: 5px 10px;">Slide 4</button>
+          <button id="ctab-ai" class="choice-pill carousel-tab-btn" onclick="setCarouselPreview('ai')" style="font-size: 11px; padding: 5px 10px;">🤖 AI Clinical Art</button>
+          <button id="ctab-hero" class="choice-pill carousel-tab-btn" onclick="setCarouselPreview('hero')" style="font-size: 11px; padding: 5px 10px;">📱 4:5 Hero Card</button>
+        </div>
+
+        <!-- Live Visual Preview Container -->
+        <div style="background: #FAF5EE; border: 1px solid var(--border); border-radius: 12px; padding: 12px; text-align: center; margin-bottom: 14px;">
+          <a id="carousel-preview-anchor" href="output/posts/lancet_tofi_70kg/carousel/carousel_slide_1.png" target="_blank" title="Click to view full 1080x1350 resolution">
+            <img id="carousel-preview-img" src="output/posts/lancet_tofi_70kg/carousel/carousel_slide_1.png" alt="Carousel Slide Preview" style="max-width: 100%; max-height: 480px; border-radius: 8px; box-shadow: 0 4px 16px rgba(43,22,22,0.1); object-fit: contain; background: #FFFFFF;" />
+          </a>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px; font-size: 12px; color: var(--clay);">
+            <span id="carousel-preview-caption" style="font-weight: 600;">Slide 1: Clinical Evidence Hook & Multi-Axis Trajectory</span>
+            <span style="font-size: 11px; color: var(--rust);">Click image to expand ↗</span>
+          </div>
+        </div>
+
+        <!-- Outline text box below image -->
+        <div style="background: #FAF5EE; border: 1px solid var(--border); border-radius: 12px; padding: 14px; font-size: 13px;" id="carousel-slides-box">
           <div style="font-weight: 800; color: var(--oxblood);">Slide 1 (The Hook):</div>
           <div style="color: var(--ink); margin-top: 4px;">"Two people. Both 70 kilos. Both normal BMI. So why does one carry diabetic risk?"</div>
           <div style="font-weight: 800; color: var(--oxblood); margin-top: 10px;">Slide 2 (The Diagnostic Telemetry):</div>
@@ -952,6 +970,73 @@
     }
   };
 
+  window.activeStudioKey = 'tofi';
+  window.activeSlideTab = 'slide1';
+
+  function setCarouselPreview(tab) {
+    window.activeSlideTab = tab;
+    document.querySelectorAll('.carousel-tab-btn').forEach(b => b.classList.remove('active-choice'));
+    const btn = document.getElementById('ctab-' + tab);
+    if (btn) btn.classList.add('active-choice');
+
+    const img = document.getElementById('carousel-preview-img');
+    const a = document.getElementById('carousel-preview-anchor');
+    const cap = document.getElementById('carousel-preview-caption');
+    const k = window.activeStudioKey || 'tofi';
+
+    const carouselDirs = {
+      tofi: "output/posts/lancet_tofi_70kg/carousel",
+      narayan: "output/posts/bmj_narayan_tofi/carousel",
+      surpass: "output/posts/surpass2_tirzepatide/carousel",
+      mace: "output/posts/steer_mace_cardio/carousel",
+      step1: "output/posts/step1_extension_rebound/carousel"
+    };
+
+    const aiArts = {
+      tofi: "output/posts/lancet_tofi_70kg/visuals/ai_generated_clinical_art.png",
+      narayan: "output/posts/bmj_narayan_tofi/visuals/ai_generated_clinical_art.png",
+      surpass: "output/posts/surpass2_tirzepatide/visuals/ai_generated_clinical_art.png",
+      mace: "output/posts/steer_mace_cardio/visuals/ai_generated_clinical_art.png",
+      step1: "output/posts/step1_extension_rebound/visuals/ai_generated_clinical_art.png"
+    };
+
+    const heroes = {
+      tofi: "output/posts/lancet_tofi_70kg/visuals/instagram_hero_4x5.png",
+      narayan: "output/posts/bmj_narayan_tofi/visuals/instagram_hero_4x5.png",
+      surpass: "output/posts/surpass2_tirzepatide/visuals/instagram_hero_4x5.png",
+      mace: "output/posts/steer_mace_cardio/visuals/instagram_hero_4x5.png",
+      step1: "output/posts/step1_extension_rebound/visuals/instagram_hero_4x5.png"
+    };
+
+    const cDir = carouselDirs[k] || carouselDirs.tofi;
+    let src = `${cDir}/carousel_slide_1.png`;
+    let label = 'Slide 1: Clinical Evidence Hook & Multi-Axis Trajectory';
+
+    if (tab === 'slide1') {
+      src = `${cDir}/carousel_slide_1.png`;
+      label = 'Slide 1: Clinical Evidence Hook & Multi-Axis Trajectory';
+    } else if (tab === 'slide2') {
+      src = `${cDir}/carousel_slide_2.png`;
+      label = 'Slide 2: Clinical Mechanism & Pathophysiological Schematic';
+    } else if (tab === 'slide3') {
+      src = `${cDir}/carousel_slide_3.png`;
+      label = 'Slide 3: Cardiometabolic Drift & Secondary Biomarker Panels';
+    } else if (tab === 'slide4') {
+      src = `${cDir}/carousel_slide_4.png`;
+      label = 'Slide 4: Steer 4-Pillar Clinical Off-Ramp Architecture';
+    } else if (tab === 'ai') {
+      src = aiArts[k] || aiArts.tofi;
+      label = '🤖 AI Generated Clinical Art (SFW Biomedical Concept)';
+    } else if (tab === 'hero') {
+      src = heroes[k] || heroes.tofi;
+      label = '📱 1080x1350 Instagram Hero Feed Card (Full Bleed)';
+    }
+
+    if (img) img.src = src;
+    if (a) a.href = src;
+    if (cap) cap.textContent = label;
+  }
+
   function setStudioPaper(key) {
     const data = STUDIO_PAPERS[key];
     if (!data) return;
@@ -969,20 +1054,33 @@
       tofi: "output/posts/lancet_tofi_70kg/visuals/instagram_hero_4x5.png",
       narayan: "output/posts/bmj_narayan_tofi/visuals/instagram_hero_4x5.png",
       surpass: "output/posts/surpass2_tirzepatide/visuals/instagram_hero_4x5.png",
-      mace: "output/posts/steer_mace_cv/visuals/instagram_hero_4x5.png",
+      mace: "output/posts/steer_mace_cardio/visuals/instagram_hero_4x5.png",
       step1: "output/posts/step1_extension_rebound/visuals/instagram_hero_4x5.png"
     };
     const vecMap = {
       tofi: "output/posts/lancet_tofi_70kg/visuals/clinical_illustration_card.png",
       narayan: "output/posts/bmj_narayan_tofi/visuals/clinical_illustration_card.png",
       surpass: "output/posts/surpass2_tirzepatide/visuals/clinical_illustration_card.png",
-      mace: "output/posts/steer_mace_cv/visuals/clinical_illustration_card.png",
+      mace: "output/posts/steer_mace_cardio/visuals/clinical_illustration_card.png",
       step1: "output/posts/step1_extension_rebound/visuals/clinical_illustration_card.png"
     };
-    const heroBtn = document.getElementById('hero-img-link');
-    if (heroBtn) heroBtn.href = heroMap[key] || "output/posts/lancet_tofi_70kg/visuals/instagram_hero_4x5.png";
-    const vecBtn = document.getElementById('vector-img-link');
-    if (vecBtn) vecBtn.href = vecMap[key] || "output/posts/lancet_tofi_70kg/visuals/clinical_illustration_card.png";
+    const carouselMap = {
+      tofi: "output/posts/lancet_tofi_70kg/carousel",
+      narayan: "output/posts/bmj_narayan_tofi/carousel",
+      surpass: "output/posts/surpass2_tirzepatide/carousel",
+      mace: "output/posts/steer_mace_cardio/carousel",
+      step1: "output/posts/step1_extension_rebound/carousel"
+    };
+    const aiArtMap = {
+      tofi: "output/posts/lancet_tofi_70kg/visuals/ai_generated_clinical_art.png",
+      narayan: "output/posts/bmj_narayan_tofi/visuals/ai_generated_clinical_art.png",
+      surpass: "output/posts/surpass2_tirzepatide/visuals/ai_generated_clinical_art.png",
+      mace: "output/posts/steer_mace_cardio/visuals/ai_generated_clinical_art.png",
+      step1: "output/posts/step1_extension_rebound/visuals/ai_generated_clinical_art.png"
+    };
+
+    window.activeStudioKey = key;
+    setCarouselPreview(window.activeSlideTab || 'slide1');
 
     const vid = document.getElementById('studio-video');
     const fallback = document.getElementById('video-fallback-msg');
