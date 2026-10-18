@@ -53,6 +53,14 @@ def get_papercut_study_spec(study=None):
         }
         active_study = {
             "study_id": "SURPASS-2-2021",
+            "theme": "dual_incretin",
+            "card1_vat_label": "Comparative Agonism:",
+            "card2_vat_label": "Dual Co-Agonism:",
+            "s01_cue1": "two", "s01_cue2": "produce", "s01_cue3": "superior",
+            "s02_cue1": "tested", "s02_cue2": "therapy", "s02_cue3": "dual", "s02_pill": "HEAD-TO-HEAD TRIAL",
+            "s03_cue1": "average", "s03_cue2": "dose", "critter_tag": "DUAL AGONIST",
+            "s04_cue1": "quiets", "s04_cue2": "protecting", "s04_pill": "DUAL INCRETIN SYNERGY",
+            "s05_cue": "pairs",
             "journal": "NEJM", "year": 2021, "sample_size": 1879,
             "hook_pill": "DUAL RECEPTOR SUPERIORITY",
             "card1_header": "GLP-1 MONO-THERAPY", "card1_stat": "-7.0 kg", "card1_bmi": "Single Receptor Agonist", "card1_vat": "Standard Clearance", "card1_tag": "BASELINE COMPARATOR",
@@ -109,6 +117,14 @@ def get_papercut_study_spec(study=None):
         }
         active_study = {
             "study_id": "STEER-MACE-2026",
+            "theme": "cardio",
+            "card1_vat_label": "Cardiovascular Impact:",
+            "card2_vat_label": "Vascular Sanctuary:",
+            "s01_cue1": "cardiac", "s01_cue2": "cosmetic", "s01_cue3": "shortcut",
+            "s02_cue1": "cohort", "s02_cue2": "delivered", "s02_cue3": "cardiac", "s02_pill": "24,800 PATIENTS COHORT",
+            "s03_cue1": "lower", "s03_cue2": "strokes", "critter_tag": "CARDIAC CARE",
+            "s04_cue1": "visceral", "s04_cue2": "arterial", "s04_pill": "ARTERIAL DECOMPRESSION",
+            "s05_cue": "combines",
             "journal": "Diabetes Obes Metab", "year": 2026, "sample_size": 24800,
             "hook_pill": "CARDIAC OUTCOME TELEMETRY",
             "card1_header": "STANDARD CRASH DIETS", "card1_stat": "0% Defense", "card1_bmi": "No Vascular Benefit", "card1_vat": "Rebound Strain", "card1_tag": "ENDOTHELIAL STRAIN",
@@ -165,6 +181,14 @@ def get_papercut_study_spec(study=None):
         }
         active_study = {
             "study_id": "STEP-1-EXT-2022",
+            "theme": "rebound",
+            "card1_vat_label": "Unguided Outcome:",
+            "card2_vat_label": "Planned Off-Ramp:",
+            "s01_cue1": "thirds", "s01_cue2": "return", "s01_cue3": "stopping",
+            "s02_cue1": "regained", "s02_cue2": "months", "s02_cue3": "rebound", "s02_pill": "67% WEIGHT REGAIN ALERT",
+            "s03_cue1": "abruptly", "s03_cue2": "famine", "critter_tag": "EXIT PROTOCOL",
+            "s04_cue1": "defends", "s04_cue2": "recalibrated", "s04_pill": "SET-POINT DEFENSE",
+            "s05_cue": "builds",
             "journal": "Diabetes Obes Metab", "year": 2022, "sample_size": 327,
             "hook_pill": "THE REBOUND PHENOMENON",
             "card1_header": "STOPPED UNGUIDED", "card1_stat": "+10.5 kg", "card1_bmi": "67% Weight Regained", "card1_vat": "Leptin Crashed 40%", "card1_tag": "FAMINE REBOUND",
@@ -221,6 +245,14 @@ def get_papercut_study_spec(study=None):
         }
         active_study = {
             "study_id": "BMJ-NARAYAN-2021",
+            "theme": "narayan",
+            "card1_vat_label": "Western Reference:",
+            "card2_vat_label": "Indian Ectopic Risk:",
+            "s01_cue1": "normal", "s01_cue2": "diabetes", "s01_cue3": "bodies",
+            "s02_cue1": "tracked", "s02_cue2": "Chennai", "s02_cue3": "cohort", "s02_pill": "NORMAL BMI ILLUSION",
+            "s03_cue1": "times", "s03_cue2": "women", "critter_tag": "PRECISION DEXA",
+            "s04_cue1": "triggers", "s04_cue2": "cutoffs", "s04_pill": "PREMATURE BREAKDOWN",
+            "s05_cue": "scanning",
             "journal": "BMJ Open Diabetes Res Care", "year": 2021, "sample_size": 16240,
             "hook_pill": "LEAN DIABETES ANOMALY",
             "card1_header": "WHITE REFERENCE", "card1_stat": "1.0x", "card1_bmi": "Normal BMI < 25", "card1_vat": "Standard Risk", "card1_tag": "WESTERN BASELINE",
@@ -278,6 +310,14 @@ def get_papercut_study_spec(study=None):
         }
         active_study = {
             "study_id": "LANCET-TOFI-2021",
+            "theme": "tofi",
+            "card1_vat_label": "Visceral Adipose (VAT):",
+            "card2_vat_label": "Visceral Adipose (VAT):",
+            "s01_cue1": "people", "s01_cue2": "Both", "s01_cue3": "risk",
+            "s02_cue1": "scale", "s02_cue2": "TOFI", "s02_cue3": "trap", "s02_pill": "THE SCALE IS A TRAP",
+            "s03_cue1": "biology", "s03_cue2": "toxic", "critter_tag": "CLINICAL DEXA",
+            "s04_cue1": "organ", "s04_cue2": "noise", "s04_pill": "GUT-BRAIN FAILURE",
+            "s05_cue": "Steer",
             "journal": "The Lancet Diabetes & Endocrinology", "year": 2021, "sample_size": 8420,
             "hook_pill": "DIABETIC RISK DISPARITY",
             "card1_header": "EUROPEAN CONTROL", "card1_stat": "70.0 kg", "card1_bmi": "BMI 22.8 (Normal)", "card1_vat": "48 cm³ (Safe)", "card1_tag": "SUBCUTANEOUS STORAGE",

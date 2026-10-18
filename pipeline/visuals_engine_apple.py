@@ -499,42 +499,43 @@ def generate_apple_carousel(output_dir: str, study=None) -> list[str]:
                 draw.text((lbl_x, y_lbl + 6), slide["stat_sub"], fill=PALETTE["clay"], font=get_sans(18))
             else:
                 # Descriptive stat phrase (e.g. "Reversion to baseline") - Clean Stacked Layout!
-                font_stat_phrase = get_serif(36, bold=True)
+                font_stat_phrase = get_serif(30, bold=True)
                 stat_lines = wrap_text(stat_str, font_stat_phrase, inner_w - 60, draw)
-                stat_h = 175
+                lbl_lines = wrap_text(slide["stat_label"], get_sans(21, bold=True), inner_w - 60, draw)
+                stat_h = 24 + len(stat_lines) * 38 + len(lbl_lines) * 28 + 36
                 draw.rounded_rectangle([120, stat_top, 120 + inner_w, stat_top + stat_h], radius=16, fill=PALETTE["white"], outline=PALETTE["blush"], width=1)
                 
-                y_st = stat_top + 24
+                y_st = stat_top + 20
                 for sl in stat_lines[:2]:
                     draw.text((150, y_st), sl, fill=PALETTE["rust"], font=font_stat_phrase)
-                    y_st += 42
+                    y_st += 38
                 
-                lbl_lines = wrap_text(slide["stat_label"], get_sans(21), inner_w - 60, draw)
                 for ll in lbl_lines[:2]:
-                    draw.text((150, y_st), ll, fill=PALETTE["ink"], font=get_sans(21))
+                    draw.text((150, y_st), ll, fill=PALETTE["ink"], font=get_sans(21, bold=True))
                     y_st += 28
-                draw.text((150, y_st + 6), slide["stat_sub"], fill=PALETTE["clay"], font=get_sans(18, bold=True))
+                draw.text((150, y_st + 6), slide["stat_sub"], fill=PALETTE["clay"], font=get_sans(18))
 
             # Takeaway Doctor Callout Banner (Always wrapped with dynamic height)
-            note_top = stat_top + stat_h + 30
+            note_top = stat_top + stat_h + 28
             font_note = get_sans(21, bold=True)
-            note_lines = wrap_text(slide["takeaway"], font_note, inner_w - 60, draw)
+            note_lines = wrap_text(slide["takeaway"], font_note, inner_w - 70, draw)
             note_h = max(74, 24 + len(note_lines) * 28)
             draw.rounded_rectangle([120, note_top, 120 + inner_w, note_top + note_h], radius=14, fill="#EDF5F0", outline="#D3E8D9", width=1)
             
-            y_note = note_top + 14
+            y_note = note_top + 16
             for i, nl in enumerate(note_lines):
-                prefix = "✓  " if i == 0 else "    "
-                draw.text((140, y_note), prefix + nl, fill=PALETTE["teal_calm"], font=font_note)
-                y_note += 26
+                if i == 0:
+                    draw_vector_check(draw, 142, y_note + 4, color=PALETTE["teal_calm"])
+                draw.text((170, y_note), nl, fill=PALETTE["teal_calm"], font=font_note)
+                y_note += 28
 
             # Citation safely wrapped inside card bottom
             font_cit = get_sans(16)
             cit_lines = wrap_text(slide["citation"], font_cit, inner_w, draw)
-            y_cit = arena_top + card_h - 18 - (len(cit_lines) * 20)
+            y_cit = arena_top + card_h - 22 - (len(cit_lines) * 22)
             for cl in cit_lines:
                 draw.text((120, y_cit), cl, fill=PALETTE["clay"], font=font_cit)
-                y_cit += 20
+                y_cit += 22
 
         elif slide["type"] == "dual_incretin":
             draw.rounded_rectangle([90, arena_top, 90 + card_w, arena_top + card_h], radius=24, fill=PALETTE["soft_paper"], outline=PALETTE["card_border"], width=1)
@@ -573,8 +574,9 @@ def generate_apple_carousel(output_dir: str, study=None) -> list[str]:
             draw.rounded_rectangle([120, note_top, 120 + inner_w, note_top + note_h], radius=12, fill="#F2E6DC", outline="#DEC3B5", width=1)
             y_note = note_top + 14
             for i, nl in enumerate(note_lines):
-                prefix = "✓  " if i == 0 else "    "
-                draw.text((140, y_note), prefix + nl, fill=PALETTE["deep_maroon"], font=font_note)
+                if i == 0:
+                    draw_vector_check(draw, 142, y_note + 4, color=PALETTE["deep_maroon"])
+                draw.text((170, y_note), nl, fill=PALETTE["deep_maroon"], font=font_note)
                 y_note += 26
 
             # Citation
@@ -621,8 +623,9 @@ def generate_apple_carousel(output_dir: str, study=None) -> list[str]:
             draw.rounded_rectangle([120, note_top, 120 + inner_w, note_top + note_h], radius=12, fill="#F2E6DC", outline="#DEC3B5", width=1)
             y_note = note_top + 14
             for i, nl in enumerate(note_lines):
-                prefix = "✓  " if i == 0 else "    "
-                draw.text((140, y_note), prefix + nl, fill=PALETTE["deep_maroon"], font=font_note)
+                if i == 0:
+                    draw_vector_check(draw, 142, y_note + 4, color=PALETTE["deep_maroon"])
+                draw.text((170, y_note), nl, fill=PALETTE["deep_maroon"], font=font_note)
                 y_note += 26
 
             font_cit = get_sans(16)
