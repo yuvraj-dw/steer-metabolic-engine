@@ -526,8 +526,16 @@
       <div class="visual-card">
         <h3>📱 Apple-Grade 4-Slide Carousel (1080x1350)</h3>
         <p style="font-size: 13px; color: var(--clay); margin-bottom: 12px;">
-          Dynamic clinical carousel slides formatted in Steer's calm editorial palette.
+          100% SFW vector diagrams formatted for Instagram (4:5 portrait ratio).
         </p>
+        <div style="margin-bottom: 12px; display: flex; gap: 8px;">
+          <a id="hero-img-link" href="output/posts/lancet_tofi_70kg/visuals/instagram_hero_4x5.png" target="_blank" style="text-decoration: none;">
+            <button class="action-btn" style="font-size: 11px; padding: 6px 12px;">View 1080x1350 Hero Card ↗</button>
+          </a>
+          <a id="vector-img-link" href="output/posts/lancet_tofi_70kg/visuals/clinical_illustration_card.png" target="_blank" style="text-decoration: none;">
+            <button class="action-btn" style="font-size: 11px; padding: 6px 12px;">View Vector Diagram ↗</button>
+          </a>
+        </div>
         <div style="background: #FAF5EE; border: 1px solid var(--border); border-radius: 12px; padding: 16px; font-size: 13px;" id="carousel-slides-box">
           <div style="font-weight: 800; color: var(--oxblood);">Slide 1 (The Hook):</div>
           <div style="color: var(--ink); margin-top: 4px;">"Two people. Both 70 kilos. Both normal BMI. So why does one carry diabetic risk?"</div>
@@ -956,6 +964,25 @@
     document.getElementById('reel-card-title').textContent = data.reelTitle;
     document.getElementById('reel-card-desc').textContent = data.desc;
     document.getElementById('reel-badge').innerHTML = data.badge;
+
+    const heroMap = {
+      tofi: "output/posts/lancet_tofi_70kg/visuals/instagram_hero_4x5.png",
+      narayan: "output/posts/bmj_narayan_tofi/visuals/instagram_hero_4x5.png",
+      surpass: "output/posts/surpass2_tirzepatide/visuals/instagram_hero_4x5.png",
+      mace: "output/posts/steer_mace_cv/visuals/instagram_hero_4x5.png",
+      step1: "output/posts/step1_extension_rebound/visuals/instagram_hero_4x5.png"
+    };
+    const vecMap = {
+      tofi: "output/posts/lancet_tofi_70kg/visuals/clinical_illustration_card.png",
+      narayan: "output/posts/bmj_narayan_tofi/visuals/clinical_illustration_card.png",
+      surpass: "output/posts/surpass2_tirzepatide/visuals/clinical_illustration_card.png",
+      mace: "output/posts/steer_mace_cv/visuals/clinical_illustration_card.png",
+      step1: "output/posts/step1_extension_rebound/visuals/clinical_illustration_card.png"
+    };
+    const heroBtn = document.getElementById('hero-img-link');
+    if (heroBtn) heroBtn.href = heroMap[key] || "output/posts/lancet_tofi_70kg/visuals/instagram_hero_4x5.png";
+    const vecBtn = document.getElementById('vector-img-link');
+    if (vecBtn) vecBtn.href = vecMap[key] || "output/posts/lancet_tofi_70kg/visuals/clinical_illustration_card.png";
 
     const vid = document.getElementById('studio-video');
     const fallback = document.getElementById('video-fallback-msg');

@@ -40,6 +40,10 @@ def get_font(size: int, bold: bool = False, serif: bool = False):
     except Exception:
         return ImageFont.load_default()
 
+def draw_vector_check(draw, x, y, color="#235937"):
+    draw.line([(x, y + 8), (x + 6, y + 15)], fill=color, width=3)
+    draw.line([(x + 6, y + 15), (x + 16, y)], fill=color, width=3)
+
 def draw_tofi_dexa_diagram(w=840, h=360) -> Image.Image:
     """Renders dual DEXA body scan comparison in Steer calm editorial aesthetic."""
     img = Image.new("RGBA", (w, h), PALETTE["soft_paper"])
@@ -254,6 +258,113 @@ def draw_narayan_diagram(w=840, h=360) -> Image.Image:
     draw.text((bx2 + 28, by + 185), "Requires DEXA Scan on Day 1", fill=PALETTE["rust"], font=get_font(14, bold=True))
 
     return img
+
+def render_instagram_hero_slide(study_id: str, output_path: str) -> str:
+    """
+    Renders a dedicated, full-bleed 1080x1350 (4:5) Instagram Feed Hero Card
+    incorporating the study's clean vector art diagram, clinical telemetry, and branding.
+    100% Safe For Work, zero AI artifacts, publication-grade typography.
+    """
+    width, height = 1080, 1350
+    img = Image.new("RGBA", (width, height), PALETTE["taupe"])
+    draw = ImageDraw.Draw(img)
+
+    # 1. Background Paper Texture Overlay
+    draw.rectangle([0, 0, width, height], fill=PALETTE["taupe"])
+
+    # 2. Main Center Card
+    card_margin = 70
+    card_w = width - (card_margin * 2)
+    card_h = height - 160
+    card_top = 80
+    draw.rounded_rectangle(
+        [card_margin, card_top, card_margin + card_w, card_top + card_h],
+        radius=28,
+        fill=PALETTE["soft_paper"],
+        outline="#D8C8B8",
+        width=1
+    )
+
+    # Resolve Study Metadata
+    sid = (study_id or "").upper()
+    if "SURPASS" in sid or "TIRZEPATIDE" in sid:
+        tag = "NEJM 2021 TRIAL EVIDENCE"
+        title = "Dual Incretin Receptor Synergy."
+        subtitle = "Tirzepatide co-activates GLP-1 and GIP for superior clinical weight reduction."
+        takeaway = "Dual agonist synergy delivers -11.2 kg weight loss with muscle preservation."
+        diag_img = draw_surpass_diagram(card_w - 60, 360)
+    elif "MACE" in sid or "CARDIO" in sid or "STEER" in sid:
+        tag = "REAL-WORLD EVIDENCE (n=24,800)"
+        title = "GLP-1 is Cardiovascular Medicine."
+        subtitle = "Visceral fat decompression protects cardiac endothelium from event storm."
+        takeaway = "Continuous clinical care yields 57% lower heart attacks and strokes."
+        diag_img = draw_mace_diagram(card_w - 60, 360)
+    elif "STEP" in sid or "REBOUND" in sid:
+        tag = "STEP-1 TRIAL EXTENSION"
+        title = "The Neuro-Endocrine Rebound Trap."
+        subtitle = "Why 67% of lost weight returns when treatment is abruptly stopped unguided."
+        takeaway = "Medicine is the jumpstart. Maintenance is the goal with a planned exit."
+        diag_img = draw_step1_diagram(card_w - 60, 360)
+    elif "NARAYAN" in sid:
+        tag = "BMJ OPEN COHORT (n=16,240)"
+        title = "Normal Weight Hides 5.3x Diabetes Risk."
+        subtitle = "Premature metabolic saturation strikes South Asians at BMI 22.0."
+        takeaway = "DEXA visceral fat scanning must replace the weighing scale on Day 1."
+        diag_img = draw_narayan_diagram(card_w - 60, 360)
+    else:
+        tag = "LANCET CLINICAL ANOMALY"
+        title = "The 70 kg Paradox & Indian TOFI."
+        subtitle = "Identical scale weight. 80% higher toxic visceral fat inside internal organs."
+        takeaway = "It's biology, not lack of willpower. Medical care resets internal health."
+        diag_img = draw_tofi_dexa_diagram(card_w - 60, 360)
+
+    # 3. Header Section inside Card
+    y_text = card_top + 45
+    # Tag Pill
+    draw.rounded_rectangle([card_margin + 35, y_text, card_margin + 35 + 260, y_text + 34], radius=17, fill="#E6D3C2")
+    draw.text((card_margin + 50, y_text + 8), tag, fill=PALETTE["oxblood"], font=get_font(13, bold=True))
+    y_text += 50
+
+    # Title & Subtitle
+    draw.text((card_margin + 35, y_text), title, fill=PALETTE["oxblood"], font=get_font(34, bold=True, serif=True))
+    y_text += 48
+    draw.text((card_margin + 35, y_text), subtitle, fill=PALETTE["clay"], font=get_font(18))
+    y_text += 38
+
+    # 4. Paste Vector Diagram
+    img.paste(diag_img, (card_margin + 30, y_text), diag_img if diag_img.mode == "RGBA" else None)
+    y_text += diag_img.height + 25
+
+    # 5. Takeaway Box (With vector checkmark, zero tofu)
+    draw.rounded_rectangle([card_margin + 30, y_text, card_margin + card_w - 30, y_text + 70], radius=14, fill=PALETTE["teal_light"], outline="#D3E8D9", width=1)
+    draw_vector_check(draw, card_margin + 55, y_text + 22, color=PALETTE["teal"])
+    draw.text((card_margin + 85, y_text + 22), takeaway, fill=PALETTE["teal"], font=get_font(18, bold=True))
+    y_text += 95
+
+    # 6. Lower Canvas: 3-Pillar Clinical Action Protocol (Fills space gracefully)
+    draw.text((card_margin + 35, y_text), "STEER CLINICAL PROTOCOL", fill=PALETTE["clay"], font=get_font(14, bold=True))
+    y_text += 26
+
+    pillars = [
+        ("01  Precision Biomarker Telemetry", "Quantify internal visceral organ fat on Day 1 with DEXA scanning."),
+        ("02  Metabolic Set-Point Recalibration", "Hormonal therapy designed to quiet food noise without starvation."),
+        ("03  Doctor-Guided Planned Off-Ramp", "Gradual tapering and habit anchoring so weight never rebounds.")
+    ]
+
+    for p_title, p_desc in pillars:
+        draw.rounded_rectangle([card_margin + 30, y_text, card_margin + card_w - 30, y_text + 68], radius=12, fill=PALETTE["white"], outline=PALETTE["border"], width=1)
+        draw.text((card_margin + 48, y_text + 12), p_title, fill=PALETTE["oxblood"], font=get_font(16, bold=True))
+        draw.text((card_margin + 48, y_text + 36), p_desc, fill=PALETTE["ink"], font=get_font(15))
+        y_text += 80
+
+    # 7. Steer Footer inside Card
+    foot_y = card_top + card_h - 45
+    draw.text((card_margin + 35, foot_y), "steer • Clinical Metabolic Care", fill=PALETTE["oxblood"], font=get_font(16, bold=True, serif=True))
+    draw.text((card_margin + card_w - 180, foot_y), "steerclub.com", fill=PALETTE["clay"], font=get_font(16))
+
+    os.makedirs(os.path.dirname(os.path.abspath(output_path)), exist_ok=True)
+    img.save(output_path, "PNG", quality=95)
+    return output_path
 
 def render_study_graphic(study_id: str, output_path: str, width=840, height=360) -> str:
     """Generate and save the vector clinical diagram for a given study."""
