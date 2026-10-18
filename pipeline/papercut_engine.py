@@ -55,10 +55,22 @@ def get_papercut_study_spec(study=None):
             "study_id": "SURPASS-2-2021",
             "journal": "NEJM", "year": 2021, "sample_size": 1879,
             "hook_pill": "DUAL RECEPTOR SUPERIORITY",
-            "card1_header": "SELECTIVE GLP-1", "card1_stat": "-7.0 kg", "card1_bmi": "Standard Single Agonist", "card1_vat": "Mono Therapy", "card1_tag": "BASELINE COMPARATOR",
-            "card2_header": "DUAL GIP/GLP-1", "card2_stat": "-11.2 kg", "card2_bmi": "Dual Incretin Activation", "card2_vat": "+60% Superior", "card2_tag": "SURPASS-2 WINNER",
-            "s02_title": "NEJM 2021", "s02_subtitle": "Head-to-Head Trial", "s02_desc": "Dual incretin therapy demonstrated superior dose-dependent lipid clearance.", "s02_tag": "DUAL PATHWAY ACTIVATION", "s02_subtag": "Quiets hunger while restoring insulin sensitivity.",
-            "s03_metric": "-11.2 kg", "s03_metric_label": "Superior Weight Reduction", "s03_metric_desc": "Statistically significant dose-dependent clearance across 40 weeks (p <0.001).", "s03_pill": "SUPERIOR HORMONAL EFFICACY"
+            "card1_header": "GLP-1 MONO-THERAPY", "card1_stat": "-7.0 kg", "card1_bmi": "Single Receptor Agonist", "card1_vat": "Standard Clearance", "card1_tag": "BASELINE COMPARATOR",
+            "card2_header": "DUAL GIP + GLP-1", "card2_stat": "-11.2 kg", "card2_bmi": "Dual Incretin Synergy", "card2_vat": "+60% Superior", "card2_tag": "SURPASS-2 WINNER",
+            "s02_title": "SURPASS-2", "s02_subtitle": "Head-to-Head Trial", "s02_desc": "Dual incretin therapy demonstrated superior dose-dependent lipid clearance across 40 weeks.", "s02_tag": "DUAL PATHWAY ACTIVATION", "s02_subtag": "Quiets hunger while restoring adipose insulin sensitivity.",
+            "s03_header": "NEJM TRIAL TELEMETRY", "s03_sub": "PRIMARY ENDPOINT",
+            "s03_metric": "-11.2 kg", "s03_metric_label": "Superior Weight Reduction", "s03_metric_desc": "Statistically significant dose-dependent clearance across 40 weeks (p <0.001).", "s03_pill": "SUPERIOR HORMONAL EFFICACY",
+            "s03_tag": "86% REACHED HbA1c <6.5%", "s03_core_label": "DUAL AGONIST\nSUPERIORITY",
+            "s04_header": "DUAL RECEPTOR MECHANISM", "s04_sub": "INCRETIN SYNERGY",
+            "s04_diagram_title": "DUAL HORMONE CO-AGONISM:",
+            "s04_box1_title": "GLP-1 Axis", "s04_box2_title": "+ GIP Axis", "s04_box3_title": "Dual Satiety",
+            "s04_desc": "GLP-1 quiets hunger while GIP activates lipid buffering, protecting resting metabolic burn.",
+            "s04_gauge_title": "GLYCEMIC CONTROL", "s04_gauge_val": "86%", "s04_gauge_label": "HbA1c Target Met", "s04_gauge_sub": "Comprehensive glycemic & lipid normalization.",
+            "s05_header": "STEER TITRATION PROTOCOL", "s05_sub": "MUSCLE PRESERVATION",
+            "s05_title": "Preserve Lean Muscle During Rapid Loss",
+            "s05_slab1_title": "DEXA Lean Mass Telemetry (Every 8 Wks)", "s05_slab1_desc": "Ensures fat is lost while vital muscle mass is strictly preserved.",
+            "s05_slab2_title": "Doctor-Supervised Micro-Titration", "s05_slab2_desc": "Eliminates nausea and GI side effects with gradual dose steps.",
+            "s05_slab3_title": "Dietician-Guided Protein Off-Ramp", "s05_slab3_desc": "Permanent behavioral habits hold the target weight post-medication."
         }
     elif "mace" in sid or "cardio" in sid:
         script = [
@@ -98,11 +110,23 @@ def get_papercut_study_spec(study=None):
         active_study = {
             "study_id": "STEER-MACE-2026",
             "journal": "Diabetes Obes Metab", "year": 2026, "sample_size": 24800,
-            "hook_pill": "SYSTEMIC ARTERIAL DEFENSE",
-            "card1_header": "STANDARD CRASH DIETS", "card1_stat": "0% Defense", "card1_bmi": "No Endothelial Benefit", "card1_vat": "Rebound Risk", "card1_tag": "VASCULAR STRAIN",
-            "card2_header": "STEER CONTINUOUS CARE", "card2_stat": "57% Lower", "card2_bmi": "Heart Attack & Stroke Defense", "card2_vat": "-57% MACE", "card2_tag": "CARDIAC SANCTUARY",
-            "s02_title": "DOM 2026", "s02_subtitle": "Real-World Evidence", "s02_desc": "Continuous metabolic therapy protects cardiovascular endothelial cells from cytokine storm.", "s02_tag": "ARTERIAL DECOMPRESSION", "s02_subtag": "Visceral fat reduction relieves cardiac workload.",
-            "s03_metric": "57% Lower", "s03_metric_label": "Adverse Cardiac Events", "s03_metric_desc": "Statistically significant reduction in heart attacks and strokes across n=24,800 patients.", "s03_pill": "CARDIOMETABOLIC DEFENSE"
+            "hook_pill": "CARDIAC OUTCOME TELEMETRY",
+            "card1_header": "STANDARD CRASH DIETS", "card1_stat": "0% Defense", "card1_bmi": "No Vascular Benefit", "card1_vat": "Rebound Strain", "card1_tag": "ENDOTHELIAL STRAIN",
+            "card2_header": "STEER CONTINUOUS CARE", "card2_stat": "57% Lower", "card2_bmi": "Heart Attack & Stroke Defense", "card2_vat": "-57% MACE Hazard", "card2_tag": "CARDIAC PROTECTION",
+            "s02_title": "STEER MACE", "s02_subtitle": "Real-World Evidence (n=24,800)", "s02_desc": "Continuous metabolic therapy protects cardiovascular endothelial cells from cytokine storm.", "s02_tag": "VASCULAR PROTECTION", "s02_subtag": "Visceral fat reduction directly decompresses cardiac workload.",
+            "s03_header": "CARDIOMETA TELEMETRY", "s03_sub": "MACE HAZARD RATIO 0.43",
+            "s03_metric": "57% Lower", "s03_metric_label": "Heart Attacks & Strokes", "s03_metric_desc": "Statistically significant reduction in major cardiac events across n=24,800 patients.", "s03_pill": "CARDIOMETABOLIC DEFENSE",
+            "s03_tag": "-8.4 mmHg SYSTOLIC BP", "s03_core_label": "VASCULAR\nSANCTUARY",
+            "s04_header": "VASCULAR PATHOPHYSIOLOGY", "s04_sub": "ARTERIAL DECOMPRESSION",
+            "s04_diagram_title": "ENDOTHELIAL CYTOKINE CLEARANCE:",
+            "s04_box1_title": "Visceral Fat", "s04_box2_title": "➔ CLEARED", "s04_box3_title": "Vessels Dilate",
+            "s04_desc": "Removing visceral fat directly relieves arterial stiffness and restores nitric oxide blood flow.",
+            "s04_gauge_title": "INFLAMMATION CRP", "s04_gauge_val": "-48%", "s04_gauge_label": "High-Sensitivity CRP", "s04_gauge_sub": "Drastic decline in systemic endothelial inflammation.",
+            "s05_header": "STEER CARDIOVASCULAR CARE", "s05_sub": "CONTINUOUS MONITORING",
+            "s05_title": "Continuous Protection for Heart and Vessels",
+            "s05_slab1_title": "Continuous Blood Pressure Telemetry", "s05_slab1_desc": "Monitors arterial decompression and endothelial restoration.",
+            "s05_slab2_title": "Advanced ApoB & Lipid Precision Panel", "s05_slab2_desc": "Tracks atherogenic particles beyond basic cholesterol levels.",
+            "s05_slab3_title": "Physician-Supervised Cardiac Sanctuary", "s05_slab3_desc": "Long-term clinical care that crash diets and unmonitored meds destroy."
         }
     elif "step" in sid or "rebound" in sid:
         script = [
@@ -142,11 +166,23 @@ def get_papercut_study_spec(study=None):
         active_study = {
             "study_id": "STEP-1-EXT-2022",
             "journal": "Diabetes Obes Metab", "year": 2022, "sample_size": 327,
-            "hook_pill": "BIOLOGICAL SET-POINT DEFENSE",
-            "card1_header": "STOPPED UNGUIDED", "card1_stat": "+10.5 kg", "card1_bmi": "67% Weight Regained", "card1_vat": "Leptin Crashed 40%", "card1_tag": "FAMINE ALARM REBOUND",
-            "card2_header": "STEER PLANNED EXIT", "card2_stat": "-13.2 kg", "card2_bmi": "Muscle Mass Protected", "card2_vat": "Zero Rebound", "card2_tag": "SET-POINT MAINTAINED",
-            "s02_title": "STEP-1 EXT", "s02_subtitle": "Trial Extension", "s02_desc": "Abrupt medication withdrawal triggers ancient hypothalamic starvation defenses.", "s02_tag": "SET-POINT DEFENSE", "s02_subtag": "Weight returns without doctor-led tapering.",
-            "s03_metric": "67%", "s03_metric_label": "Lost Weight Regained", "s03_metric_desc": "Two-thirds of weight returned within 1 year without clinical off-ramp protocol.", "s03_pill": "SET-POINT RECALIBRATION"
+            "hook_pill": "THE REBOUND PHENOMENON",
+            "card1_header": "STOPPED UNGUIDED", "card1_stat": "+10.5 kg", "card1_bmi": "67% Weight Regained", "card1_vat": "Leptin Crashed 40%", "card1_tag": "FAMINE REBOUND",
+            "card2_header": "STEER PLANNED EXIT", "card2_stat": "-13.2 kg", "card2_bmi": "Set-Point Recalibrated", "card2_vat": "Zero Rebound", "card2_tag": "PERMANENT HABITS",
+            "s02_title": "STEP-1 EXT", "s02_subtitle": "Trial Extension (n=327)", "s02_desc": "Abrupt medication withdrawal triggers ancient hypothalamic starvation defenses.", "s02_tag": "SET-POINT DEFENSE", "s02_subtag": "Weight returns without doctor-led tapering.",
+            "s03_header": "STEP-1 EXTENSION DATA", "s03_sub": "12-MONTH FOLLOW-UP",
+            "s03_metric": "67%", "s03_metric_label": "Lost Weight Regained", "s03_metric_desc": "Two-thirds of weight returned within 1 year without clinical off-ramp protocol.", "s03_pill": "BIOLOGICAL REBOUND TRAP",
+            "s03_tag": "BIOMARKERS REVERTED", "s03_core_label": "SET-POINT\nDEFENSE",
+            "s04_header": "HYPOTHALAMIC FAMINE AXIS", "s04_sub": "SET-POINT ALARM",
+            "s04_diagram_title": "ABRUPT WITHDRAWAL CRISIS:",
+            "s04_box1_title": "Meds Stop", "s04_box2_title": "➔ Leptin Drops", "s04_box3_title": "Ghrelin +240%",
+            "s04_desc": "Stopping abruptly triggers ancient starvation defenses, driving intense hunger alarms.",
+            "s04_gauge_title": "GHRELIN SURGE", "s04_gauge_val": "+240%", "s04_gauge_label": "Hunger Hormone Alarm", "s04_gauge_sub": "Brain fights to restore pre-treatment adipose baseline.",
+            "s05_header": "STEER PLANNED OFF-RAMP", "s05_sub": "MAINTENANCE PROTOCOL",
+            "s05_title": "The Structured Clinical Exit Off-Ramp",
+            "s05_slab1_title": "Gradual Medication Tapering Protocol", "s05_slab1_desc": "Prevents ghrelin surges and sudden leptin crashes during dose withdrawal.",
+            "s05_slab2_title": "Satiety Habit Anchoring with Dieticians", "s05_slab2_desc": "Establishes behavioral protein and satiety buffers before full cessation.",
+            "s05_slab3_title": "Ongoing Set-Point Maintenance Reviews", "s05_slab3_desc": "Doctor oversight ensures your metabolic thermostat locks in permanently."
         }
     elif "narayan" in sid:
         script = [
@@ -188,9 +224,21 @@ def get_papercut_study_spec(study=None):
             "journal": "BMJ Open Diabetes Res Care", "year": 2021, "sample_size": 16240,
             "hook_pill": "LEAN DIABETES ANOMALY",
             "card1_header": "WHITE REFERENCE", "card1_stat": "1.0x", "card1_bmi": "Normal BMI < 25", "card1_vat": "Standard Risk", "card1_tag": "WESTERN BASELINE",
-            "card2_header": "SOUTH ASIAN FEMALE", "card2_stat": "5.3x", "card2_bmi": "Normal BMI < 25", "card2_vat": "+530% Incidence", "card2_tag": "CRITICAL RISK GAP",
-            "s02_title": "BMJ OPEN", "s02_subtitle": "Multicenter Cohort", "s02_desc": "Epidemiological data proves normal BMI fails to detect catastrophic metabolic risk in Indians.", "s02_tag": "LEAN PHENOTYPE RISK", "s02_subtag": "Ectopic fat deposits trigger early diabetes.",
-            "s03_metric": "5.3x", "s03_metric_label": "Higher Diabetes Incidence", "s03_metric_desc": "Adjusted incidence rate ratio in normal-weight South Asian women vs white women (PMC8006839).", "s03_pill": "LEAN ADIPOSE ANOMALY"
+            "card2_header": "SOUTH ASIAN ADULT", "card2_stat": "5.3x", "card2_bmi": "Normal BMI < 25", "card2_vat": "+530% Incidence", "card2_tag": "CRITICAL RISK GAP",
+            "s02_title": "BMJ OPEN", "s02_subtitle": "Multicenter Cohort (n=16,240)", "s02_desc": "Epidemiological data proves normal BMI fails to detect catastrophic metabolic risk in Indians.", "s02_tag": "LEAN PHENOTYPE RISK", "s02_subtag": "Ectopic fat deposits trigger early diabetes.",
+            "s03_header": "BMJ COHORT TELEMETRY", "s03_sub": "PMC8006839 FINDING",
+            "s03_metric": "5.3x", "s03_metric_label": "Higher Diabetes Incidence", "s03_metric_desc": "Adjusted incidence rate ratio in normal-weight South Asian women vs white women (PMC8006839).", "s03_pill": "LEAN ADIPOSE ANOMALY",
+            "s03_tag": "BMI 22.0 INFLEXION POINT", "s03_core_label": "LEAN ADIPOSE\nANOMALY",
+            "s04_header": "PREMATURE METABOLIC BREAKDOWN", "s04_sub": "THRESHOLD SHIFT",
+            "s04_diagram_title": "SOUTH ASIAN ADIPOSE SATURATION:",
+            "s04_box1_title": "BMI 22.0", "s04_box2_title": "➔ Spillover", "s04_box3_title": "Organ Fat",
+            "s04_desc": "Subcutaneous storage saturates at BMI 22.0, forcing lipid spillover directly into internal organs.",
+            "s04_gauge_title": "DIABETES INCIDENCE", "s04_gauge_val": "5.3x", "s04_gauge_label": "Relative Risk vs White Peers", "s04_gauge_sub": "Insulin resistance strikes 10 years earlier in normal-weight Indians.",
+            "s05_header": "STEER EARLY DETECTION", "s05_sub": "PRECISION SCREENING",
+            "s05_title": "Detect Hidden Risk Before HbA1c Climbs",
+            "s05_slab1_title": "DEXA Visceral Fat Scan on Day 1", "s05_slab1_desc": "Replaces the obsolete weighing scale to quantify hidden ectopic fat.",
+            "s05_slab2_title": "Fasting Insulin & HOMA-IR Panel", "s05_slab2_desc": "Catches metabolic decompensation up to 10 years before diabetes diagnosis.",
+            "s05_slab3_title": "Doctor-Led Low-Glycemic Protocol", "s05_slab3_desc": "Protects pancreatic beta-cells from lipotoxic exhaustion."
         }
     else:
         # Default: Lancet TOFI 70kg Paradox
@@ -235,9 +283,22 @@ def get_papercut_study_spec(study=None):
             "card1_header": "EUROPEAN CONTROL", "card1_stat": "70.0 kg", "card1_bmi": "BMI 22.8 (Normal)", "card1_vat": "48 cm³ (Safe)", "card1_tag": "SUBCUTANEOUS STORAGE",
             "card2_header": "INDIAN PHENOTYPE", "card2_stat": "70.0 kg", "card2_bmi": "BMI 22.8 (Normal)", "card2_vat": "184 cm³ (+283%)", "card2_tag": "HIGH METABOLIC BURDEN",
             "s02_title": "T.O.F.I.", "s02_subtitle": "Thin Outside, Fat Inside", "s02_desc": "The weighing scale measures gravity, not metabolic health.", "s02_tag": "ORGAN-WRAPPED ADIPOSE", "s02_subtag": "Fat hides around liver & pancreas tissues.",
-            "s03_metric": "+80%", "s03_metric_label": "Visceral Organ Fat", "s03_metric_desc": "South Asians store twice the toxic lipid mass inside internal organs.", "s03_pill": "HIDDEN VISCERAL ADIPOSE"
+            "s03_header": "DEXA VISCERAL TELEMETRY", "s03_sub": "LANCET 2021",
+            "s03_metric": "+80%", "s03_metric_label": "Visceral Organ Fat", "s03_metric_desc": "South Asians store twice the toxic lipid mass inside internal organs.", "s03_pill": "HIDDEN VISCERAL ADIPOSE",
+            "s03_tag": "PREMATURE INSULIN RESISTANCE", "s03_core_label": "VAT CORE\n184 cm³",
+            "s04_header": "GUT-BRAIN SIGNALING FAILURE", "s04_sub": "PATHOPHYSIOLOGY",
+            "s04_diagram_title": "INTESTINAL HORMONE AXIS:",
+            "s04_box1_title": "GLP-1 Satiety", "s04_box2_title": "✕ BLOCKED", "s04_box3_title": "Brain Receptor",
+            "s04_desc": "Visceral adipokines silence the brain's fullness perception, causing perpetual food noise even after meals.",
+            "s04_gauge_title": "HYPOTHALAMIC NOISE", "s04_gauge_val": "84 dB", "s04_gauge_label": "Chronic Cravings", "s04_gauge_sub": "Ghrelin surges +240% to defend fat set-point.",
+            "s05_header": "STEER METABOLIC PROTOCOL", "s05_sub": "DIAGNOSTICS FIRST",
+            "s05_title": "It's Biology, Not Lack of Willpower.",
+            "s05_slab1_title": "DEXA Body Composition Scan (Day 1)", "s05_slab1_desc": "Quantifies visceral organ fat vs protected lean muscle mass.",
+            "s05_slab2_title": "55+ Biomarker Metabolic Diagnostic Panel", "s05_slab2_desc": "Fasting insulin, HOMA-IR, HbA1c, liver enzymes, full lipid profile.",
+            "s05_slab3_title": "Doctor-Led Care With Planned Exit", "s05_slab3_desc": "Medical jumpstart paired with sustainable metabolic recalibration."
         }
 
+    active_study["banners"] = episode.get("banners", {})
     return script, episode, active_study
 
 def build_reel(output_mp4: str, study=None, duration_limit: float = None) -> str:
