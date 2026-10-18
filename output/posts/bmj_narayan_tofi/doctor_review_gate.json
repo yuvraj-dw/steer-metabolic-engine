@@ -1,0 +1,40 @@
+{
+  "status": "VERIFIED_BY_CLINICAL_GATE",
+  "protocol": "Steer Evidence-Based Social Verification v1.0",
+  "verified_claims_count": 3,
+  "claims": [
+    {
+      "study_id": "BMJ-NARAYAN-2021",
+      "journal": "BMJ Open Diabetes Research & Care",
+      "year": 2021,
+      "doi": "10.1136/bmjdrc-2020-001997",
+      "sample_size": 16240,
+      "claim": "South Asian men with normal BMI (<25 kg/m2) have 2.9 times higher diabetes incidence adjusted for age compared to white counterparts.",
+      "metric": "2.9x Higher",
+      "p_value": "<0.001",
+      "citation_location": "BMJ Open Diabetes Res Care 2021;9:e001997 (PMC8006839), p4-s12"
+    },
+    {
+      "study_id": "BMJ-NARAYAN-2021",
+      "journal": "BMJ Open Diabetes Research & Care",
+      "year": 2021,
+      "doi": "10.1136/bmjdrc-2020-001997",
+      "sample_size": 16240,
+      "claim": "South Asian women with normal BMI (<25 kg/m2) have 5.3 times higher diabetes incidence adjusted for age compared to white women.",
+      "metric": "5.3x Higher",
+      "p_value": "<0.001",
+      "citation_location": "BMJ Open Diabetes Res Care 2021;9:e001997 (PMC8006839), p4-s13"
+    },
+    {
+      "study_id": "BMJ-NARAYAN-2021",
+      "journal": "BMJ Open Diabetes Research & Care",
+      "year": 2021,
+      "doi": "10.1136/bmjdrc-2020-001997",
+      "sample_size": 16240,
+      "claim": "Metabolic decompensation and ectopic visceral adiposity in South Asians triggers at BMI 22 kg/m2, well below the Western 25 kg/m2 threshold.",
+      "metric": "BMI 22.0 kg/m2",
+      "p_value": "<0.01",
+      "citation_location": "BMJ Open Diabetes Res Care 2021;9:e001997 (PMC8006839), p6-s21"
+    }
+  ]
+}

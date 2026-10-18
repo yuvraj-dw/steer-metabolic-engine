@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>The Indian Body Anomaly | steer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cream: #F5EBDF;
+      --soft-paper: #FAF5EF;
+      --rust: #C04E2A;
+      --deep-maroon: #661414;
+      --ink: #351D1D;
+      --clay: #7D5246;
+      --blush: #DEC3B5;
+      --card-border: #E2CCBD;
+      --teal-calm: #235937;
+      --font-serif: 'Instrument Serif', Georgia, serif;
+      --font-sans: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #140A0A;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      font-family: var(--font-sans);
+      color: var(--ink);
+      overflow: hidden;
+    }
+
+    #player-frame {
+      width: 100vw;
+      max-width: 430px;
+      height: 100vh;
+      max-height: 932px;
+      background: var(--cream);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.75);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .timeline-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: rgba(53, 29, 29, 0.15);
+      z-index: 100;
+    }
+
+    .timeline-progress {
+      height: 100%;
+      width: 0%;
+      background: var(--rust);
+      transition: width 0.1s linear;
+    }
+
+    .scene-layer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 36px 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(0.97) translateY(12px);
+      transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .scene-layer.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: scale(1) translateY(0);
+    }
+
+    .brand-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand-logo {
+      font-family: var(--font-serif);
+      font-size: 32px;
+      color: var(--deep-maroon);
+    }
+
+    .scene-tag {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      background: rgba(102, 20, 20, 0.08);
+      color: var(--deep-maroon);
+      padding: 5px 12px;
+      border-radius: 100px;
+      border: 1px solid var(--blush);
+    }
+
+    .hero-arena {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin: 14px 0;
+    }
+
+    .slam-title {
+      font-family: var(--font-serif);
+      font-size: 42px;
+      line-height: 1.05;
+      color: var(--deep-maroon);
+      font-weight: 400;
+      margin-bottom: 10px;
+    }
+
+    .slam-title em {
+      font-style: italic;
+      color: var(--rust);
+    }
+
+    .sub-lead {
+      font-size: 15px;
+      line-height: 1.45;
+      color: var(--clay);
+      font-weight: 500;
+      margin-bottom: 20px;
+    }
+
+    .telemetry-card {
+      background: var(--soft-paper);
+      border: 1.5px solid var(--card-border);
+      border-radius: 20px;
+      padding: 18px;
+      box-shadow: 0 10px 30px rgba(53, 29, 29, 0.05);
+      position: relative;
+    }
+
+    .card-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--clay);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    /* Comparison Silhouettes (Scene 1) */
+    .silhouette-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .sil-box {
+      background: #FFF;
+      border: 1.5px solid var(--blush);
+      border-radius: 16px;
+      padding: 14px 10px;
+      text-align: center;
+    }
+
+    .sil-icon {
+      font-size: 44px;
+      margin-bottom: 6px;
+    }
+
+    .sil-name {
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--deep-maroon);
+    }
+
+    .sil-status {
+      font-size: 11px;
+      font-weight: 700;
+      margin-top: 4px;
+      padding: 3px 8px;
+      border-radius: 6px;
+      display: inline-block;
+    }
+
+    .status-alert {
+      background: rgba(192, 78, 42, 0.12);
+      color: var(--rust);
+    }
+
+    .status-normal {
+      background: rgba(35, 89, 55, 0.12);
+      color: var(--teal-calm);
+    }
+
+    /* Stat Flex */
+    .stat-flex {
+      margin-top: 14px;
+      display: grid;
+      grid-template-columns: 130px 1fr;
+      gap: 14px;
+      align-items: center;
+      padding-top: 12px;
+      border-top: 1px solid var(--card-border);
+    }
+
+    .stat-huge {
+      font-family: var(--font-serif);
+      font-size: 44px;
+      color: var(--rust);
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .stat-details h4 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--deep-maroon);
+      margin-bottom: 3px;
+    }
+
+    .stat-details p {
+      font-size: 12px;
+      color: var(--clay);
+    }
+
+    /* Captions Pill */
+    .captions-pill {
+      background: var(--deep-maroon);
+      color: #FFF;
+      padding: 14px 18px;
+      border-radius: 16px;
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 1.4;
+      text-align: center;
+      box-shadow: 0 4px 16px rgba(102, 20, 20, 0.25);
+      margin-bottom: 12px;
+    }
+
+    .footer-cta {
+      background: var(--rust);
+      color: #FFF;
+      padding: 14px;
+      border-radius: 14px;
+      font-size: 14px;
+      font-weight: 700;
+      text-align: center;
+      letter-spacing: 0.3px;
+    }
+
+    /* Dark Color Flip */
+    .scene-dark {
+      background: var(--deep-maroon) !important;
+      color: #FFF !important;
+    }
+
+    .scene-dark .slam-title {
+      color: #FFF !important;
+    }
+
+    .scene-dark .slam-title em {
+      color: #E2A088 !important;
+    }
+
+    .scene-dark .sub-lead {
+      color: var(--blush) !important;
+    }
+
+    .scene-dark .brand-logo {
+      color: #FFF !important;
+    }
+
+    .scene-dark .scene-tag {
+      background: rgba(255, 255, 255, 0.12) !important;
+      color: #FFF !important;
+      border-color: rgba(255, 255, 255, 0.2) !important;
+    }
+
+    #play-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(20, 10, 10, 0.88);
+      z-index: 200;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #FFF;
+      cursor: pointer;
+      backdrop-filter: blur(4px);
+      transition: opacity 0.3s ease;
+    }
+
+    #play-overlay.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .play-btn {
+      width: 80px;
+      height: 80px;
+      background: var(--rust);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      margin-bottom: 16px;
+      box-shadow: 0 8px 30px rgba(192, 78, 42, 0.5);
+    }
+  </style>
+</head>
+<body>
+
+<div id="player-frame">
+  <div class="timeline-bar">
+    <div id="timeline" class="timeline-progress"></div>
+  </div>
+
+  <audio id="reel-audio" src="voiceover_tofi.mp3" preload="auto"></audio>
+
+  <div id="play-overlay" onclick="togglePlay()">
+    <div class="play-btn">▶</div>
+    <div style="font-family: var(--font-serif); font-size: 26px; font-weight: 400;">The Indian Body Anomaly</div>
+    <div style="font-size: 12px; color: var(--blush); margin-top: 6px;">53s • Lancet Research • Neural Indian Voiceover</div>
+  </div>
+
+  <!-- SCENE 1: THE 70 KG PARADOX (0.0s - 8.5s) -->
+  <div id="scene-1" class="scene-layer active">
+    <div class="brand-row">
+      <div class="brand-logo">steer</div>
+      <div class="scene-tag">THE 70 KG PARADOX</div>
+    </div>
+
+    <div class="hero-arena">
+      <h1 class="slam-title">Two people. Both <em>70 kilos.</em></h1>
+      <p class="sub-lead">Same height. Both normal BMI. So why does one have the metabolic risk of a diabetic?</p>
+
+      <div class="telemetry-card">
+        <div class="card-label">
+          <span>PHENOTYPE DECONSTRUCTION</span>
+          <span style="color: var(--rust);">BMI: 22.8 (NORMAL)</span>
+        </div>
+
+        <div class="silhouette-grid">
+          <div class="sil-box">
+            <div class="sil-icon">👤</div>
+            <div class="sil-name">European Body</div>
+            <div class="sil-status status-normal">Safe Subcutaneous Fat</div>
+          </div>
+          <div class="sil-box" style="border-color: var(--rust);">
+            <div class="sil-icon">⚠️</div>
+            <div class="sil-name">Indian Body</div>
+            <div class="sil-status status-alert">Toxic Visceral Fat</div>
+          </div>
+        </div>
+
+        <div class="stat-flex">
+          <div class="stat-huge">2.1x</div>
+          <div class="stat-details">
+            <h4>Visceral Adipose Ratio</h4>
+            <p>Ectopic organ fat suffocates liver at normal weight</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="captions-pill">Two people. Same height. Both 70 kilos. Both normal BMI.</div>
+      <div class="footer-cta">steerclub.com • Stop Googling. Ask a doctor.</div>
+    </div>
+  </div>
+
+  <!-- SCENE 2: THE SCALE IS A TRAP (8.5s - 17.0s) -->
+  <div id="scene-2" class="scene-layer">
+    <div class="brand-row">
+      <div class="brand-logo">steer</div>
+      <div class="scene-tag">LANCET CLINICAL STUDY</div>
+    </div>
+
+    <div class="hero-arena">
+      <h1 class="slam-title">The weighing scale is a <em>trap.</em></h1>
+      <p class="sub-lead">Lancet researchers call it the TOFI phenotype: Thin on the Outside, Fat on the Inside.</p>
+
+      <div class="telemetry-card">
+        <div class="card-label">
+          <span>THE TOFI PHENOMENON</span>
+          <span style="color: var(--deep-maroon);">MISRA ET AL. 2021</span>
+        </div>
+
+        <div style="background: #FFF; border-radius: 14px; padding: 14px; border: 1px solid var(--blush); margin-top: 6px;">
+          <div style="font-family: var(--font-serif); font-size: 32px; color: var(--rust); font-weight: bold;">T.O.F.I.</div>
+          <div style="font-size: 13px; font-weight: 700; color: var(--deep-maroon);">Thin Outside, Fat Inside</div>
+          <div style="font-size: 12px; color: var(--clay); margin-top: 4px;">Standard scales cannot see visceral fat coating internal organs.</div>
+        </div>
+
+        <div class="stat-flex">
+          <div class="stat-huge" style="color: var(--deep-maroon);">10 yrs</div>
+          <div class="stat-details">
+            <h4>Earlier Diabetes Onset</h4>
+            <p>South Asians develop insulin resistance 10 years earlier</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="captions-pill">Because in India, the weighing scale is a trap.</div>
+      <div class="footer-cta">steerclub.com • Stop Googling. Ask a doctor.</div>
+    </div>
+  </div>
+
+  <!-- SCENE 3: THE INVISIBLE 80% SURGE (17.0s - 26.0s) -->
+  <div id="scene-3" class="scene-layer">
+    <div class="brand-row">
+      <div class="brand-logo">steer</div>
+      <div class="scene-tag">DEXA SCAN TELEMETRY</div>
+    </div>
+
+    <div class="hero-arena">
+      <h1 class="slam-title">Up to <em>80% more</em> visceral fat.</h1>
+      <p class="sub-lead">Indian genetics store fat around the liver and pancreas, even at a completely normal weight.</p>
+
+      <div class="telemetry-card">
+        <div class="card-label">
+          <span>ORGAN ADIPOSITY SCAN</span>
+          <span style="color: var(--rust);">HEPATIC STRESS</span>
+        </div>
+
+        <div class="stat-flex" style="border-top: none; padding-top: 0;">
+          <div class="stat-huge">+80%</div>
+          <div class="stat-details">
+            <h4>Visceral Ectopic Storage</h4>
+            <p>Fat wraps around internal organs instead of beneath skin</p>
+          </div>
+        </div>
+
+        <div style="margin-top: 12px; padding: 10px 14px; background: #FFF; border-radius: 12px; border: 1px solid var(--blush); font-size: 12px; color: var(--ink);">
+          ⚠️ <strong>Clinical Fact:</strong> Even at BMI 22, Indian bodies exhibit visceral inflammatory cytokine release equivalent to European BMI 30.
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="captions-pill">Indian bodies store up to 80% more visceral fat around internal organs.</div>
+      <div class="footer-cta">steerclub.com • Stop Googling. Ask a doctor.</div>
+    </div>
+  </div>
+
+  <!-- SCENE 4: THE HORMONAL BLOCKADE (26.0s - 35.5s) -->
+  <div id="scene-4" class="scene-layer">
+    <div class="brand-row">
+      <div class="brand-logo">steer</div>
+      <div class="scene-tag">GUT-BRAIN SIGNALING GAP</div>
+    </div>
+
+    <div class="hero-arena">
+      <h1 class="slam-title">Hidden fat blocks <em>satiety.</em></h1>
+      <p class="sub-lead">Visceral fat releases inflammatory signals that literally block natural GLP-1 and leptin feedback.</p>
+
+      <div class="telemetry-card">
+        <div class="card-label">
+          <span>INCRETIN SENSITIVITY LOSS</span>
+          <span style="color: var(--rust);">FOOD NOISE SPIKE</span>
+        </div>
+
+        <div class="stat-flex" style="border-top: none; padding-top: 0;">
+          <div class="stat-huge" style="color: var(--deep-maroon);">84 dB</div>
+          <div class="stat-details">
+            <h4>Hypothalamic Food Noise</h4>
+            <p>Your stomach is full, but your brain thinks you're starving</p>
+          </div>
+        </div>
+
+        <div style="font-size: 13px; color: var(--clay); line-height: 1.5; margin-top: 10px;">
+          • Leptin satiety signal blunted by 40%<br>
+          • Ghrelin hunger spikes relentlessly past 4 PM<br>
+          • Discipline burns out fighting biochemistry
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="captions-pill">This hidden fat blocks your gut's natural satiety signals.</div>
+      <div class="footer-cta">steerclub.com • Stop Googling. Ask a doctor.</div>
+    </div>
+  </div>
+
+  <!-- SCENE 5: THE BIOLOGICAL EXONERATION (35.5s - 44.0s) -->
+  <div id="scene-5" class="scene-layer scene-dark">
+    <div class="brand-row">
+      <div class="brand-logo">steer</div>
+      <div class="scene-tag">BIOLOGY OVER WILLPOWER</div>
+    </div>
+
+    <div class="hero-arena">
+      <h1 class="slam-title">You don't lack discipline. <em>You're fighting biology.</em></h1>
+      <p class="sub-lead">Steer starts with DEXA scans and 55+ biomarkers before any medicine or doctor protocol.</p>
+
+      <div class="telemetry-card" style="background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.18);">
+        <div class="card-label">
+          <span style="color: var(--blush);">CLINICAL PROTOCOL FOR INDIA</span>
+          <span style="color: #4EBD76;">DIAGNOSTICS FIRST</span>
+        </div>
+
+        <div style="font-size: 13px; line-height: 1.8; color: #FFF;">
+          ✓ <strong>DEXA Scan:</strong> Measures true visceral vs lean muscle<br>
+          ✓ <strong>55+ Biomarkers:</strong> Fasting insulin, liver lipids, metabolic markers<br>
+          ✓ <strong>Doctor-Led Care:</strong> Calibrated for Indian diets and routines
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="captions-pill" style="background: rgba(255,255,255,0.15); color: #FFF;">You don't lack discipline. You're fighting unseen biology.</div>
+      <div class="footer-cta" style="background: var(--rust);">steerclub.com • Stop Googling. Ask a doctor.</div>
+    </div>
+  </div>
+
+  <!-- SCENE 6: DOCTOR CARE & CALL TO ACTION (44.0s - 53.6s) -->
+  <div id="scene-6" class="scene-layer">
+    <div class="brand-row">
+      <div class="brand-logo">steer</div>
+      <div class="scene-tag">DOCTOR-LED HEALTH CLUB</div>
+    </div>
+
+    <div class="hero-arena">
+      <h1 class="slam-title">Stop guessing. <em>Ask a doctor.</em></h1>
+      <p class="sub-lead">Real doctors. Comprehensive testing. Habit off-ramps that last after medication stops.</p>
+
+      <div class="telemetry-card">
+        <div class="card-label">
+          <span>THE STEER PROMISE</span>
+          <span style="color: var(--teal-calm);">SUSTAINABLE RESULTS</span>
+        </div>
+
+        <div style="font-size: 14px; font-weight: 700; color: var(--deep-maroon); margin-bottom: 6px;">
+          "Before you start, hear it from a doctor, not a reel."
+        </div>
+        <p style="font-size: 12px; color: var(--clay); line-height: 1.5;">
+          No miracle promises. No crash diets. Clinical metabolic care calibrated for Indian biology.
+        </p>
+      </div>
+    </div>
+
+    <div>
+      <div class="captions-pill">Stop Googling. Ask a doctor at steerclub.com.</div>
+      <div class="footer-cta">Book Doctor Consult • steerclub.com</div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const audio = document.getElementById('reel-audio');
+  const timeline = document.getElementById('timeline');
+  const playOverlay = document.getElementById('play-overlay');
+
+  const scenes = [
+    { id: 'scene-1', start: 0.0, end: 8.5 },
+    { id: 'scene-2', start: 8.5, end: 17.0 },
+    { id: 'scene-3', start: 17.0, end: 26.0 },
+    { id: 'scene-4', start: 26.0, end: 35.5 },
+    { id: 'scene-5', start: 35.5, end: 44.0 },
+    { id: 'scene-6', start: 44.0, end: 53.6 }
+  ];
+
+  function togglePlay() {
+    if (audio.paused) {
+      audio.play();
+      playOverlay.classList.add('hidden');
+    } else {
+      audio.pause();
+      playOverlay.classList.remove('hidden');
+    }
+  }
+
+  audio.addEventListener('timeupdate', () => {
+    const cur = audio.currentTime;
+    const dur = audio.duration || 53.6;
+    timeline.style.width = `${(cur / dur) * 100}%`;
+
+    scenes.forEach(sc => {
+      const el = document.getElementById(sc.id);
+      if (cur >= sc.start && cur < sc.end) {
+        if (!el.classList.contains('active')) {
+          document.querySelectorAll('.scene-layer').forEach(s => s.classList.remove('active'));
+          el.classList.add('active');
+        }
+      }
+    });
+  });
+
+  audio.addEventListener('ended', () => {
+    playOverlay.classList.remove('hidden');
+    timeline.style.width = '0%';
+    document.querySelectorAll('.scene-layer').forEach(s => s.classList.remove('active'));
+    document.getElementById('scene-1').classList.add('active');
+  });
+</script>
+</body>
+</html>

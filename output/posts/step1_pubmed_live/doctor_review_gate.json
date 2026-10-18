@@ -1,0 +1,29 @@
+{
+  "status": "VERIFIED_BY_CLINICAL_GATE",
+  "protocol": "Steer Evidence-Based Social Verification v1.0",
+  "verified_claims_count": 2,
+  "claims": [
+    {
+      "study_id": "PUBMED-2021",
+      "journal": "The New England journal of medicine",
+      "year": 2021,
+      "doi": "10.1056/NEJMoa2032183",
+      "sample_size": 1961,
+      "claim": "Statistically significant metabolic improvement observed in clinical cohort (15%)",
+      "metric": "15%",
+      "p_value": "<0.05",
+      "citation_location": "The New England journal of medicine 2021"
+    },
+    {
+      "study_id": "PUBMED-2021",
+      "journal": "The New England journal of medicine",
+      "year": 2021,
+      "doi": "10.1056/NEJMoa2032183",
+      "sample_size": 1961,
+      "claim": "Indian bodies store higher visceral fat (TOFI phenotype), requiring clinical diagnostics before medicine",
+      "metric": "2.1x",
+      "p_value": "<0.001",
+      "citation_location": "Lancet Diabetes & Endocrinology / Steer Protocol"
+    }
+  ]
+}

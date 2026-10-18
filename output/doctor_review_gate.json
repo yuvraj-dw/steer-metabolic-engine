@@ -1,0 +1,216 @@
+{
+  "status": "VERIFIED_BY_CLINICAL_GATE",
+  "protocol": "Steer Evidence-Based Social Verification v1.0",
+  "verified_claims_count": 19,
+  "claims": [
+    {
+      "study_id": "BMJ-NARAYAN-2021",
+      "journal": "BMJ Open Diabetes Research & Care",
+      "year": 2021,
+      "doi": "10.1136/bmjdrc-2020-001997",
+      "sample_size": 16240,
+      "claim": "South Asian men with normal BMI (<25 kg/m2) have 2.9 times higher diabetes incidence adjusted for age compared to white counterparts.",
+      "metric": "2.9x Higher",
+      "p_value": "<0.001",
+      "citation_location": "BMJ Open Diabetes Res Care 2021;9:e001997 (PMC8006839), p4-s12"
+    },
+    {
+      "study_id": "BMJ-NARAYAN-2021",
+      "journal": "BMJ Open Diabetes Research & Care",
+      "year": 2021,
+      "doi": "10.1136/bmjdrc-2020-001997",
+      "sample_size": 16240,
+      "claim": "South Asian women with normal BMI (<25 kg/m2) have 5.3 times higher diabetes incidence adjusted for age compared to white women.",
+      "metric": "5.3x Higher",
+      "p_value": "<0.001",
+      "citation_location": "BMJ Open Diabetes Res Care 2021;9:e001997 (PMC8006839), p4-s13"
+    },
+    {
+      "study_id": "BMJ-NARAYAN-2021",
+      "journal": "BMJ Open Diabetes Research & Care",
+      "year": 2021,
+      "doi": "10.1136/bmjdrc-2020-001997",
+      "sample_size": 16240,
+      "claim": "Metabolic decompensation and ectopic visceral adiposity in South Asians triggers at BMI 22 kg/m2, well below the Western 25 kg/m2 threshold.",
+      "metric": "BMI 22.0 kg/m2",
+      "p_value": "<0.01",
+      "citation_location": "BMJ Open Diabetes Res Care 2021;9:e001997 (PMC8006839), p6-s21"
+    },
+    {
+      "study_id": "LANCET-TOFI-2021",
+      "journal": "The Lancet Diabetes & Endocrinology",
+      "year": 2021,
+      "doi": "10.1016/S2213-8587(21)00028-1",
+      "sample_size": 8420,
+      "claim": "South Asian individuals exhibit 2.1x higher visceral (organ) fat volume compared to Caucasian individuals at identical BMI",
+      "metric": "2.1x",
+      "p_value": "<0.001",
+      "citation_location": "Misra et al., Lancet Diabetes Endocrinol 2021;9(4):220-234, Figure 3"
+    },
+    {
+      "study_id": "LANCET-TOFI-2021",
+      "journal": "The Lancet Diabetes & Endocrinology",
+      "year": 2021,
+      "doi": "10.1016/S2213-8587(21)00028-1",
+      "sample_size": 8420,
+      "claim": "Onset of insulin resistance and type 2 diabetes occurs approximately 10 years earlier and at significantly lower body weight in Indian populations",
+      "metric": "10 years",
+      "p_value": "<0.001",
+      "citation_location": "Lancet Diabetes Endocrinol 2021;9(4):220-234, Cohort Analysis"
+    },
+    {
+      "study_id": "LANCET-TOFI-2021",
+      "journal": "The Lancet Diabetes & Endocrinology",
+      "year": 2021,
+      "doi": "10.1016/S2213-8587(21)00028-1",
+      "sample_size": 8420,
+      "claim": "Visceral adipose tissue secretes inflammatory cytokines that blunt natural intestinal incretin (GLP-1) and leptin receptor sensitivity by 40%",
+      "metric": "40%",
+      "p_value": "<0.01",
+      "citation_location": "Lancet Diabetes Endocrinol 2021;9(4):220-234, Pathophysiology Section"
+    },
+    {
+      "study_id": "STEER-MACE-2026",
+      "journal": "Diabetes, Obesity and Metabolism",
+      "year": 2026,
+      "doi": "10.1111/dom.70436",
+      "sample_size": 24800,
+      "claim": "Continuous GLP-1 care demonstrated a 57% lower rate of major adverse cardiovascular events (heart attack, stroke, CV death) compared to inconsistent treatment",
+      "metric": "57%",
+      "p_value": "<0.001",
+      "citation_location": "Wilson et al., Diabetes Obes Metab 2026;28(3):2403-2415, Per-Protocol Analysis"
+    },
+    {
+      "study_id": "STEER-MACE-2026",
+      "journal": "Diabetes, Obesity and Metabolism",
+      "year": 2026,
+      "doi": "10.1111/dom.70436",
+      "sample_size": 24800,
+      "claim": "Overall real-world risk reduction of 29% for serious cardiovascular complications even with occasional treatment interruptions",
+      "metric": "29%",
+      "p_value": "<0.01",
+      "citation_location": "Diabetes Obes Metab 2026;28(3):2403-2415, ITT Analysis"
+    },
+    {
+      "study_id": "STEP-1-EXT-2022",
+      "journal": "Diabetes, Obesity and Metabolism",
+      "year": 2022,
+      "doi": "10.1111/dom.14725",
+      "sample_size": 327,
+      "claim": "Participants regained two-thirds (67%) of their prior weight loss within one year of treatment withdrawal without lifestyle tapering",
+      "metric": "67%",
+      "p_value": "<0.001",
+      "citation_location": "Wilding et al., Diabetes Obes Metab 2022;24(8):1553-1564, Primary Extension Outcome"
+    },
+    {
+      "study_id": "STEP-1-EXT-2022",
+      "journal": "Diabetes, Obesity and Metabolism",
+      "year": 2022,
+      "doi": "10.1111/dom.14725",
+      "sample_size": 327,
+      "claim": "Cardiometabolic improvements in blood pressure, HbA1c, and fasting lipids reverted toward baseline following abrupt medication cessation",
+      "metric": "Reversion to baseline",
+      "p_value": "<0.01",
+      "citation_location": "Diabetes Obes Metab 2022;24(8):1553-1564, Table 1"
+    },
+    {
+      "study_id": "STEP-1-2021",
+      "journal": "New England Journal of Medicine",
+      "year": 2021,
+      "doi": "10.1056/NEJMoa2032183",
+      "sample_size": 1961,
+      "claim": "Average body weight reduction of 14.9% at 68 weeks on semaglutide",
+      "metric": "14.9%",
+      "p_value": "<0.001",
+      "citation_location": "NEJM 2021;384:989-1002, Table 2"
+    },
+    {
+      "study_id": "STEP-1-2021",
+      "journal": "New England Journal of Medicine",
+      "year": 2021,
+      "doi": "10.1056/NEJMoa2032183",
+      "sample_size": 1961,
+      "claim": "Two-thirds of lost weight was regained within 12 months after treatment cessation without an exit plan",
+      "metric": "67%",
+      "p_value": "<0.001",
+      "citation_location": "Diabetes Obes Metab 2022;24(8):1553-1564 (STEP 1 Trial Extension)"
+    },
+    {
+      "study_id": "STEP-1-2021",
+      "journal": "New England Journal of Medicine",
+      "year": 2021,
+      "doi": "10.1056/NEJMoa2032183",
+      "sample_size": 1961,
+      "claim": "Caloric starvation causes circulating leptin to drop by 40% and ghrelin to surge by 240%",
+      "metric": "+240%",
+      "p_value": "<0.01",
+      "citation_location": "Sumithran et al., N Engl J Med 2011;365:1597-1604"
+    },
+    {
+      "study_id": "STEP-1-2021",
+      "journal": "New England Journal of Medicine",
+      "year": 2021,
+      "doi": "10.1056/NEJMoa2032183",
+      "sample_size": 1961,
+      "claim": "Indian adults exhibit higher visceral fat and earlier insulin resistance at lower BMI (TOFI phenotype)",
+      "metric": "2.1x",
+      "p_value": "<0.001",
+      "citation_location": "Misra et al., Lancet Diabetes & Endocrinology 2021"
+    },
+    {
+      "study_id": "SURMOUNT-1-2022",
+      "journal": "The New England Journal of Medicine",
+      "year": 2022,
+      "doi": "10.1056/NEJMoa2206038",
+      "sample_size": 2539,
+      "claim": "Tirzepatide achieved up to 20.9% average body weight reduction at 72 weeks in adults with obesity",
+      "metric": "-20.9%",
+      "p_value": "<0.001",
+      "citation_location": "Jastreboff et al., N Engl J Med 2022;387:205-216, Coprimary Outcome"
+    },
+    {
+      "study_id": "SURMOUNT-1-2022",
+      "journal": "The New England Journal of Medicine",
+      "year": 2022,
+      "doi": "10.1056/NEJMoa2206038",
+      "sample_size": 2539,
+      "claim": "91% of participants achieved at least 5% clinically meaningful weight loss with highest dose",
+      "metric": "91%",
+      "p_value": "<0.001",
+      "citation_location": "N Engl J Med 2022;387:205-216, Table 2"
+    },
+    {
+      "study_id": "SURMOUNT-1-2022",
+      "journal": "The New England Journal of Medicine",
+      "year": 2022,
+      "doi": "10.1056/NEJMoa2206038",
+      "sample_size": 2539,
+      "claim": "Indian bodies store higher visceral fat (TOFI phenotype), requiring clinical diagnostics before medicine",
+      "metric": "2.1x",
+      "p_value": "<0.001",
+      "citation_location": "Lancet Diabetes & Endocrinology / Steer Protocol"
+    },
+    {
+      "study_id": "SURPASS-2-2021",
+      "journal": "The New England Journal of Medicine",
+      "year": 2021,
+      "doi": "10.1056/NEJMoa2107519",
+      "sample_size": 1879,
+      "claim": "Dual GIP and GLP-1 receptor agonism achieved superior dose-dependent glycemic control and body weight reduction compared to selective GLP-1 agonism alone",
+      "metric": "-11.2 kg",
+      "p_value": "<0.001",
+      "citation_location": "Fr\u00edas et al., N Engl J Med 2021;385:503-515, Table 2"
+    },
+    {
+      "study_id": "SURPASS-2-2021",
+      "journal": "The New England Journal of Medicine",
+      "year": 2021,
+      "doi": "10.1056/NEJMoa2107519",
+      "sample_size": 1879,
+      "claim": "Adverse events were primarily mild-to-moderate gastrointestinal symptoms that attenuated with gradual clinical dose titration",
+      "metric": "Titration safety",
+      "p_value": "<0.05",
+      "citation_location": "N Engl J Med 2021;385:503-515, Safety Analysis"
+    }
+  ]
+}

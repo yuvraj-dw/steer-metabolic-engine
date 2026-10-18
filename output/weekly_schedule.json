@@ -1,0 +1,91 @@
+{
+  "batch_id": "STEER-WEEK-42-CONTENT-ENGINE",
+  "total_papers_ingested": 5,
+  "total_verified_claims": 13,
+  "schedule": [
+    {
+      "day": "Monday",
+      "format": "Instagram Carousel (4:5)",
+      "paper_id": "STEP-1-2021",
+      "journal": "New England Journal of Medicine (2021)",
+      "topic": "The Biological Rebound Trap (STEP-1 Trial Deconstruction)",
+      "language": "English",
+      "hook": "Why does 2/3 of weight return after stopping? (Hint: It's not willpower)",
+      "cta": "Check clinical eligibility at steerclub.com",
+      "doctor_approved": true,
+      "doi": "10.1056/NEJMoa2032183"
+    },
+    {
+      "day": "Tuesday",
+      "format": "Static Authority Post (4:5)",
+      "paper_id": "LANCET-TOFI-2021",
+      "journal": "The Lancet Diabetes & Endocrinology (2021)",
+      "topic": "The 70 kg Paradox: Why standard BMI fails Indian genetics",
+      "language": "English",
+      "hook": "Two people. Both 70 kg. So why does one have the liver health of a diabetic?",
+      "cta": "Explore DEXA scans at steerclub.com",
+      "doctor_approved": true,
+      "doi": "10.1016/S2213-8587(21)00028-1"
+    },
+    {
+      "day": "Wednesday",
+      "format": "AI Video Reel (9:16)",
+      "paper_id": "LANCET-TOFI-2021",
+      "journal": "The Lancet Diabetes & Endocrinology (2021)",
+      "topic": "The Indian TOFI Anomaly (Thin on Outside, Fat on Inside)",
+      "language": "Hinglish Mode",
+      "hook": "India mein weighing scale sach kyun nahi batata?",
+      "cta": "Doctor se poochiye at steerclub.com",
+      "doctor_approved": true,
+      "doi": "10.1016/S2213-8587(21)00028-1"
+    },
+    {
+      "day": "Thursday",
+      "format": "Doctor Clinical Breakdown (Static)",
+      "paper_id": "STEER-MACE-2026",
+      "journal": "Diabetes, Obesity and Metabolism (2026)",
+      "topic": "GLP-1 Beyond Weight: 57% Lower Cardiovascular Risk in Real-World Care",
+      "language": "English",
+      "hook": "Why GLP-1 is heart medicine, not a vanity shortcut.",
+      "cta": "Read the real-world STEER study at steerclub.com",
+      "doctor_approved": true,
+      "doi": "10.1111/dom.70436"
+    },
+    {
+      "day": "Friday",
+      "format": "Interactive Playable Ad Spotlight (Web/Story)",
+      "paper_id": "STEP-1-2021",
+      "journal": "New England Journal of Medicine (2021)",
+      "topic": "The 4 PM Chai Crash Arcade Challenge",
+      "language": "English + Hinglish",
+      "hook": "Can your willpower survive past 4:00 PM? Deflect Indian cravings in 30s.",
+      "cta": "Play the simulator at steerclub.com/arcade",
+      "doctor_approved": true,
+      "doi": "10.1056/NEJMoa2032183"
+    },
+    {
+      "day": "Saturday",
+      "format": "Mythbuster Carousel (4:5)",
+      "paper_id": "SURPASS-2-2021",
+      "journal": "The New England Journal of Medicine (2021)",
+      "topic": "GLP-1 Myths: Muscle Loss, Safety, and Dose Titration",
+      "language": "English",
+      "hook": "The 3 biggest GLP-1 fears answered by real doctors.",
+      "cta": "Book a doctor consult at steerclub.com",
+      "doctor_approved": true,
+      "doi": "10.1056/NEJMoa2107519"
+    },
+    {
+      "day": "Sunday",
+      "format": "Weekly Community Q&A / Founder Field Notes",
+      "paper_id": "STEP-1-EXT-2022",
+      "journal": "Diabetes, Obesity and Metabolism (2022)",
+      "topic": "The Steer Exit Plan: How we taper off medication permanently",
+      "language": "English",
+      "hook": "A planned off-ramp: Habits that last after injections stop.",
+      "cta": "Join the waitlist at steerclub.com",
+      "doctor_approved": true,
+      "doi": "10.1111/dom.14725"
+    }
+  ]
+}

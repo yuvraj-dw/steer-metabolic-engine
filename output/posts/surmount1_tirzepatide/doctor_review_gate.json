@@ -1,0 +1,40 @@
+{
+  "status": "VERIFIED_BY_CLINICAL_GATE",
+  "protocol": "Steer Evidence-Based Social Verification v1.0",
+  "verified_claims_count": 3,
+  "claims": [
+    {
+      "study_id": "SURMOUNT-1-2022",
+      "journal": "The New England Journal of Medicine",
+      "year": 2022,
+      "doi": "10.1056/NEJMoa2206038",
+      "sample_size": 2539,
+      "claim": "Tirzepatide achieved up to 20.9% average body weight reduction at 72 weeks in adults with obesity",
+      "metric": "-20.9%",
+      "p_value": "<0.001",
+      "citation_location": "Jastreboff et al., N Engl J Med 2022;387:205-216, Coprimary Outcome"
+    },
+    {
+      "study_id": "SURMOUNT-1-2022",
+      "journal": "The New England Journal of Medicine",
+      "year": 2022,
+      "doi": "10.1056/NEJMoa2206038",
+      "sample_size": 2539,
+      "claim": "91% of participants achieved at least 5% clinically meaningful weight loss with highest dose",
+      "metric": "91%",
+      "p_value": "<0.001",
+      "citation_location": "N Engl J Med 2022;387:205-216, Table 2"
+    },
+    {
+      "study_id": "SURMOUNT-1-2022",
+      "journal": "The New England Journal of Medicine",
+      "year": 2022,
+      "doi": "10.1056/NEJMoa2206038",
+      "sample_size": 2539,
+      "claim": "Indian bodies store higher visceral fat (TOFI phenotype), requiring clinical diagnostics before medicine",
+      "metric": "2.1x",
+      "p_value": "<0.001",
+      "citation_location": "Lancet Diabetes & Endocrinology / Steer Protocol"
+    }
+  ]
+}

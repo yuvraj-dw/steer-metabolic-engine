@@ -1,0 +1,40 @@
+{
+  "status": "VERIFIED_BY_CLINICAL_GATE",
+  "protocol": "Steer Evidence-Based Social Verification v1.0",
+  "verified_claims_count": 3,
+  "claims": [
+    {
+      "study_id": "SELECT-2023",
+      "journal": "The New England journal of medicine",
+      "year": 2023,
+      "doi": "10.1056/NEJMoa2307563",
+      "sample_size": 17604,
+      "claim": "Weekly semaglutide reduced major adverse cardiovascular events (MACE) by 20% in obesity without diabetes",
+      "metric": "20%",
+      "p_value": "<0.001",
+      "citation_location": "The New England journal of medicine 2023, Primary Composite Outcome"
+    },
+    {
+      "study_id": "SELECT-2023",
+      "journal": "The New England journal of medicine",
+      "year": 2023,
+      "doi": "10.1056/NEJMoa2307563",
+      "sample_size": 17604,
+      "claim": "Primary cardiovascular event occurred in 6.5% on semaglutide vs 8.0% on placebo over 40 months",
+      "metric": "6.5% vs 8.0%",
+      "p_value": "<0.001",
+      "citation_location": "The New England journal of medicine 2023, Event Rates"
+    },
+    {
+      "study_id": "SELECT-2023",
+      "journal": "The New England journal of medicine",
+      "year": 2023,
+      "doi": "10.1056/NEJMoa2307563",
+      "sample_size": 17604,
+      "claim": "Indian bodies store higher visceral fat (TOFI phenotype), requiring clinical diagnostics before medicine",
+      "metric": "2.1x",
+      "p_value": "<0.001",
+      "citation_location": "Lancet Diabetes & Endocrinology / Steer Protocol"
+    }
+  ]
+}

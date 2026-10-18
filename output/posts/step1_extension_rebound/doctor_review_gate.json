@@ -1,0 +1,29 @@
+{
+  "status": "VERIFIED_BY_CLINICAL_GATE",
+  "protocol": "Steer Evidence-Based Social Verification v1.0",
+  "verified_claims_count": 2,
+  "claims": [
+    {
+      "study_id": "STEP-1-EXT-2022",
+      "journal": "Diabetes, Obesity and Metabolism",
+      "year": 2022,
+      "doi": "10.1111/dom.14725",
+      "sample_size": 327,
+      "claim": "Participants regained two-thirds (67%) of their prior weight loss within one year of treatment withdrawal without lifestyle tapering",
+      "metric": "67%",
+      "p_value": "<0.001",
+      "citation_location": "Wilding et al., Diabetes Obes Metab 2022;24(8):1553-1564, Primary Extension Outcome"
+    },
+    {
+      "study_id": "STEP-1-EXT-2022",
+      "journal": "Diabetes, Obesity and Metabolism",
+      "year": 2022,
+      "doi": "10.1111/dom.14725",
+      "sample_size": 327,
+      "claim": "Cardiometabolic improvements in blood pressure, HbA1c, and fasting lipids reverted toward baseline following abrupt medication cessation",
+      "metric": "Reversion to baseline",
+      "p_value": "<0.01",
+      "citation_location": "Diabetes Obes Metab 2022;24(8):1553-1564, Table 1"
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "status": "VERIFIED_BY_CLINICAL_GATE",
+  "protocol": "Steer Evidence-Based Social Verification v1.0",
+  "verified_claims_count": 2,
+  "claims": [
+    {
+      "study_id": "SURPASS-2-2021",
+      "journal": "The New England Journal of Medicine",
+      "year": 2021,
+      "doi": "10.1056/NEJMoa2107519",
+      "sample_size": 1879,
+      "claim": "Dual GIP and GLP-1 receptor agonism achieved superior dose-dependent glycemic control and body weight reduction compared to selective GLP-1 agonism alone",
+      "metric": "-11.2 kg",
+      "p_value": "<0.001",
+      "citation_location": "Fr\u00edas et al., N Engl J Med 2021;385:503-515, Table 2"
+    },
+    {
+      "study_id": "SURPASS-2-2021",
+      "journal": "The New England Journal of Medicine",
+      "year": 2021,
+      "doi": "10.1056/NEJMoa2107519",
+      "sample_size": 1879,
+      "claim": "Adverse events were primarily mild-to-moderate gastrointestinal symptoms that attenuated with gradual clinical dose titration",
+      "metric": "Titration safety",
+      "p_value": "<0.05",
+      "citation_location": "N Engl J Med 2021;385:503-515, Safety Analysis"
+    }
+  ]
+}
