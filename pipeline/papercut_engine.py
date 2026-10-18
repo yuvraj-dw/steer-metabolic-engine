@@ -16,7 +16,135 @@ def get_papercut_study_spec(study=None):
     else:
         sid = study.study_id.lower()
 
-    if "surpass" in sid or "tirzepatide" in sid:
+    if "surmount" in sid:
+        script = [
+            {"id": "l1_hook", "text": "Can a once-weekly medication achieve over 20% clinical weight reduction?"},
+            {"id": "l2_tofi", "text": "In the NEJM SURMOUNT-1 trial, researchers evaluated tirzepatide across 2,539 adults."},
+            {"id": "l3_visceral", "text": "Participants achieved up to 20.9% average body weight reduction at week 72."},
+            {"id": "l4_noise", "text": "Dual GIP and GLP-1 co-agonism resets hypothalamic hunger set-points safely."},
+            {"id": "l5_steer", "text": "Deep weight loss demands muscle defense. Steer monitors body composition with DEXA scans."},
+            {"id": "l6_cta", "text": "Stop guessing your metabolic health. Talk to a real doctor at steerclub.com."}
+        ]
+        episode = {
+            "comp": "SteerPapercut",
+            "out": "steer-surmount1-papercut",
+            "bed": "marimba-Am-120",
+            "narration": "narration",
+            "timing": "timing_narrator.js",
+            "fps": 30, "start": 0.2, "gap": 0.22, "hold": 1.2, "whipScene": "",
+            "hook": {"lines": [["OVER 20% DEEP", "WEIGHT RESET"], ["NEJM TRIAL"]], "hot": ["WEIGHT RESET"], "hold": 2.2},
+            "scenes": [
+                ["S01Paradox", "l1_hook", 0],
+                ["S02Tofi", "l2_tofi", 0],
+                ["S03Visceral", "l3_visceral", 0],
+                ["S04FoodNoise", "l4_noise", 0],
+                ["S05Steer", "l5_steer", 0],
+                ["S06Cta", "l6_cta", 0]
+            ],
+            "banners": {
+                "S01Paradox": "UP TO 20.9% WEIGHT LOSS (NEJM)",
+                "S02Tofi": "SURMOUNT-1 OBESITY TRIAL (n=2,539)",
+                "S03Visceral": "-20.9% AVERAGE BODY WEIGHT LOSS",
+                "S04FoodNoise": "DUAL GIP & GLP-1 RESET",
+                "S05Steer": "DOCTOR-GUIDED MUSCLE DEFENSE",
+                "S06Cta": "CLINICAL CARE AT STEERCLUB.COM"
+            },
+            "cuts": {"S02Tofi": {"kind": "tearAway"}, "S03Visceral": {"kind": "tapePull"}, "S04FoodNoise": {"kind": "pageTurn"}, "S05Steer": {"kind": "tapePull"}, "S06Cta": {"kind": "tearAway"}}
+        }
+        active_study = {
+            "study_id": "SURMOUNT-1-2022",
+            "theme": "dual_incretin",
+            "card1_vat_label": "Placebo Arm:",
+            "card2_vat_label": "Tirzepatide 15mg:",
+            "s01_cue1": "weekly", "s01_cue2": "weight", "s01_cue3": "reduction",
+            "s02_cue1": "evaluated", "s02_cue2": "adults", "s02_cue3": "trial", "s02_pill": "PHASE 3 OBESITY TRIAL",
+            "s03_cue1": "achieved", "s03_cue2": "weight", "critter_tag": "DUAL AGONIST",
+            "s04_cue1": "resets", "s04_cue2": "hunger", "s04_pill": "DUAL INCRETIN CO-AGONISM",
+            "s05_cue": "DEXA",
+            "journal": "NEJM", "year": 2022, "sample_size": 2539,
+            "hook_pill": "LANDMARK WEIGHT RESET",
+            "card1_header": "PLACEBO ARM", "card1_stat": "-3.1%", "card1_bmi": "Standard Caloric Care", "card1_vat": "Minimal Response", "card1_tag": "CONTROL ARM",
+            "card2_header": "TIRZEPATIDE 15 MG", "card2_stat": "-20.9%", "card2_bmi": "Dual Incretin Activation", "card2_vat": "Highest Dose Response", "card2_tag": "SURMOUNT-1 WINNER",
+            "s02_title": "SURMOUNT-1", "s02_subtitle": "NEJM 2022 (n=2,539)", "s02_desc": "Phase 3 trial evaluated dual GIP/GLP-1 receptor co-agonist across 72 weeks.", "s02_tag": "DUAL RECEPTOR ACTIVATION", "s02_subtag": "Profound fat clearance with muscle preservation.",
+            "s03_header": "NEJM TRIAL TELEMETRY", "s03_sub": "COPRIMARY OUTCOME",
+            "s03_metric": "-20.9%", "s03_metric_label": "Mean Body Weight Loss", "s03_metric_desc": "57% of participants achieved >=20% weight reduction at week 72 (p <0.001).", "s03_pill": "SUPERIOR METABOLIC RESET",
+            "s03_tag": "91% ACHIEVED >=5% WEIGHT LOSS", "s03_core_label": "UNPRECEDENTED\\nWEIGHT CLEARANCE",
+            "s04_header": "DUAL RECEPTOR MECHANISM", "s04_sub": "INCRETIN SYNERGY",
+            "s04_diagram_title": "DUAL HORMONE CO-AGONISM:",
+            "s04_box1_title": "GLP-1 Axis", "s04_box2_title": "+ GIP Axis", "s04_box3_title": "Dual Satiety",
+            "s04_desc": "GLP-1 suppresses appetite signals while GIP increases lipid buffering and protects muscle.",
+            "s04_gauge_title": "RESPONSE RATE", "s04_gauge_val": "91%", "s04_gauge_label": "Clinical Responders", "s04_gauge_sub": "Patients achieving meaningful metabolic response.",
+            "s05_header": "STEER METABOLIC CARE", "s05_sub": "MUSCLE PRESERVATION",
+            "s05_title": "Preserve Lean Muscle During Deep Fat Loss",
+            "s05_slab1_title": "DEXA Lean Mass Telemetry (Every 8 Wks)", "s05_slab1_desc": "Ensures fat is lost while vital muscle mass is strictly preserved.",
+            "s05_slab2_title": "Doctor-Supervised Micro-Titration", "s05_slab2_desc": "Gradual dose escalation prevents gastrointestinal side effects.",
+            "s05_slab3_title": "Dietician-Guided Protein Off-Ramp", "s05_slab3_desc": "Anchors behavioral protein and satiety buffers before tapering."
+        }
+    elif "select" in sid:
+        script = [
+            {"id": "l1_hook", "text": "Can weight loss medication protect the heart in patients without diabetes?"},
+            {"id": "l2_tofi", "text": "In the landmark NEJM SELECT trial, researchers followed 17,604 individuals."},
+            {"id": "l3_visceral", "text": "Weekly semaglutide reduced major adverse cardiovascular events by 20%."},
+            {"id": "l4_noise", "text": "Visceral fat reduction directly decompresses blood vessels and relieves arterial strain."},
+            {"id": "l5_steer", "text": "Incretins are vascular medicine. Steer monitors 55 biomarkers under doctor supervision."},
+            {"id": "l6_cta", "text": "Stop guessing your metabolic health. Talk to a real doctor at steerclub.com."}
+        ]
+        episode = {
+            "comp": "SteerPapercut",
+            "out": "steer-select-papercut",
+            "bed": "marimba-Am-120",
+            "narration": "narration",
+            "timing": "timing_narrator.js",
+            "fps": 30, "start": 0.2, "gap": 0.22, "hold": 1.2, "whipScene": "",
+            "hook": {"lines": [["20% LOWER", "CARDIAC RISK"], ["NEJM TRIAL"]], "hot": ["CARDIAC RISK"], "hold": 2.2},
+            "scenes": [
+                ["S01Paradox", "l1_hook", 0],
+                ["S02Tofi", "l2_tofi", 0],
+                ["S03Visceral", "l3_visceral", 0],
+                ["S04FoodNoise", "l4_noise", 0],
+                ["S05Steer", "l5_steer", 0],
+                ["S06Cta", "l6_cta", 0]
+            ],
+            "banners": {
+                "S01Paradox": "20% LOWER CARDIAC RISK (NEJM)",
+                "S02Tofi": "SELECT LANDMARK TRIAL (n=17,604)",
+                "S03Visceral": "20% FEWER HEART ATTACKS & STROKES",
+                "S04FoodNoise": "VASCULAR ENDOTHELIAL RELIEF",
+                "S05Steer": "DOCTOR-GUIDED HEART DEFENSE",
+                "S06Cta": "CLINICAL CARE AT STEERCLUB.COM"
+            },
+            "cuts": {"S02Tofi": {"kind": "tearAway"}, "S03Visceral": {"kind": "tapePull"}, "S04FoodNoise": {"kind": "pageTurn"}, "S05Steer": {"kind": "tapePull"}, "S06Cta": {"kind": "tearAway"}}
+        }
+        active_study = {
+            "study_id": "SELECT-2023",
+            "theme": "mace",
+            "card1_vat_label": "Placebo Event Rate:",
+            "card2_vat_label": "Semaglutide 2.4mg:",
+            "s01_cue1": "medication", "s01_cue2": "protect", "s01_cue3": "heart",
+            "s02_cue1": "landmark", "s02_cue2": "followed", "s02_cue3": "individuals", "s02_pill": "LANDMARK CV TRIAL",
+            "s03_cue1": "reduced", "s03_cue2": "events", "critter_tag": "CARDIO DEFENSE",
+            "s04_cue1": "decompresses", "s04_cue2": "arterial", "s04_pill": "ENDOTHELIAL SANCTUARY",
+            "s05_cue": "Steer",
+            "journal": "NEJM", "year": 2023, "sample_size": 17604,
+            "hook_pill": "CARDIAC PROTECTION IN OBESITY",
+            "card1_header": "PLACEBO (STANDARD CARE)", "card1_stat": "8.0%", "card1_bmi": "Preexisting CV Disease", "card1_vat": "Standard Risk", "card1_tag": "PLACEBO BASELINE",
+            "card2_header": "SEMAGLUTIDE 2.4 MG", "card2_stat": "6.5%", "card2_bmi": "Overweight / Obesity", "card2_vat": "-20% Relative Risk", "card2_tag": "SELECT WINNER",
+            "s02_title": "SELECT TRIAL", "s02_subtitle": "NEJM 2023 (n=17,604)", "s02_desc": "Event-driven trial proves GLP-1 reduces cardiovascular death, nonfatal MI, and stroke.", "s02_tag": "CARDIOVASCULAR OUTCOMES", "s02_subtag": "Heart protection beyond glycemic control.",
+            "s03_header": "NEJM TRIAL TELEMETRY", "s03_sub": "PRIMARY COMPOSITE MACE",
+            "s03_metric": "20%", "s03_metric_label": "MACE Risk Reduction", "s03_metric_desc": "Hazard ratio 0.80 (95% CI 0.72-0.90, p <0.001) across 40 months follow-up.", "s03_pill": "PROVEN CARDIOPROTECTION",
+            "s03_tag": "HAZARD RATIO 0.80", "s03_core_label": "20% LOWER\\nCARDIAC EVENTS",
+            "s04_header": "ENDOTHELIAL PATHOPHYSIOLOGY", "s04_sub": "VASCULAR SANCTUARY",
+            "s04_diagram_title": "ARTERIAL DECOMPRESSION:",
+            "s04_box1_title": "Lipid Flush", "s04_box2_title": "➔ Nitric Oxide", "s04_box3_title": "Artery Relief",
+            "s04_desc": "Visceral fat clearance decompresses micro-vasculature and stabilizes atherosclerotic plaques.",
+            "s04_gauge_title": "PRIMARY MACE", "s04_gauge_val": "HR 0.80", "s04_gauge_label": "Hazard Ratio", "s04_gauge_sub": "Superior cardiovascular protection in obesity.",
+            "s05_header": "STEER CARDIO METABOLIC", "s05_sub": "CONTINUOUS CARE",
+            "s05_title": "Prevent Rebound Through Medical Oversight",
+            "s05_slab1_title": "Continuous Blood Pressure Telemetry", "s05_slab1_desc": "Monitors arterial decompression and systemic vascular resistance.",
+            "s05_slab2_title": "ApoB & High-Sensitivity CRP Tracking", "s05_slab2_desc": "Ensures plaque inflammation stabilizes alongside weight reduction.",
+            "s05_slab3_title": "Long-Term Set-Point Preservation", "s05_slab3_desc": "Physician supervision prevents weight and blood pressure rebound."
+        }
+    elif "surpass" in sid or "tirzepatide" in sid:
         script = [
             {"id": "l1_hook", "text": "Can targeting two hunger hormones produce superior clinical weight loss?"},
             {"id": "l2_tofi", "text": "In the NEJM SURPASS-2 trial, researchers tested dual GIP and GLP-1 therapy."},

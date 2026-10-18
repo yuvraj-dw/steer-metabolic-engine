@@ -157,7 +157,113 @@ def get_default_slides():
 def build_study_slides(study):
     sid = (study.study_id + " " + getattr(study, "title", "")).lower() if study else "lancet_tofi"
 
-    if "surpass" in sid or "tirzepatide" in sid:
+    if "surmount" in sid:
+        return [
+            {
+                "tag": "NEJM PHASE 3 TRIAL",
+                "title": "SURMOUNT-1: Landmark 20.9% Weight Loss.",
+                "subtitle": "Tirzepatide once weekly for obesity in 2,539 adults (NEJM 2022).",
+                "type": "rebound_hero",
+                "stat": "-20.9%",
+                "stat_label": "Mean Body Weight Loss at 72 Weeks",
+                "stat_sub": "p <0.001 vs placebo in adults with obesity",
+                "p1": "In the landmark NEJM SURMOUNT-1 trial, dual GIP/GLP-1 co-agonist tirzepatide was evaluated across 2,539 adults with obesity.",
+                "p2": "Participants achieved unprecedented dose-dependent weight loss, reaching up to -20.9% average body weight reduction at week 72.",
+                "takeaway": "Dual incretin co-agonism resets metabolic set-points with unprecedented clinical potency.",
+                "citation": "Source: Jastreboff et al., N Engl J Med 2022;387:205-216"
+            },
+            {
+                "tag": "DUAL RECEPTOR MECHANISM",
+                "title": "GIP + GLP-1: The Metabolic Synergy.",
+                "subtitle": "Why dual incretin agonists achieve deeper glycemic & lipid control.",
+                "type": "clinical_diagram",
+                "diagram_key": "SURPASS-2-2021",
+                "p1": "GLP-1 receptor activation quiets hypothalamic food noise while GIP receptor activation restores adipose insulin sensitivity.",
+                "takeaway": "Dual receptor synergy protects resting metabolic burn during fat loss.",
+                "citation": "Source: The Lancet Diabetes & Endocrinology 2021;9:747-762"
+            },
+            {
+                "tag": "SECONDARY METABOLIC RESPONSE",
+                "title": "91% Achieved Clinical Response.",
+                "subtitle": "Prespecified cardiometabolic and body composition outcomes (NEJM 2022).",
+                "type": "rebound_hero",
+                "stat": "91%",
+                "stat_label": "Achieved >=5% Weight Loss",
+                "stat_sub": "57% of participants achieved >=20% reduction",
+                "p1": "Over 9 out of 10 participants achieved clinically meaningful weight loss, alongside a 14.6 cm reduction in waist circumference.",
+                "p2": "However, rapid deep fat loss requires medical monitoring to ensure muscle mass and metabolic rate are preserved.",
+                "takeaway": "Steer pairs dual incretin titration with DEXA scans to defend lean muscle.",
+                "citation": "Source: NEJM 2022;387:205-216, Table 2"
+            },
+            {
+                "tag": "THE STEER ARCHITECTURE",
+                "title": "Doctor-led care with muscle defense.",
+                "subtitle": "How Steer delivers safe, sustainable dual incretin therapy.",
+                "type": "steer_protocol",
+                "pillars": [
+                    ("01  DEXA Muscle Tracking", "Quantifies fat loss vs lean mass preservation every 8 weeks."),
+                    ("02  Doctor-Led Titration", "Physician-guided micro-dosing to eliminate nausea and GI symptoms."),
+                    ("03  Targeted High-Protein Diet", "Dietician-supervised intake to preserve resting metabolic rate."),
+                    ("04  Structured Off-Ramp", "Gradual tapering protocol to maintain set-point permanently.")
+                ],
+                "citation": "Steer Clinical Care Protocol 2026 • steerclub.com"
+            }
+        ]
+
+    elif "select" in sid:
+        return [
+            {
+                "tag": "NEJM LANDMARK TRIAL",
+                "title": "SELECT: 20% Lower Heart Attack & Stroke Risk.",
+                "subtitle": "Cardiovascular outcomes of semaglutide in 17,604 patients (NEJM 2023).",
+                "type": "rebound_hero",
+                "stat": "20%",
+                "stat_label": "Lower Rate of Major Cardiovascular Events",
+                "stat_sub": "Primary composite MACE Hazard Ratio HR 0.80 (p <0.001)",
+                "p1": "In the landmark multicenter SELECT trial of 17,604 individuals with overweight/obesity without diabetes, semaglutide 2.4mg was evaluated.",
+                "p2": "Patients experienced a 20% lower rate of death from cardiovascular causes, nonfatal myocardial infarction, or stroke over 40 months.",
+                "takeaway": "GLP-1 is direct cardiovascular medicine, not just aesthetic weight loss.",
+                "citation": "Source: Lincoff et al., N Engl J Med 2023;389:2073-2084"
+            },
+            {
+                "tag": "VASCULAR PATHOPHYSIOLOGY",
+                "title": "Decompressing the Arterial System.",
+                "subtitle": "How visceral fat reduction protects endothelial blood flow.",
+                "type": "clinical_diagram",
+                "diagram_key": "STEER-MACE-2026",
+                "p1": "Excess visceral fat secretes inflammatory adipokines that trigger chronic arterial wall stiffness and micro-vascular strain.",
+                "takeaway": "Clearing toxic visceral cytokines directly relieves cardiac workload.",
+                "citation": "Source: Circulation 2023;148:1532-1544"
+            },
+            {
+                "tag": "SECONDARY CARDIAC OUTCOMES",
+                "title": "Event Rate: 6.5% vs 8.0%.",
+                "subtitle": "Sustained cardioprotection across 3.3 years mean exposure (NEJM 2023).",
+                "type": "rebound_hero",
+                "stat": "6.5% vs 8.0%",
+                "stat_label": "Primary Cardiovascular Event Incidence",
+                "stat_sub": "P <0.001 across 17,604 enrolled participants",
+                "p1": "Primary composite cardiovascular events occurred in 569 (6.5%) on semaglutide vs 701 (8.0%) on placebo over 40 months of continuous follow-up.",
+                "p2": "These protective benefits depend on continuous doctor-led oversight rather than sporadic unguided self-use.",
+                "takeaway": "Continuous physician oversight delivers vascular sanctuary that crash diets destroy.",
+                "citation": "Source: NEJM 2023;389:2073-2084, Results"
+            },
+            {
+                "tag": "THE STEER ARCHITECTURE",
+                "title": "Doctor-led continuous cardiovascular care.",
+                "subtitle": "How Steer monitors heart and metabolic health beyond the scale.",
+                "type": "steer_protocol",
+                "pillars": [
+                    ("01  ApoB & Lipid Precision", "Tracking advanced cardiac atherogenic particles beyond basic cholesterol."),
+                    ("02  Continuous BP Telemetry", "Monitoring arterial decompression and vascular tone improvement."),
+                    ("03  Visceral Decompression", "DEXA-guided tracking to ensure organ fat leaves first."),
+                    ("04  Cardiometabolic Sanctuary", "Long-term clinical oversight protecting against vascular rebound.")
+                ],
+                "citation": "Steer Clinical Care Protocol 2026 • steerclub.com"
+            }
+        ]
+
+    elif "surpass" in sid or "tirzepatide" in sid:
         return [
             {
                 "tag": "NEJM CLINICAL TRIAL",

@@ -335,6 +335,59 @@ def draw_slide1_telemetry(study_id: str = "", w=840, h=240) -> Image.Image:
         draw.rounded_rectangle([gx2 - 225, gy_bot - 24, gx2 - 5, gy_bot + 6], radius=6, fill=PALETTE["teal_light"], outline=PALETTE["teal"], width=1)
         draw.text((gx2 - 215, gy_bot - 19), "Steer Exit (Set-Point Maintained)", fill=PALETTE["teal"], font=get_font(13, bold=True))
 
+    elif "SURMOUNT" in sid:
+        draw.text((24, 16), "SURMOUNT-1 DOSE-DEPENDENT WEIGHT CLEARANCE AT 72 WEEKS (NEJM)", fill=PALETTE["clay"], font=get_font(14, bold=True))
+        
+        draw.text((28, 48), "Placebo: -3.1%  |  Tirzepatide 5 mg: -15.0%  |  10 mg: -19.5%", fill=PALETTE["ink"], font=get_font(13, bold=True))
+        b1_w = 400
+        draw.rounded_rectangle([28, 72, 28 + b1_w, 102], radius=6, fill=PALETTE["blush"], outline="#D2B5A5", width=1)
+        draw.text((45, 78), "-15.0% to -19.5% Substantial Loss", fill=PALETTE["ink"], font=get_font(13, bold=True))
+        
+        draw.text((28, 118), "Tirzepatide 15 mg (Dual GIP/GLP-1 Co-Agonist)", fill=PALETTE["oxblood"], font=get_font(14, bold=True))
+        b2_w = 540
+        draw.rounded_rectangle([28, 142, 28 + b2_w, 180], radius=8, fill=PALETTE["rust_light"], outline=PALETTE["rust"], width=2)
+        draw.text((45, 151), "-20.9% Average Body Weight Reduction (p < 0.001)", fill=PALETTE["oxblood"], font=get_font(15, bold=True))
+        
+        # Side Badge
+        draw.rounded_rectangle([w - 220, 80, w - 24, 175], radius=10, fill=PALETTE["teal_light"], outline=PALETTE["teal"], width=1)
+        draw.text((w - 205, 95), "91% SUCCESS", fill=PALETTE["teal"], font=get_font(14, bold=True))
+        draw.text((w - 205, 119), "Achieved >5% Loss", fill=PALETTE["oxblood"], font=get_font(13, bold=True))
+        draw.text((w - 205, 141), "57% Reached >20%", fill=PALETTE["clay"], font=get_font(12))
+        draw.text((28, 198), "Highest degree of medical weight clearance ever recorded in a global phase 3 trial.", fill=PALETTE["oxblood"], font=get_font(13, bold=True))
+
+    elif "SELECT" in sid:
+        draw.text((24, 16), "40-MONTH COMPOSITE MACE EVENT-FREE SURVIVAL (n=17,604)", fill=PALETTE["clay"], font=get_font(14, bold=True))
+        
+        gx1, gx2 = 100, w - 40
+        gy_top, gy_bot = 55, 180
+        
+        draw.line([(gx1, gy_top), (gx2, gy_top)], fill="#F0E8DF", width=1)
+        draw.text((24, gy_top - 7), "100%", fill=PALETTE["clay"], font=get_font(12))
+        
+        gy_mid = gy_top + (gy_bot - gy_top) // 2
+        draw.line([(gx1, gy_mid), (gx2, gy_mid)], fill="#F5EFEB", width=1)
+        draw.text((24, gy_mid - 7), "95%", fill=PALETTE["clay"], font=get_font(12))
+        
+        draw.line([(gx1, gy_bot), (gx2, gy_bot)], fill="#F0E8DF", width=1)
+        draw.text((24, gy_bot - 7), "90%", fill=PALETTE["clay"], font=get_font(12))
+        draw.line([(gx1, gy_top), (gx1, gy_bot)], fill="#D8C8B8", width=2)
+        
+        # Timeline X
+        draw.text((gx1 - 5, gy_bot + 10), "Month 0", fill=PALETTE["clay"], font=get_font(12))
+        draw.text((gx1 + 180, gy_bot + 10), "Month 20", fill=PALETTE["clay"], font=get_font(12))
+        draw.text((gx2 - 50, gy_bot + 10), "Month 40", fill=PALETTE["clay"], font=get_font(12))
+        
+        # Survival curves
+        draw.line([(gx1, gy_top + 4), (gx2 - 10, gy_top + 24)], fill=PALETTE["teal"], width=4)
+        draw.rounded_rectangle([gx2 - 245, gy_top + 12, gx2 - 5, gy_top + 40], radius=6, fill=PALETTE["teal_light"], outline=PALETTE["teal"], width=1)
+        draw.text((gx2 - 235, gy_top + 18), "Semaglutide 2.4mg (6.5% Event Rate)", fill=PALETTE["teal"], font=get_font(12, bold=True))
+        
+        draw.line([(gx1, gy_top + 4), (gx2 - 10, gy_mid + 8)], fill=PALETTE["oxblood"], width=4)
+        draw.rounded_rectangle([gx2 - 245, gy_mid - 2, gx2 - 5, gy_mid + 26], radius=6, fill=PALETTE["rust_light"], outline=PALETTE["rust"], width=1)
+        draw.text((gx2 - 235, gy_mid + 4), "Placebo Group (8.0% Event Rate)", fill=PALETTE["oxblood"], font=get_font(12, bold=True))
+        
+        draw.text((28, 206), "Hazard Ratio HR 0.80: 20% lower rate of CV death, nonfatal MI, and stroke (NEJM 2023)", fill=PALETTE["clay"], font=get_font(13, bold=True))
+
     elif "SURPASS" in sid or "TIRZEPATIDE" in sid:
         draw.text((24, 16), "HEAD-TO-HEAD WEIGHT CLEARANCE AT 40 WEEKS (NEJM)", fill=PALETTE["clay"], font=get_font(14, bold=True))
         
@@ -465,6 +518,46 @@ def draw_slide3_telemetry(study_id: str = "", w=840, h=230) -> Image.Image:
         draw.text((tx3 + 18, 154), "surged back to baseline", fill=PALETTE["ink"], font=get_font(14))
         draw.text((tx3 + 18, 180), "• Lipid Relapse", fill=PALETTE["oxblood"], font=get_font(12, bold=True))
 
+    elif "SURMOUNT" in sid:
+        draw.text((24, 16), "SURMOUNT-1 SECONDARY METABOLIC ENDPOINTS (NEJM 2022)", fill=PALETTE["clay"], font=get_font(14, bold=True))
+        
+        tile_w = (w - 60) // 2
+        tx1 = 24
+        draw.rounded_rectangle([tx1, 50, tx1 + tile_w, 205], radius=12, fill=PALETTE["teal_light"], outline="#CBE2D3", width=1)
+        draw.text((tx1 + 20, 66), "WAIST CIRCUMFERENCE", fill=PALETTE["teal"], font=get_font(14, bold=True))
+        draw.text((tx1 + 20, 92), "-14.6 cm", fill=PALETTE["teal"], font=get_font(28, bold=True, serif=True))
+        draw.text((tx1 + 20, 136), "Mean reduction in waist circumference at 72 weeks", fill=PALETTE["ink"], font=get_font(15))
+        draw.text((tx1 + 20, 162), "reflecting deep internal visceral organ fat clearance.", fill=PALETTE["clay"], font=get_font(14))
+        draw.text((tx1 + 20, 184), "• Direct Visceral Decompression", fill=PALETTE["teal"], font=get_font(13, bold=True))
+
+        tx2 = tx1 + tile_w + 12
+        draw.rounded_rectangle([tx2, 50, tx2 + tile_w, 205], radius=12, fill=PALETTE["rust_light"], outline="#F5C5B5", width=1)
+        draw.text((tx2 + 20, 66), "DEEP WEIGHT RESPONSE", fill=PALETTE["rust"], font=get_font(14, bold=True))
+        draw.text((tx2 + 20, 92), "57% Over 20%", fill=PALETTE["oxblood"], font=get_font(28, bold=True, serif=True))
+        draw.text((tx2 + 20, 136), "Over half of 15mg participants lost >20% body weight.", fill=PALETTE["ink"], font=get_font(15))
+        draw.text((tx2 + 20, 162), "Steer pairs titration with DEXA scans to preserve muscle.", fill=PALETTE["clay"], font=get_font(14))
+        draw.text((tx2 + 20, 184), "• Doctor-Supervised Muscle Defense", fill=PALETTE["oxblood"], font=get_font(13, bold=True))
+
+    elif "SELECT" in sid:
+        draw.text((24, 16), "SELECT TRIAL CARDIOVASCULAR RISK REDUCTION (NEJM 2023)", fill=PALETTE["clay"], font=get_font(14, bold=True))
+        
+        tile_w = (w - 60) // 2
+        tx1 = 24
+        draw.rounded_rectangle([tx1, 50, tx1 + tile_w, 205], radius=12, fill=PALETTE["teal_light"], outline="#CBE2D3", width=1)
+        draw.text((tx1 + 20, 66), "PRIMARY MACE REDUCTION", fill=PALETTE["teal"], font=get_font(14, bold=True))
+        draw.text((tx1 + 20, 92), "20% Lower Risk", fill=PALETTE["teal"], font=get_font(28, bold=True, serif=True))
+        draw.text((tx1 + 20, 136), "Hazard ratio HR 0.80 (p < 0.001) for composite MACE", fill=PALETTE["ink"], font=get_font(15))
+        draw.text((tx1 + 20, 162), "including cardiovascular death, nonfatal MI, and stroke.", fill=PALETTE["clay"], font=get_font(14))
+        draw.text((tx1 + 20, 184), "• Vascular Endothelial Protection", fill=PALETTE["teal"], font=get_font(13, bold=True))
+
+        tx2 = tx1 + tile_w + 12
+        draw.rounded_rectangle([tx2, 50, tx2 + tile_w, 205], radius=12, fill=PALETTE["rust_light"], outline="#F5C5B5", width=1)
+        draw.text((tx2 + 20, 66), "POPULATION SIGNIFICANCE", fill=PALETTE["rust"], font=get_font(14, bold=True))
+        draw.text((tx2 + 20, 92), "n = 17,604", fill=PALETTE["oxblood"], font=get_font(28, bold=True, serif=True))
+        draw.text((tx2 + 20, 136), "Cardioprotection demonstrated in overweight & obesity", fill=PALETTE["ink"], font=get_font(15))
+        draw.text((tx2 + 20, 162), "in the absence of diabetes across 40 months follow-up.", fill=PALETTE["clay"], font=get_font(14))
+        draw.text((tx2 + 20, 184), "• Incretin as Cardiovascular Medicine", fill=PALETTE["oxblood"], font=get_font(13, bold=True))
+
     elif "SURPASS" in sid or "TIRZEPATIDE" in sid:
         draw.text((24, 16), "SECONDARY ENDPOINTS & MUSCLE DEFENSE (NEJM)", fill=PALETTE["clay"], font=get_font(14, bold=True))
         
@@ -578,7 +671,19 @@ def render_instagram_hero_slide(study_id: str, output_path: str) -> str:
 
     # Resolve Study Metadata
     sid = (study_id or "").upper()
-    if "SURPASS" in sid or "TIRZEPATIDE" in sid:
+    if "SURMOUNT" in sid:
+        tag = "NEJM 2022 OBESITY TRIAL (n=2,539)"
+        title = "Up to 20.9% Deep Weight Reset."
+        subtitle = "SURMOUNT-1 proves dual incretins achieve unprecedented clinical weight clearance."
+        takeaway = "Dual GIP/GLP-1 co-agonism resets hypothalamic set-points with muscle defense."
+        diag_img = draw_surpass_diagram(card_w - 60, 360)
+    elif "SELECT" in sid:
+        tag = "NEJM 2023 LANDMARK TRIAL (n=17,604)"
+        title = "20% Lower Heart Attack & Stroke Risk."
+        subtitle = "SELECT trial confirms semaglutide protects cardiovascular health in obesity."
+        takeaway = "Cardiovascular protection operates through direct vascular endothelial relief."
+        diag_img = draw_mace_diagram(card_w - 60, 360)
+    elif "SURPASS" in sid or "TIRZEPATIDE" in sid:
         tag = "NEJM 2021 TRIAL EVIDENCE"
         title = "Dual Incretin Receptor Synergy."
         subtitle = "Tirzepatide co-activates GLP-1 and GIP for superior clinical weight reduction."
@@ -660,9 +765,9 @@ def render_instagram_hero_slide(study_id: str, output_path: str) -> str:
 def render_study_graphic(study_id: str, output_path: str, width=840, height=360) -> str:
     """Generate and save the vector clinical diagram for a given study."""
     sid = (study_id or "").upper()
-    if "SURPASS" in sid or "TIRZEPATIDE" in sid:
+    if "SURMOUNT" in sid or "SURPASS" in sid or "TIRZEPATIDE" in sid:
         img = draw_surpass_diagram(width, height)
-    elif "MACE" in sid or "CARDIO" in sid or "STEER" in sid:
+    elif "SELECT" in sid or "MACE" in sid or "CARDIO" in sid or "STEER" in sid:
         img = draw_mace_diagram(width, height)
     elif "STEP" in sid or "REBOUND" in sid:
         img = draw_step1_diagram(width, height)

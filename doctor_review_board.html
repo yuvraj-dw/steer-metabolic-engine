@@ -498,6 +498,7 @@
         <button class="action-btn" id="sbtn-surpass" onclick="setStudioPaper('surpass')">SURPASS-2</button>
         <button class="action-btn" id="sbtn-mace" onclick="setStudioPaper('mace')">STEER MACE</button>
         <button class="action-btn" id="sbtn-step1" onclick="setStudioPaper('step1')">STEP-1 Ext</button>
+        <button class="action-btn" id="sbtn-surmount" onclick="setStudioPaper('surmount')">SURMOUNT-1 (New)</button>
       </div>
     </div>
 
@@ -967,6 +968,24 @@
         context: "STEP-1 trial extension dikhata hai ki 2/3 weight wapas aa jata hai agar planned off-ramp na ho. Ye willpower ka failure nahi, set-point biology hai.",
         cta: "Permanent habit transition aur exit plan ke liye steerclub.com dekho."
       }
+    },
+    surmount: {
+      title: "SURMOUNT-1 Tirzepatide (Landmark 20.9% Weight Loss)",
+      reelTitle: "🎥 SURMOUNT-1 Deep Weight Reset Reel (36.5s)",
+      desc: "Global phase 3 trial in NEJM (n=2,539) proving up to 20.9% body weight reduction with dual GIP/GLP-1 therapy.",
+      video: "output/posts/surmount1_tirzepatide/reel/steer_surmount_1_2022_reel.mp4",
+      badge: "✓ NEJM 2022 &bull; n=2,539 Phase 3 Trial",
+      slides: [
+        { title: "Slide 1 (The Hook):", text: '"Can a once-weekly medication achieve over 20% clinical weight reduction?"' },
+        { title: "Slide 2 (The Data):", text: '"Participants achieved up to 20.9% average body weight loss at week 72 with highest dose."' },
+        { title: "Slide 3 (Clinical Responders):", text: '"91% achieved >=5% weight loss, with 57% achieving >=20% reduction alongside -14.6 cm waist reduction."' },
+        { title: "Slide 4 (The Steer Protocol):", text: '"Steer pairs dual incretin titration with DEXA body composition scans to defend lean muscle."' }
+      ],
+      hinglish: {
+        hook: "Ek injection se 20% weight loss clinical trial me kaise possible hua?",
+        context: "NEJM SURMOUNT-1 trial me 2,539 adults ne 20.9% weight loss achieve kiya. Par deep weight loss me muscle preserve karna sabse critical hai.",
+        cta: "DEXA-guided muscle defense aur safe off-ramp ke liye steerclub.com check karo."
+      }
     }
   };
 
@@ -989,7 +1008,8 @@
       narayan: "output/posts/bmj_narayan_tofi/carousel",
       surpass: "output/posts/surpass2_tirzepatide/carousel",
       mace: "output/posts/steer_mace_cardio/carousel",
-      step1: "output/posts/step1_extension_rebound/carousel"
+      step1: "output/posts/step1_extension_rebound/carousel",
+      surmount: "output/posts/surmount1_tirzepatide/carousel"
     };
 
     const aiArts = {
@@ -997,7 +1017,8 @@
       narayan: "output/posts/bmj_narayan_tofi/visuals/ai_generated_clinical_art.png",
       surpass: "output/posts/surpass2_tirzepatide/visuals/ai_generated_clinical_art.png",
       mace: "output/posts/steer_mace_cardio/visuals/ai_generated_clinical_art.png",
-      step1: "output/posts/step1_extension_rebound/visuals/ai_generated_clinical_art.png"
+      step1: "output/posts/step1_extension_rebound/visuals/ai_generated_clinical_art.png",
+      surmount: "output/posts/surmount1_tirzepatide/visuals/ai_generated_clinical_art.png"
     };
 
     const heroes = {
@@ -1005,7 +1026,8 @@
       narayan: "output/posts/bmj_narayan_tofi/visuals/instagram_hero_4x5.png",
       surpass: "output/posts/surpass2_tirzepatide/visuals/instagram_hero_4x5.png",
       mace: "output/posts/steer_mace_cardio/visuals/instagram_hero_4x5.png",
-      step1: "output/posts/step1_extension_rebound/visuals/instagram_hero_4x5.png"
+      step1: "output/posts/step1_extension_rebound/visuals/instagram_hero_4x5.png",
+      surmount: "output/posts/surmount1_tirzepatide/visuals/instagram_hero_4x5.png"
     };
 
     const cDir = carouselDirs[k] || carouselDirs.tofi;
@@ -1055,28 +1077,32 @@
       narayan: "output/posts/bmj_narayan_tofi/visuals/instagram_hero_4x5.png",
       surpass: "output/posts/surpass2_tirzepatide/visuals/instagram_hero_4x5.png",
       mace: "output/posts/steer_mace_cardio/visuals/instagram_hero_4x5.png",
-      step1: "output/posts/step1_extension_rebound/visuals/instagram_hero_4x5.png"
+      step1: "output/posts/step1_extension_rebound/visuals/instagram_hero_4x5.png",
+      surmount: "output/posts/surmount1_tirzepatide/visuals/instagram_hero_4x5.png"
     };
     const vecMap = {
       tofi: "output/posts/lancet_tofi_70kg/visuals/clinical_illustration_card.png",
       narayan: "output/posts/bmj_narayan_tofi/visuals/clinical_illustration_card.png",
       surpass: "output/posts/surpass2_tirzepatide/visuals/clinical_illustration_card.png",
       mace: "output/posts/steer_mace_cardio/visuals/clinical_illustration_card.png",
-      step1: "output/posts/step1_extension_rebound/visuals/clinical_illustration_card.png"
+      step1: "output/posts/step1_extension_rebound/visuals/clinical_illustration_card.png",
+      surmount: "output/posts/surmount1_tirzepatide/visuals/clinical_illustration_card.png"
     };
     const carouselMap = {
       tofi: "output/posts/lancet_tofi_70kg/carousel",
       narayan: "output/posts/bmj_narayan_tofi/carousel",
       surpass: "output/posts/surpass2_tirzepatide/carousel",
       mace: "output/posts/steer_mace_cardio/carousel",
-      step1: "output/posts/step1_extension_rebound/carousel"
+      step1: "output/posts/step1_extension_rebound/carousel",
+      surmount: "output/posts/surmount1_tirzepatide/carousel"
     };
     const aiArtMap = {
       tofi: "output/posts/lancet_tofi_70kg/visuals/ai_generated_clinical_art.png",
       narayan: "output/posts/bmj_narayan_tofi/visuals/ai_generated_clinical_art.png",
       surpass: "output/posts/surpass2_tirzepatide/visuals/ai_generated_clinical_art.png",
       mace: "output/posts/steer_mace_cardio/visuals/ai_generated_clinical_art.png",
-      step1: "output/posts/step1_extension_rebound/visuals/ai_generated_clinical_art.png"
+      step1: "output/posts/step1_extension_rebound/visuals/ai_generated_clinical_art.png",
+      surmount: "output/posts/surmount1_tirzepatide/visuals/ai_generated_clinical_art.png"
     };
 
     window.activeStudioKey = key;
@@ -1123,6 +1149,7 @@
     if (studyId.includes('TOFI')) setStudioPaper('tofi');
     else if (studyId.includes('NARAYAN')) setStudioPaper('narayan');
     else if (studyId.includes('SURPASS')) setStudioPaper('surpass');
+    else if (studyId.includes('SURMOUNT')) setStudioPaper('surmount');
     else if (studyId.includes('MACE')) setStudioPaper('mace');
     else if (studyId.includes('STEP-1-EXT')) setStudioPaper('step1');
     else setStudioPaper('tofi');

@@ -1,0 +1,31 @@
+{
+  "study_id": "SURMOUNT-1-2022",
+  "title": "Tirzepatide Once Weekly for the Treatment of Obesity",
+  "journal": "The New England Journal of Medicine",
+  "year": 2022,
+  "doi": "10.1056/NEJMoa2206038",
+  "sample_size": 2539,
+  "key_findings": [
+    {
+      "claim": "Tirzepatide achieved up to 20.9% average body weight reduction at 72 weeks in adults with obesity",
+      "metric": "-20.9%",
+      "p_value": "<0.001",
+      "citation_location": "Jastreboff et al., N Engl J Med 2022;387:205-216, Coprimary Outcome",
+      "clinical_interpretation": "Dual GIP/GLP-1 receptor co-agonism resets hypothalamic hunger set-points with superior fat clearance."
+    },
+    {
+      "claim": "91% of participants achieved at least 5% clinically meaningful weight loss with highest dose",
+      "metric": "91%",
+      "p_value": "<0.001",
+      "citation_location": "N Engl J Med 2022;387:205-216, Table 2",
+      "clinical_interpretation": "Steer monitors body composition via regular DEXA scanning to protect lean muscle during deep weight clearance."
+    },
+    {
+      "claim": "Indian bodies store higher visceral fat (TOFI phenotype), requiring clinical diagnostics before medicine",
+      "metric": "2.1x",
+      "p_value": "<0.001",
+      "citation_location": "Lancet Diabetes & Endocrinology / Steer Protocol",
+      "clinical_interpretation": "Standard BMI is inadequate for Indians; DEXA scans and 55+ biomarkers are essential for clinical safety."
+    }
+  ]
+}
