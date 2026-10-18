@@ -38,52 +38,36 @@
       justify-content: center;
       align-items: center;
       min-height: 100vh;
+      min-height: 100dvh;
       overflow: hidden;
+      background-color: var(--cream);
     }
 
     #game-container {
       width: 100vw;
-      max-width: 430px;
+      max-width: 440px;
       height: 100vh;
-      max-height: 932px;
+      height: 100dvh;
       background-color: var(--cream);
       position: relative;
       display: flex;
       flex-direction: column;
       overflow: hidden;
-      box-shadow: 0 35px 80px rgba(43, 22, 22, 0.45);
-      border-radius: 44px;
-      border: 8px solid #2B1616;
+      border: none;
     }
 
-    /* Apple Dynamic Island */
-    .dynamic-island {
-      width: 120px;
-      height: 26px;
-      background: #110808;
-      border-radius: 13px;
-      margin: 8px auto 4px;
-      display: flex;
-      align-items: center;
-      justify-content: space-around;
-      padding: 0 12px;
-      z-index: 30;
-      box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.1);
-    }
-
-    .island-cam {
-      width: 9px;
-      height: 9px;
-      border-radius: 50%;
-      background: #1C1D24;
-      border: 1px solid #2B2C38;
-    }
-
-    .island-sensor {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: #15161C;
+    @media (min-width: 501px) {
+      body {
+        background-color: #1A0F0F;
+        padding: 20px;
+      }
+      #game-container {
+        height: 92vh;
+        max-height: 880px;
+        border-radius: 24px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+        border: 1px solid var(--border);
+      }
     }
 
     /* Top Navigation Bar */
@@ -469,10 +453,6 @@
 <body>
 
 <div id="game-container">
-  <div class="dynamic-island">
-    <div class="island-cam"></div>
-    <div class="island-sensor"></div>
-  </div>
   <!-- Top Bar -->
   <div class="top-bar">
     <div class="wordmark">steer</div>

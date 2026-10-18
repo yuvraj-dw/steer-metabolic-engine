@@ -335,44 +335,82 @@
       margin-bottom: 12px;
     }
 
-    /* Comparison Table: Why Our Code Wins */
-    .comparison-card {
-      background: var(--surface);
-      border-radius: 20px;
-      border: 1px solid var(--border);
-      padding: 28px 32px;
-      margin-top: 36px;
-    }
-    .comparison-card h3 {
-      font-family: var(--font-serif);
-      font-size: 22px;
-      color: var(--oxblood);
-      margin-bottom: 16px;
-    }
-    .comparison-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 13px;
-    }
-    .comparison-table th {
-      text-align: left;
-      padding: 12px;
-      background: #F3ECE2;
-      color: var(--ink);
-      border-bottom: 2px solid var(--border);
-    }
-    .comparison-table td {
-      padding: 12px;
-      border-bottom: 1px solid #EBE2D7;
-      vertical-align: top;
-    }
-    .badge-win {
-      color: var(--teal);
-      font-weight: 800;
-    }
-    .badge-lose {
-      color: var(--alert);
-      font-weight: 700;
+    @media (max-width: 768px) {
+      body {
+        padding: 20px 14px;
+      }
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 14px;
+      }
+      .brand h1 {
+        font-size: 30px;
+      }
+      .nav-tabs {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        border-radius: 16px;
+      }
+      .tab-btn {
+        width: 100%;
+        text-align: center;
+        padding: 10px 14px;
+        font-size: 13px;
+      }
+      .gate-status-card {
+        padding: 20px 16px;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 18px;
+      }
+      .status-left {
+        min-width: auto;
+      }
+      .status-left h2 {
+        font-size: 20px;
+      }
+      .status-right {
+        align-items: stretch;
+        width: 100%;
+      }
+      .status-badge {
+        justify-content: center;
+        width: 100%;
+      }
+      .export-btn {
+        width: 100%;
+        text-align: center;
+      }
+      .study-section {
+        padding: 18px 14px;
+        border-radius: 16px;
+      }
+      .study-header {
+        flex-direction: column;
+        gap: 8px;
+      }
+      .study-header h2 {
+        font-size: 19px;
+      }
+      .claim-item {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 16px;
+        gap: 14px;
+      }
+      .doctor-actions {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+      .action-btn {
+        width: 100%;
+        text-align: center;
+        padding: 10px;
+      }
     }
   </style>
 </head>
@@ -388,7 +426,6 @@
     <div class="nav-tabs">
       <button class="tab-btn active" onclick="switchTab('review')">Clinical Audit Ledger (Professional Mode (Endocrinology))</button>
       <button class="tab-btn" onclick="switchTab('studio')">Studio Visuals & Reels (Everyday Mode (Public Social))</button>
-      <button class="tab-btn" onclick="switchTab('architecture')">Pipeline Architecture vs Low-Code</button>
     </div>
   </header>
 
@@ -470,44 +507,6 @@
           <p style="margin-top: 8px;"><strong>Call to Action:</strong> "Crash diet band karo. Steer doctor se connect karo at steerclub.com."</p>
         </div>
       </div>
-    </div>
-  </div>
-
-  <!-- TAB 3: Pipeline Architecture Comparison -->
-  <div id="tab-architecture" class="tab-content">
-    <div class="comparison-card">
-      <h3>Why Code-First Architecture Beats n8n & Higgsfield</h3>
-      <table class="comparison-table">
-        <thead>
-          <tr>
-            <th>Evaluation Dimension</th>
-            <th>Competitors (n8n + Higgsfield)</th>
-            <th>Steer Metabolic Engine (Our Architecture)</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>Deterministic Truth</strong></td>
-            <td><span class="badge-lose">Brittle & Hallucinatory:</span> LLM webhook chains fail silently on prompt changes; no claim-level validation.</td>
-            <td><span class="badge-win">100% Deterministic:</span> Verified against 1-indexed sentence IDs (`p4-s12`) with automated unit consistency checks.</td>
-          </tr>
-          <tr>
-            <td><strong>Visual & Video Quality</strong></td>
-            <td><span class="badge-lose">AI Slop / Uncanny Valley:</span> Higgsfield generates generic stock video bodies (strictly banned by Steer brief).</td>
-            <td><span class="badge-win">Tactile Papercraft Dioramas:</span> Authentic Remotion stop-motion reels, dual coronal DEXA scans, and 21 Web Audio foley SFX.</td>
-          </tr>
-          <tr>
-            <td><strong>Engineering Reproducibility</strong></td>
-            <td><span class="badge-lose">Non-portable:</span> Requires self-hosting n8n servers, Docker containers, webhooks, and private API accounts.</td>
-            <td><span class="badge-win">Zero Friction:</span> Pure Python & Remotion CLI (`python -m pipeline.runner`), 14 automated pytest tests passing.</td>
-          </tr>
-          <tr>
-            <td><strong>Clinical Governance</strong></td>
-            <td><span class="badge-lose">Manual or bolton:</span> Visual dashboards lack hard blocking gates on asset exports.</td>
-            <td><span class="badge-win">Deterministic Gate:</span> Automated review ledger (`output/doctor_review_gate.json`) gates social export until 16/16 claims are signed off.</td>
-          </tr>
-        </tbody>
-      </table>
     </div>
   </div>
 </div>
@@ -708,7 +707,7 @@
 
   function switchTab(tabId) {
     document.querySelectorAll('.tab-btn').forEach((btn, i) => {
-      btn.classList.toggle('active', ['review', 'studio', 'architecture'][i] === tabId);
+      btn.classList.toggle('active', ['review', 'studio'][i] === tabId);
     });
     document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
     document.getElementById('tab-' + tabId).classList.add('active');
