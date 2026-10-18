@@ -423,6 +423,23 @@
       opacity: 1;
     }
 
+    .worry-pill {
+      background: var(--soft-paper);
+      border: 1px solid var(--blush);
+      border-radius: 20px;
+      padding: 6px 12px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--clay);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .worry-pill.active {
+      background: var(--deep-maroon);
+      color: #FFF;
+      border-color: var(--deep-maroon);
+    }
+
     /* GLP-1 Mode Activated Banner */
     #glp1-banner {
       position: absolute;
@@ -570,6 +587,37 @@
         </button>
       </div>
 
+      <!-- Interactive Clinical Rebound Simulator (Wilding et al. 2022) -->
+      <div style="background: var(--soft-paper); border: 1px solid var(--blush); border-radius: 14px; padding: 14px; margin-top: 14px; margin-bottom: 12px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+          <span style="font-size: 11px; font-weight: 800; color: var(--clay); text-transform: uppercase;">STEP-1 Trial Extension (Wilding 2022)</span>
+          <span id="rebound-week-label" style="font-size: 12px; font-weight: 800; color: var(--rust);">Week 68: Treatment Stopped</span>
+        </div>
+        <input type="range" id="rebound-slider" min="0" max="104" value="68" style="width: 100%; accent-color: var(--rust); cursor: pointer;" oninput="updateReboundSim(this.value)">
+        <div style="display: flex; justify-content: space-between; font-size: 10px; color: var(--clay); margin-top: 2px;">
+          <span>Wk 0 (Start)</span>
+          <span>Wk 68 (Off Meds)</span>
+          <span>Wk 104 (+1 Year)</span>
+        </div>
+        <div id="rebound-outcome-box" style="margin-top: 10px; padding: 10px; border-radius: 10px; background: rgba(102, 20, 20, 0.06); font-size: 12px; line-height: 1.4;">
+          <div style="font-weight: 800; color: var(--deep-maroon);" id="rebound-title">Biological Set-Point Alarm Triggered</div>
+          <div style="color: var(--ink); margin-top: 2px;" id="rebound-desc">Without a clinical exit off-ramp, hunger ghrelin spikes +240%, regaining 67% of lost weight. Steer's doctor-led off-ramp maintains the new set-point.</div>
+        </div>
+      </div>
+
+      <!-- Worry Selector -->
+      <div style="margin-top: 14px; margin-bottom: 12px;">
+        <div style="font-size: 11px; font-weight: 800; color: var(--clay); text-transform: uppercase; margin-bottom: 8px;">
+          Select Your #1 Metabolic Concern:
+        </div>
+        <div style="display: flex; flex-wrap: wrap; gap: 6px;" id="worry-pills">
+          <button class="worry-pill active" onclick="selectWorry('visceral_fat', this)">🇮🇳 Indian Ectopic Belly Fat</button>
+          <button class="worry-pill" onclick="selectWorry('muscle_loss', this)">🥩 Lean Muscle Protection</button>
+          <button class="worry-pill" onclick="selectWorry('weight_regain', this)">🔄 Rebound After Stopping</button>
+          <button class="worry-pill" onclick="selectWorry('food_noise', this)">🧠 4 PM Food Noise & Cravings</button>
+        </div>
+      </div>
+
       <!-- Doubts Clearance Accordion -->
       <div style="margin-top: 14px;">
         <div class="doubt-card" onclick="this.classList.toggle('open')">
@@ -692,6 +740,9 @@
   function initAudio() {
     if (!audioCtx) {
       audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    if (audioCtx && audioCtx.state === 'suspended') {
+      audioCtx.resume();
     }
   }
 
@@ -1040,18 +1091,97 @@ Direct Consultation: https://steerclub.com/?utm_source=willpower_arcade&utm_medi
   setTimeout(resize, 50);
 
   function handlePointer(clientX) {
+    if (!width || width === 0) resize();
     const rect = canvas.getBoundingClientRect();
-    paddle.targetX = Math.max(paddle.w / 2, Math.min(width - paddle.w / 2, clientX - rect.left));
+    const scaleFactor = width / (rect.width || width || 1);
+    const x = (clientX - rect.left) * scaleFactor;
+    paddle.targetX = Math.max(paddle.w / 2, Math.min(width - paddle.w / 2, x));
   }
 
+  function onPointerAction(e) {
+    if (gameState === 'playing' || gameState === 'glp1') {
+      initAudio();
+      const clientX = e.clientX || (e.touches && e.touches[0] ? e.touches[0].clientX : null);
+      if (clientX !== null) handlePointer(clientX);
+    }
+  }
+
+  canvas.addEventListener('pointerdown', onPointerAction);
+  canvas.addEventListener('pointermove', onPointerAction);
+  window.addEventListener('pointermove', onPointerAction);
+
+  canvas.addEventListener('touchstart', (e) => {
+    onPointerAction(e);
+  }, { passive: true });
+
   canvas.addEventListener('touchmove', (e) => {
-    e.preventDefault();
-    handlePointer(e.touches[0].clientX);
-  }, { passive: false });
+    onPointerAction(e);
+  }, { passive: true });
 
   canvas.addEventListener('mousemove', (e) => {
     handlePointer(e.clientX);
   });
+
+  window.addEventListener('keydown', (e) => {
+    if (gameState === 'playing' || gameState === 'glp1') {
+      const step = 45;
+      if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') {
+        paddle.targetX = Math.max(paddle.w / 2, paddle.targetX - step);
+      } else if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') {
+        paddle.targetX = Math.min(width - paddle.w / 2, paddle.targetX + step);
+      }
+    }
+  });
+
+  let selectedWorry = 'visceral_fat';
+
+  function selectWorry(worry, el) {
+    selectedWorry = worry;
+    document.querySelectorAll('.worry-pill').forEach(btn => btn.classList.remove('active'));
+    if (el) el.classList.add('active');
+    updateDoctorLink();
+  }
+
+  function updateDoctorLink() {
+    const crashLink = document.querySelector('#overlay-crash a');
+    const victoryLink = document.querySelector('#overlay-victory a');
+    const utmCrash = `https://steerclub.com/?utm_source=willpower_arcade&utm_medium=playable_ad&utm_campaign=tofi_70kg&worry=${selectedWorry}&score=crash_ghrelin`;
+    const utmVictory = `https://steerclub.com/?utm_source=willpower_arcade&utm_medium=playable_ad&utm_campaign=tofi_70kg&worry=${selectedWorry}&score=5_satiety&protocol=dexa_first`;
+    if (crashLink) crashLink.href = utmCrash;
+    if (victoryLink) victoryLink.href = utmVictory;
+  }
+
+  function updateReboundSim(val) {
+    const wk = parseInt(val);
+    const label = document.getElementById('rebound-week-label');
+    const title = document.getElementById('rebound-title');
+    const desc = document.getElementById('rebound-desc');
+    const box = document.getElementById('rebound-outcome-box');
+
+    if (wk < 68) {
+      label.innerText = `Week ${wk}: Active GLP-1 Therapy`;
+      label.style.color = "var(--teal-calm)";
+      box.style.background = "rgba(35, 89, 55, 0.08)";
+      title.style.color = "var(--teal-calm)";
+      title.innerText = "Targeted Satiety & Ectopic Lipid Clearance";
+      desc.innerText = `At Week ${wk}, hunger signals are quieted and visceral fat is being cleared. Average weight reduction tracks toward -14.9% (STEP-1 Trial).`;
+    } else if (wk === 68) {
+      label.innerText = `Week 68: Treatment Stopped Abruptly`;
+      label.style.color = "var(--rust)";
+      box.style.background = "rgba(192, 78, 42, 0.08)";
+      title.style.color = "var(--rust)";
+      title.innerText = "Biological Set-Point Alarm Triggered";
+      desc.innerText = "Circulating leptin drops by 40% and hunger ghrelin spikes +240%. The brain interprets weight loss as a starvation emergency.";
+    } else {
+      const regainedPct = Math.min(67, Math.round(((wk - 68) / 36) * 67));
+      label.innerText = `Week ${wk}: +${wk - 68} Weeks Post-Withdrawal`;
+      label.style.color = "var(--deep-maroon)";
+      box.style.background = "rgba(102, 20, 20, 0.08)";
+      title.style.color = "var(--deep-maroon)";
+      title.innerText = `Unguided Cessation: ${regainedPct}% Weight Regained`;
+      desc.innerText = `In the STEP-1 extension, patients without a doctor-led off-ramp regained 2/3 of lost weight. Steer's structured habit and resistance tapering maintains the reset set-point permanently.`;
+    }
+  }
 
   function spawnItem() {
     if (glp1Active) {
@@ -1099,6 +1229,7 @@ Direct Consultation: https://steerclub.com/?utm_source=willpower_arcade&utm_medi
 
   function startGame() {
     initAudio();
+    resize();
     document.getElementById('overlay-start').classList.add('hidden');
     document.getElementById('overlay-crash').classList.add('hidden');
     document.getElementById('overlay-victory').classList.add('hidden');
