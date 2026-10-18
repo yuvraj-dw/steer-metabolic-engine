@@ -5,7 +5,7 @@ import argparse
 from pipeline.ingest import load_study_from_file, generate_doctor_verification_ledger
 from pipeline.schema import validate_study
 from pipeline.visuals_engine import generate_carousel, generate_static
-from pipeline.reel_engine_production import build_reel
+from pipeline.papercut_engine import build_reel
 from pipeline.fetcher import fetch_pubmed_metadata, distill_clinical_findings, extract_pdf_text
 
 def generate_study_caption(study) -> str:

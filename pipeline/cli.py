@@ -4,7 +4,7 @@ import json
 import argparse
 from pipeline.ingest import load_study_from_file, generate_doctor_verification_ledger
 from pipeline.visuals_engine import generate_carousel, generate_static
-from pipeline.reel_engine_v2 import build_reel
+from pipeline.papercut_engine import build_reel
 
 def run_pipeline(paper_path: str, output_dir: str = "output", run_carousel: bool = True, run_static: bool = True, run_reel: bool = True, audit_only: bool = False):
     print(f"=== Steer Research-to-Instagram Automated Pipeline ===")
