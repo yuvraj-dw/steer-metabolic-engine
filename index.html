@@ -821,12 +821,10 @@
       <span id="game-clock">01:30 PM</span>
     </div>
   </div>
-  <!-- Arcade Mode Navigation Rail -->
-  <div class="arcade-nav-rail">
-    <button class="arcade-tab active" id="atab-willpower" onclick="switchArcadeGame('willpower')">🛡️ 4 PM Willpower</button>
-    <button class="arcade-tab" id="atab-buffet" onclick="switchArcadeGame('buffet')">🍛 Shaadi Buffet Dash</button>
+  <!-- Arcade Mode Navigation Rail (2 Focused Biophysical Games) -->
+  <div class="arcade-nav-rail" style="display: flex; gap: 8px; justify-content: center; padding: 10px 16px;">
+    <button class="arcade-tab active" id="atab-willpower" onclick="switchArcadeGame('willpower')">🛡️ 4 PM Willpower Defense</button>
     <button class="arcade-tab" id="atab-tug" onclick="switchArcadeGame('tug')">🪢 Hunger Tug-of-War</button>
-    <button class="arcade-tab" id="atab-thali" onclick="switchArcadeGame('thali')">🍛 Thali Glycemic</button>
   </div>
 
   <!-- SECTION 1: WILLPOWER DEFENSE ARCADE -->
@@ -880,21 +878,21 @@
         <div class="section-label">1. Choose Your 1:30 PM Lunch:</div>
         <div class="lunch-grid">
           <div class="lunch-card active" id="lunch-heavy" onclick="selectLunch('heavy', this)">
-            <div class="lunch-icon">🫓</div>
+            <div class="lunch-icon"><img src="assets/game/12_lunch_plate_heavy.png" style="width: 32px; height: 32px; object-fit: contain;"></div>
             <div class="lunch-info">
               <div class="lunch-name">2 Aloo Parathas + Sweet Lassi</div>
               <div class="lunch-tag tag-high">High Glycemic Load • Rapid 3:45 PM Crash</div>
             </div>
           </div>
           <div class="lunch-card" id="lunch-balanced" onclick="selectLunch('balanced', this)">
-            <div class="lunch-icon">🍛</div>
+            <div class="lunch-icon"><img src="assets/game/13_lunch_plate_balanced.png" style="width: 32px; height: 32px; object-fit: contain;"></div>
             <div class="lunch-info">
               <div class="lunch-name">Dal Tadka + Basmati + Dahi</div>
               <div class="lunch-tag tag-med">Standard Indian Mix • Baseline 4:12 PM Crash</div>
             </div>
           </div>
           <div class="lunch-card" id="lunch-fiber" onclick="selectLunch('fiber', this)">
-            <div class="lunch-icon">🥗</div>
+            <div class="lunch-icon"><img src="assets/game/14_lunch_plate_buffer.png" style="width: 32px; height: 32px; object-fit: contain;"></div>
             <div class="lunch-info">
               <div class="lunch-name">Paneer Tikka Salad + Sattu</div>
               <div class="lunch-tag tag-low">High Protein & Fiber Buffer • Sustained Satiety</div>
@@ -908,19 +906,19 @@
           Incoming Craving Triggers:
         </div>
         <div class="trigger-item">
-          <div class="trigger-icon">☕</div>
+          <div class="trigger-icon"><img src="assets/game/05_hazard_chai_samosa.png" style="width: 26px; height: 26px; object-fit: contain;"></div>
           <div><strong>4 PM Masala Chai & Fried Samosa</strong> <span style="font-size: 11px; color: var(--clay); display: block;">Spikes blood sugar, drains willpower (-15)</span></div>
         </div>
         <div class="trigger-item">
-          <div class="trigger-icon">📱</div>
+          <div class="trigger-icon"><img src="assets/game/06_hazard_food_delivery.png" style="width: 26px; height: 26px; object-fit: contain;"></div>
           <div><strong>Swiggy 50% Off Flash Push</strong> <span style="font-size: 11px; color: var(--clay); display: block;">Dopamine emergency food noise (-18)</span></div>
         </div>
         <div class="trigger-item">
-          <div class="trigger-icon">🍩</div>
+          <div class="trigger-icon"><img src="assets/game/07_hazard_jalebi_box.png" style="width: 26px; height: 26px; object-fit: contain;"></div>
           <div><strong>Office Post-Lunch Jalebi Box</strong> <span style="font-size: 11px; color: var(--clay); display: block;">Fat storage valve lockdown (-16)</span></div>
         </div>
         <div class="trigger-item">
-          <div class="trigger-icon">📲</div>
+          <div class="trigger-icon"><img src="assets/game/08_hazard_ladoo_plate.png" style="width: 26px; height: 26px; object-fit: contain;"></div>
           <div><strong>Mom's WhatsApp: "Ladoo Kha Lo"</strong> <span style="font-size: 11px; color: var(--clay); display: block;">Family cultural food noise (-15)</span></div>
         </div>
       </div>
@@ -1188,88 +1186,6 @@
 
   </div> <!-- /sec-willpower -->
 
-  <!-- SECTION 2: SHAADI BUFFET DASH -->
-  <div id="sec-buffet" class="game-section">
-    <div style="padding: 12px 16px 6px;">
-      <span class="intro-badge">Food Sequencing Arcade • Diabetes Care</span>
-      <h2 class="headline" style="font-size: 24px; margin-bottom: 4px;">Shaadi Buffet Dash: <em>Beat the 11 PM Crash.</em></h2>
-      <p class="desc" style="font-size: 11.5px; margin-bottom: 8px;">
-        Catch 🥗 Salad & 🧀 Paneer FIRST to build your Glucose Shield. If you catch 🍩 Jalebi on an empty stomach, your insulin spikes!
-      </p>
-    </div>
-
-    <!-- Realtime Buffet HUD -->
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 0 16px 8px;">
-      <div class="hud-box">
-        <div class="hud-label">
-          <span>Blood Glucose</span>
-          <span id="buffet-glucose-val" style="color: var(--teal-calm);">90 mg/dL</span>
-        </div>
-        <div class="bar-bg">
-          <div id="buffet-glucose-bar" class="bar-fill" style="width: 25%; background: var(--teal-calm);"></div>
-        </div>
-      </div>
-      <div class="hud-box">
-        <div class="hud-label">
-          <span>Fiber / Protein Shield</span>
-          <span id="buffet-shield-val" style="color: var(--rust);">0%</span>
-        </div>
-        <div class="bar-bg">
-          <div id="buffet-shield-bar" class="bar-fill" style="width: 0%; background: var(--rust);"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Buffet Live Canvas Area -->
-    <div style="flex: 1; min-height: 320px; position: relative; background: #220E0E; overflow: hidden; margin: 0 16px 10px; border-radius: 16px; border: 1px solid var(--blush); touch-action: none;">
-      <canvas id="buffetCanvas"></canvas>
-
-      <!-- Overlay for Buffet Start -->
-      <div id="buffet-start-overlay" style="position: absolute; inset: 0; background: rgba(29, 10, 10, 0.92); z-index: 10; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; text-align: center;">
-        <span style="font-size: 36px; margin-bottom: 8px;">🍛</span>
-        <h3 style="font-family: var(--font-serif); font-size: 26px; color: #FFF; margin-bottom: 6px;">The Wedding Buffet Gate</h3>
-        <p style="font-size: 12px; color: #DEC3B5; max-width: 280px; margin-bottom: 16px; line-height: 1.4;">
-          Drag your thali plate left & right. Catch green salad and paneer to coat your gut with fiber. Avoid unbuffered sweets!
-        </p>
-        <button class="btn-action" style="width: auto; padding: 12px 28px;" onclick="startBuffetGame()">
-          START BUFFET (30s) →
-        </button>
-      </div>
-
-      <!-- Overlay for Buffet Outcome -->
-      <div id="buffet-end-overlay" style="position: absolute; inset: 0; background: rgba(29, 10, 10, 0.94); z-index: 10; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 20px; text-align: center;">
-        <span id="buffet-end-icon" style="font-size: 40px; margin-bottom: 6px;">🏆</span>
-        <h3 id="buffet-end-title" style="font-family: var(--font-serif); font-size: 24px; color: #FFF; margin-bottom: 6px;">Metabolic Victory!</h3>
-        <p id="buffet-end-desc" style="font-size: 12px; color: #DEC3B5; max-width: 290px; margin-bottom: 14px; line-height: 1.4;">
-          You sequenced protein & fiber first, reducing peak glucose by 40% and preventing the 11 PM food crash.
-        </p>
-        <button class="btn-action btn-teal" style="width: auto; padding: 10px 24px; font-size: 13px;" onclick="startBuffetGame()">
-          ↺ Play Again
-        </button>
-      </div>
-    </div>
-
-    <!-- Bottom Action Controls -->
-    <div style="padding: 0 16px 14px;">
-      <div style="display: flex; gap: 6px; margin-bottom: 8px;">
-        <button class="btn-secondary" style="border-color: var(--rust); color: var(--rust); font-weight: 700; flex: 1; padding: 10px 8px; font-size: 11.5px;" onclick="downloadStoryCard('buffet')">
-          📥 Story Card
-        </button>
-        <button class="btn-secondary" style="border-color: var(--rust); color: var(--rust); font-weight: 700; flex: 1; padding: 10px 8px; font-size: 11.5px;" onclick="copyDoctorBrief('buffet')">
-          📋 Copy Brief
-        </button>
-        <button class="btn-secondary btn-whatsapp" style="font-weight: 700; flex: 1.2; padding: 10px 8px; font-size: 11.5px;" onclick="sendDoctorWhatsApp('buffet')">
-          📲 WhatsApp
-        </button>
-      </div>
-      <a href="https://steerclub.com/?utm_source=willpower_arcade&utm_medium=buffet_game&utm_campaign=food_sequencing&worry=visceral_fat" target="_blank" style="text-decoration: none;">
-        <button class="btn-action">
-          Get Doctor-Guided Metabolic Care <span>→</span>
-        </button>
-      </a>
-    </div>
-  </div> <!-- /sec-buffet -->
-
   <!-- SECTION 3: HUNGER TUG-OF-WAR -->
   <div id="sec-tug" class="game-section">
     <div class="tug-container">
@@ -1289,11 +1205,13 @@
 
         <div class="tug-teams-row">
           <div class="tug-team">
-            <span>🧠</span>
+            <img src="assets/game/01_brain_stamina_high.png" id="tug-willpower-img" style="width: 44px; height: 44px; object-fit: contain;">
             <span class="tug-team-name">Your Willpower</span>
           </div>
           <div class="tug-team">
-            <span>⚡</span>
+            <div id="tug-opp-wrap" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;">
+              <img src="assets/game/05_hazard_chai_samosa.png" id="tug-opp-img" style="width: 42px; height: 42px; object-fit: contain;">
+            </div>
             <span class="tug-team-name" id="tug-opp-name">Ghrelin Alarm</span>
           </div>
         </div>
@@ -1348,97 +1266,37 @@
       </div>
     </div>
   </div> <!-- /sec-tug -->
-
-  <!-- SECTION 4: THALI GLYCEMIC SIMULATOR -->
-  <div id="sec-thali" class="game-section">
-    <div class="thali-container">
-      <div>
-        <span class="intro-badge">Glycemic Kinetics & Food Order Sim</span>
-        <h2 class="headline" style="font-size: 26px;">Build Your Thali: <em>Beat the 4 PM Crash.</em></h2>
-        <p class="desc" style="margin-bottom: 8px;">
-          Tap foods below to build your 1:30 PM Indian lunch. Watch how protein and fiber buffers stabilize your 6-hour glucose curve.
-        </p>
-      </div>
-
-      <!-- Realtime Glucose Curve Canvas -->
-      <div class="thali-graph-card">
-        <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: 800; color: var(--clay); margin-bottom: 4px;">
-          <span>POSTPRANDIAL BLOOD GLUCOSE WAVE</span>
-          <span id="thali-status-tag" style="color: var(--rust);">⚠️ 3:45 PM CRASH PREDICTED</span>
-        </div>
-        <div style="height: 140px; width: 100%;">
-          <canvas id="thaliGraphCanvas"></canvas>
-        </div>
-      </div>
-
-      <!-- Interactive Thali Plate -->
-      <div class="thali-plate-wrap">
-        <div style="font-size: 11px; font-weight: 800; color: var(--clay); text-transform: uppercase;">Your 1:30 PM Thali:</div>
-        <div class="katori-grid">
-          <div class="katori-slot filled" id="kslot-carb" onclick="clearKatori('carb')">
-            <span class="katori-ico" id="kico-carb">🍚</span>
-            <span class="katori-lbl" id="klbl-carb">Basmati Rice</span>
-          </div>
-          <div class="katori-slot filled" id="kslot-prot" onclick="clearKatori('prot')">
-            <span class="katori-ico" id="kico-prot">🍲</span>
-            <span class="katori-lbl" id="klbl-prot">Dal Tadka</span>
-          </div>
-          <div class="katori-slot filled" id="kslot-fib" onclick="clearKatori('fib')">
-            <span class="katori-ico" id="kico-fib">🥗</span>
-            <span class="katori-lbl" id="klbl-fib">Kachumber</span>
-          </div>
-          <div class="katori-slot filled" id="kslot-side" onclick="clearKatori('side')">
-            <span class="katori-ico" id="kico-side">🥛</span>
-            <span class="katori-lbl" id="klbl-side">Dahi</span>
-          </div>
-        </div>
-
-        <div style="margin-top: 10px; font-size: 10.5px; font-weight: 800; color: var(--clay); text-align: left; text-transform: uppercase;">
-          Tap to swap plate ingredients:
-        </div>
-        <div class="food-chips-tray">
-          <button class="food-chip" onclick="swapThaliFood('carb', '🍚', 'Basmati Rice', 45)">🍚 Basmati Rice (+45 GI)</button>
-          <button class="food-chip" onclick="swapThaliFood('carb', '🫓', 'Butter Naan', 50)">🫓 2 Butter Naan (+50 GI)</button>
-          <button class="food-chip" onclick="swapThaliFood('carb', '🫓', 'Missi Roti', 15)">🫓 Missi Roti (+15 GI)</button>
-          <button class="food-chip" onclick="swapThaliFood('prot', '🧀', 'Paneer Tikka', -15)">🧀 Paneer Tikka (Protein Buffer)</button>
-          <button class="food-chip" onclick="swapThaliFood('prot', '🍗', 'Tandoori Chk', -20)">🍗 Tandoori Chicken (-20)</button>
-          <button class="food-chip" onclick="swapThaliFood('fib', '🥗', 'Kachumber', -25)">🥗 Green Salad (Fiber Shield)</button>
-          <button class="food-chip" onclick="swapThaliFood('fib', '🥦', 'Palak Saag', -18)">🥦 Palak Saag (-18)</button>
-          <button class="food-chip" onclick="swapThaliFood('side', '🍩', 'Gulab Jamun', 60)">🍩 Gulab Jamun (+60 Spike!)</button>
-          <button class="food-chip" onclick="swapThaliFood('side', '🥛', 'Dahi / Curd', -15)">🥛 Fresh Dahi (-15)</button>
-        </div>
-      </div>
-
-      <div class="doctor-box" id="thali-impact-desc">
-        <strong>Metabolic Telemetry:</strong> High glycemic load spikes postprandial glucose to 185 mg/dL, triggering an acute insulin surge that locks fat storage and causes a reactive crash at 3:48 PM.
-      </div>
-
-      <div>
-        <div style="display: flex; gap: 6px; margin-bottom: 8px;">
-          <button class="btn-secondary" style="border-color: var(--rust); color: var(--rust); font-weight: 700; flex: 1; padding: 10px 8px; font-size: 11.5px;" onclick="downloadStoryCard('thali')">
-            📥 Story Card
-          </button>
-          <button class="btn-secondary" style="border-color: var(--rust); color: var(--rust); font-weight: 700; flex: 1; padding: 10px 8px; font-size: 11.5px;" onclick="copyDoctorBrief('thali')">
-            📋 Copy Brief
-          </button>
-          <button class="btn-secondary btn-whatsapp" style="font-weight: 700; flex: 1.2; padding: 10px 8px; font-size: 11.5px;" onclick="sendDoctorWhatsApp('thali')">
-            📲 WhatsApp
-          </button>
-        </div>
-        <a href="https://steerclub.com/?utm_source=willpower_arcade&utm_medium=thali_sim&utm_campaign=nutrition_kinetics&worry=food_noise" target="_blank" style="text-decoration: none;">
-          <button class="btn-action">
-            Get 55 Biomarkers Evaluated by Steer <span>→</span>
-          </button>
-        </a>
-      </div>
-    </div>
-  </div> <!-- /sec-thali -->
-
 </div>
 
 <script>
   
   let activeArcadeGame = 'willpower';
+  // Custom 2D Vector Cartoon Game Sprites (14 Transparent Assets)
+  const SPRITES = {
+    brainHigh: new Image(),
+    brainLow: new Image(),
+    brainCollapse: new Image(),
+    brainGlp1: new Image(),
+    chai: new Image(),
+    swiggy: new Image(),
+    jalebi: new Image(),
+    ladoo: new Image(),
+    namkeen: new Image(),
+    mug: new Image(),
+    glp1Sphere: new Image()
+  };
+  SPRITES.brainHigh.src = 'assets/game/01_brain_stamina_high.png';
+  SPRITES.brainLow.src = 'assets/game/02_brain_stamina_low.png';
+  SPRITES.brainCollapse.src = 'assets/game/03_brain_collapse.png';
+  SPRITES.brainGlp1.src = 'assets/game/04_brain_glp1_zen.png';
+  SPRITES.chai.src = 'assets/game/05_hazard_chai_samosa.png';
+  SPRITES.swiggy.src = 'assets/game/06_hazard_food_delivery.png';
+  SPRITES.jalebi.src = 'assets/game/07_hazard_jalebi_box.png';
+  SPRITES.ladoo.src = 'assets/game/08_hazard_ladoo_plate.png';
+  SPRITES.namkeen.src = 'assets/game/09_hazard_namkeen_packet.png';
+  SPRITES.mug.src = 'assets/game/10_hazard_chai_break_mug.png';
+  SPRITES.glp1Sphere.src = 'assets/game/11_pickup_glp1_sphere.png';
+
 
   function switchArcadeGame(gameId) {
     activeArcadeGame = gameId;
@@ -1452,276 +1310,12 @@
 
     if (gameId === 'willpower') {
       resize();
-    } else if (gameId === 'buffet') {
-      stopFoodNoise();
-      initBuffet();
     } else if (gameId === 'tug') {
       stopFoodNoise();
       initTug();
-    } else if (gameId === 'thali') {
-      stopFoodNoise();
-      initThali();
     }
   }
 
-  /* GAME 2: SHAADI BUFFET DASH LOGIC */
-  let buffetCanvas, buffetCtx;
-  let buffetWidth = 0, buffetHeight = 0;
-  let buffetState = 'intro';
-  let buffetGlucose = 90;
-  let buffetShield = 0;
-  let buffetScore = 0;
-  let buffetTimeLeft = 30;
-  let buffetTimer = null;
-  let buffetPaddle = { x: 150, y: 260, w: 90, h: 20, targetX: 150 };
-  let buffetItems = [];
-  let buffetParticles = [];
-  let lastBuffetSpawn = 0;
-
-  const BUFFET_ITEM_TYPES = [
-    { label: "Salad", icon: "🥗", type: "fiber", val: 25, color: "#235937" },
-    { label: "Paneer", icon: "🧀", type: "protein", val: 25, color: "#D97736" },
-    { label: "Dal", icon: "🍲", type: "protein", val: 20, color: "#C04E2A" },
-    { label: "Tandoori", icon: "🍗", type: "protein", val: 25, color: "#7D5246" },
-    { label: "Butter Naan", icon: "🫓", type: "carb", spike: 35, color: "#E09A55" },
-    { label: "Biryani", icon: "🍚", type: "carb", spike: 30, color: "#E59866" },
-    { label: "Jalebi", icon: "🍩", type: "sugar", spike: 50, color: "#C0392B" },
-    { label: "Gulab Jamun", icon: "🍨", type: "sugar", spike: 50, color: "#922B21" }
-  ];
-
-  function initBuffet() {
-    buffetCanvas = document.getElementById('buffetCanvas');
-    if (!buffetCanvas) return;
-    resizeBuffet();
-    bindBuffetControls();
-  }
-
-  function resizeBuffet() {
-    if (!buffetCanvas) return;
-    const rect = buffetCanvas.parentElement.getBoundingClientRect();
-    buffetWidth = rect.width;
-    buffetHeight = rect.height;
-    const dpr = window.devicePixelRatio || 1;
-    buffetCanvas.width = buffetWidth * dpr;
-    buffetCanvas.height = buffetHeight * dpr;
-    buffetCtx = buffetCanvas.getContext('2d');
-    buffetCtx.setTransform(1, 0, 0, 1, 0, 0);
-    buffetCtx.scale(dpr, dpr);
-    buffetPaddle.y = buffetHeight - 26;
-    if (buffetPaddle.x === 150) {
-      buffetPaddle.x = buffetWidth / 2;
-      buffetPaddle.targetX = buffetWidth / 2;
-    }
-  }
-
-  function startBuffetGame() {
-    initAudio();
-    resizeBuffet();
-    document.getElementById('buffet-start-overlay').style.display = 'none';
-    document.getElementById('buffet-end-overlay').style.display = 'none';
-
-    buffetState = 'playing';
-    buffetGlucose = 90;
-    buffetShield = 0;
-    buffetScore = 0;
-    buffetTimeLeft = 30;
-    buffetItems = [];
-    buffetParticles = [];
-    lastBuffetSpawn = performance.now();
-    updateBuffetHUD();
-
-    if (buffetTimer) clearInterval(buffetTimer);
-    buffetTimer = setInterval(() => {
-      if (buffetState !== 'playing') return;
-      buffetTimeLeft--;
-      if (buffetTimeLeft <= 0) {
-        endBuffetGame(true);
-      }
-    }, 1000);
-
-    requestAnimationFrame(buffetLoop);
-  }
-
-  function bindBuffetControls() {
-    if (!buffetCanvas) return;
-    function onPointer(e) {
-      if (buffetState !== 'playing') return;
-      initAudio();
-      const rect = buffetCanvas.getBoundingClientRect();
-      const clientX = e.clientX || (e.touches && e.touches[0] ? e.touches[0].clientX : null);
-      if (clientX !== null) {
-        const x = (clientX - rect.left) * (buffetWidth / (rect.width || buffetWidth || 1));
-        buffetPaddle.targetX = Math.max(buffetPaddle.w / 2, Math.min(buffetWidth - buffetPaddle.w / 2, x));
-      }
-    }
-    buffetCanvas.addEventListener('pointerdown', onPointer);
-    buffetCanvas.addEventListener('pointermove', onPointer);
-    buffetCanvas.addEventListener('touchstart', onPointer, { passive: true });
-    buffetCanvas.addEventListener('touchmove', onPointer, { passive: true });
-  }
-
-  function spawnBuffetItem() {
-    const isFiber = Math.random() < 0.55;
-    const candidates = BUFFET_ITEM_TYPES.filter(it => isFiber ? (it.type === 'fiber' || it.type === 'protein') : (it.type === 'carb' || it.type === 'sugar'));
-    const item = candidates[Math.floor(Math.random() * candidates.length)];
-    buffetItems.push({
-      x: Math.random() * (buffetWidth - 50) + 25,
-      y: -25,
-      radius: 20,
-      vy: 2.8 + Math.random() * 2.2,
-      ...item
-    });
-  }
-
-  function updateBuffetHUD() {
-    const glucVal = document.getElementById('buffet-glucose-val');
-    const glucBar = document.getElementById('buffet-glucose-bar');
-    const shldVal = document.getElementById('buffet-shield-val');
-    const shldBar = document.getElementById('buffet-shield-bar');
-
-    if (glucVal) {
-      glucVal.innerText = `${Math.round(buffetGlucose)} mg/dL`;
-      glucVal.style.color = buffetGlucose > 140 ? 'var(--rust)' : 'var(--teal-calm)';
-    }
-    if (glucBar) {
-      const pct = Math.min(100, Math.max(10, ((buffetGlucose - 70) / 130) * 100));
-      glucBar.style.width = `${pct}%`;
-      glucBar.style.background = buffetGlucose > 140 ? 'var(--rust)' : 'var(--teal-calm)';
-    }
-    if (shldVal) shldVal.innerText = `${buffetShield}%`;
-    if (shldBar) shldBar.style.width = `${buffetShield}%`;
-  }
-
-  function endBuffetGame(isVictory) {
-    buffetState = 'ended';
-    if (buffetTimer) clearInterval(buffetTimer);
-
-    const endOverlay = document.getElementById('buffet-end-overlay');
-    const endIcon = document.getElementById('buffet-end-icon');
-    const endTitle = document.getElementById('buffet-end-title');
-    const endDesc = document.getElementById('buffet-end-desc');
-
-    if (isVictory) {
-      playVictoryChime();
-      if (endIcon) endIcon.innerText = "🏆";
-      if (endTitle) endTitle.innerText = "Shaadi Buffet Conquered!";
-      if (endDesc) endDesc.innerText = `You finished the buffet at a calm ${Math.round(buffetGlucose)} mg/dL! By sequencing protein and fiber first, you blunted the postprandial glucose spike by 40% (Diabetes Care 2015).`;
-    } else {
-      playCrashSound();
-      if (endIcon) endIcon.innerText = "💥";
-      if (endTitle) endTitle.innerText = "11:15 PM Endocrine Crash!";
-      if (endDesc) endDesc.innerText = `Unbuffered jalebi and naan spiked blood glucose to ${Math.round(buffetGlucose)} mg/dL, causing a massive insulin surge that locked your fat stores and triggered a reactive sugar crash.`;
-    }
-
-    if (endOverlay) endOverlay.style.display = 'flex';
-  }
-
-  function buffetLoop(now) {
-    if (buffetState !== 'playing') return;
-
-    buffetCtx.clearRect(0, 0, buffetWidth, buffetHeight);
-
-    // Update paddle
-    buffetPaddle.x += (buffetPaddle.targetX - buffetPaddle.x) * 0.25;
-
-    // Spawn items
-    if (now - lastBuffetSpawn > 650) {
-      spawnBuffetItem();
-      lastBuffetSpawn = now;
-    }
-
-    // Update & draw items
-    for (let i = buffetItems.length - 1; i >= 0; i--) {
-      const it = buffetItems[i];
-      it.y += it.vy;
-
-      // Catch check
-      const padTop = buffetPaddle.y - buffetPaddle.h / 2;
-      const padBot = buffetPaddle.y + buffetPaddle.h / 2;
-      const padLeft = buffetPaddle.x - buffetPaddle.w / 2;
-      const padRight = buffetPaddle.x + buffetPaddle.w / 2;
-
-      if (it.y + it.radius >= padTop && it.y - it.radius <= padBot && it.x >= padLeft - 10 && it.x <= padRight + 10) {
-        if (it.type === 'fiber' || it.type === 'protein') {
-          buffetShield = Math.min(100, buffetShield + it.val);
-          playBounceSound(460 + buffetShield * 2);
-          buffetScore += 50;
-        } else {
-          if (buffetShield > 0) {
-            buffetShield = Math.max(0, buffetShield - (it.type === 'sugar' ? 30 : 20));
-            buffetGlucose = Math.min(200, buffetGlucose + 8);
-            playBounceSound(380);
-            buffetScore += 30;
-          } else {
-            buffetGlucose += it.spike;
-            playCrashSound();
-            if (buffetGlucose >= 180) {
-              endBuffetGame(false);
-              return;
-            }
-          }
-        }
-        updateBuffetHUD();
-        buffetItems.splice(i, 1);
-        continue;
-      }
-
-      // Drop off screen
-      if (it.y > buffetHeight + 30) {
-        buffetItems.splice(i, 1);
-        continue;
-      }
-
-      // Draw item
-      buffetCtx.save();
-      buffetCtx.beginPath();
-      buffetCtx.arc(it.x, it.y, it.radius, 0, Math.PI * 2);
-      buffetCtx.fillStyle = it.type === 'fiber' || it.type === 'protein' ? "rgba(35, 89, 55, 0.25)" : "rgba(192, 78, 42, 0.25)";
-      buffetCtx.fill();
-      buffetCtx.strokeStyle = it.color;
-      buffetCtx.lineWidth = 2;
-      buffetCtx.stroke();
-
-      buffetCtx.font = "18px sans-serif";
-      buffetCtx.textAlign = "center";
-      buffetCtx.textBaseline = "middle";
-      buffetCtx.fillText(it.icon, it.x, it.y);
-      buffetCtx.restore();
-    }
-
-    // Draw Player Thali Plate
-    buffetCtx.save();
-    const pw = buffetPaddle.w;
-    const ph = buffetPaddle.h;
-    const px = buffetPaddle.x - pw / 2;
-    const py = buffetPaddle.y - ph / 2;
-
-    buffetCtx.beginPath();
-    buffetCtx.roundRect(px, py, pw, ph, 10);
-    buffetCtx.fillStyle = buffetShield > 0 ? "var(--teal-calm)" : "var(--rust)";
-    buffetCtx.fill();
-    buffetCtx.strokeStyle = buffetShield > 0 ? "#64E78B" : "#FFF";
-    buffetCtx.lineWidth = 2;
-    buffetCtx.stroke();
-
-    // Shield Halo
-    if (buffetShield > 0) {
-      buffetCtx.strokeStyle = "rgba(100, 231, 139, 0.4)";
-      buffetCtx.lineWidth = 6;
-      buffetCtx.beginPath();
-      buffetCtx.roundRect(px - 3, py - 3, pw + 6, ph + 6, 12);
-      buffetCtx.stroke();
-    }
-
-    buffetCtx.font = "bold 9.5px -apple-system, sans-serif";
-    buffetCtx.fillStyle = "#FFF";
-    buffetCtx.textAlign = "center";
-    buffetCtx.textBaseline = "middle";
-    buffetCtx.fillText(buffetShield > 0 ? "SHIELDED THALI" : "EMPTY STOMACH", buffetPaddle.x, buffetPaddle.y);
-    buffetCtx.restore();
-
-    requestAnimationFrame(buffetLoop);
-  }
   /* GAME 3: TUG-OF-WAR LOGIC */
   let tugRound = 1;
   let tugPos = 50; // 0 to 100%
@@ -1802,112 +1396,6 @@
       if (tugRound === 1) oppName.innerText = "Low Ghrelin (Calm)";
       else if (tugRound === 2) oppName.innerText = "Rising Cravings";
       else oppName.innerText = "+240% GHRELIN SURGE!";
-    }
-  }
-
-  /* GAME 4: THALI GLYCEMIC SIMULATOR LOGIC */
-  let thaliPlate = {
-    carb: { icon: "🍚", name: "Basmati Rice", gi: 45 },
-    prot: { icon: "🍲", name: "Dal Tadka", gi: 10 },
-    fib: { icon: "🥗", name: "Kachumber", gi: -25 },
-    side: { icon: "🥛", name: "Fresh Dahi", gi: -15 }
-  };
-
-  let thaliCanvas, thaliCtx;
-  function initThali() {
-    thaliCanvas = document.getElementById('thaliGraphCanvas');
-    if (!thaliCanvas) return;
-    const rect = thaliCanvas.parentElement.getBoundingClientRect();
-    thaliCanvas.width = rect.width * (window.devicePixelRatio || 1);
-    thaliCanvas.height = rect.height * (window.devicePixelRatio || 1);
-    thaliCtx = thaliCanvas.getContext('2d');
-    thaliCtx.scale(window.devicePixelRatio || 1, window.devicePixelRatio || 1);
-    renderThaliGraph(rect.width, rect.height);
-  }
-
-  function swapThaliFood(cat, icon, name, gi) {
-    initAudio();
-    playBounceSound(440);
-    thaliPlate[cat] = { icon, name, gi };
-
-    const icoEl = document.getElementById('kico-' + cat);
-    const lblEl = document.getElementById('klbl-' + cat);
-    if (icoEl) icoEl.innerText = icon;
-    if (lblEl) lblEl.innerText = name;
-
-    const rect = thaliCanvas.parentElement.getBoundingClientRect();
-    renderThaliGraph(rect.width, rect.height);
-  }
-
-  function clearKatori(cat) {
-    swapThaliFood(cat, "➕", "Empty", 0);
-  }
-
-  function renderThaliGraph(w, h) {
-    if (!thaliCtx) return;
-    thaliCtx.clearRect(0, 0, w, h);
-
-    const totalGI = thaliPlate.carb.gi + thaliPlate.prot.gi + thaliPlate.fib.gi + thaliPlate.side.gi;
-    const isCrashing = totalGI > 35;
-
-    // Background zones
-    const gy_top = 20, gy_bot = h - 25;
-    thaliCtx.fillStyle = "rgba(35, 89, 55, 0.08)";
-    thaliCtx.fillRect(35, gy_top + 30, w - 45, 55); // Green target zone
-
-    thaliCtx.font = "bold 9.5px -apple-system, sans-serif";
-    thaliCtx.fillStyle = "#235937";
-    thaliCtx.fillText("OPTIMAL 80-130 mg/dL ZONE", 40, gy_top + 42);
-
-    // Axes
-    thaliCtx.strokeStyle = "#D5C5B3";
-    thaliCtx.lineWidth = 1;
-    thaliCtx.beginPath();
-    thaliCtx.moveTo(35, gy_bot);
-    thaliCtx.lineTo(w - 10, gy_bot);
-    thaliCtx.stroke();
-
-    // Timeline labels
-    thaliCtx.font = "9px -apple-system, sans-serif";
-    thaliCtx.fillStyle = "#7D5246";
-    thaliCtx.fillText("1:30 PM", 35, gy_bot + 14);
-    thaliCtx.fillText("3:00 PM", w * 0.35, gy_bot + 14);
-    thaliCtx.fillText("4:30 PM", w * 0.65, gy_bot + 14);
-    thaliCtx.fillText("6:00 PM", w - 45, gy_bot + 14);
-
-    // Glucose Curve
-    thaliCtx.lineWidth = 3;
-    thaliCtx.beginPath();
-    thaliCtx.moveTo(35, gy_top + 60);
-
-    const peakY = isCrashing ? gy_top + 5 : gy_top + 45;
-    const crashY = isCrashing ? gy_bot - 4 : gy_top + 60;
-
-    thaliCtx.strokeStyle = isCrashing ? "#C04E2A" : "#235937";
-    thaliCtx.bezierCurveTo(w * 0.25, peakY, w * 0.45, peakY, w * 0.60, crashY);
-    thaliCtx.bezierCurveTo(w * 0.75, crashY + (isCrashing ? 10 : 0), w * 0.85, gy_top + 65, w - 10, gy_top + 65);
-    thaliCtx.stroke();
-
-    // Status updates
-    const tagEl = document.getElementById('thali-status-tag');
-    const descEl = document.getElementById('thali-impact-desc');
-
-    if (isCrashing) {
-      if (tagEl) {
-        tagEl.innerText = "⚠️ 3:45 PM CRASH PREDICTED";
-        tagEl.style.color = "var(--rust)";
-      }
-      if (descEl) {
-        descEl.innerHTML = "<strong>Metabolic Alert:</strong> High glycemic load spikes blood sugar, triggering an emergency insulin surge that locks fat storage and causes a reactive brain crash at 3:48 PM.";
-      }
-    } else {
-      if (tagEl) {
-        tagEl.innerText = "✓ SUSTAINED PLATEAU TO 6:30 PM";
-        tagEl.style.color = "var(--teal-calm)";
-      }
-      if (descEl) {
-        descEl.innerHTML = "<strong>Metabolic Sanctuary:</strong> High protein and soluble fiber slowed gastric absorption, defending smooth blood glucose without triggering 4 PM food noise.";
-      }
     }
   }
 
@@ -2457,12 +1945,12 @@ Direct Consultation: https://steerclub.com/?utm_source=willpower_arcade&utm_medi
   let lastSpawn = 0;
 
   const ITEM_TYPES = [
-    { label: "Masala Chai & Samosa", icon: "☕", color: "#C04E2A", drain: 15 },
-    { label: "Swiggy Flash Alert", icon: "📱", color: "#661414", drain: 18 },
-    { label: "Office Jalebi Box", icon: "🍩", color: "#D97736", drain: 16 },
-    { label: "Mom's WhatsApp Ladoo", icon: "📲", color: "#8E44AD", drain: 15 },
-    { label: "Colleague Chai Break", icon: "🗣️", color: "#2E86C1", drain: 12 },
-    { label: "Desk Haldiram Bhujia", icon: "🥨", color: "#7D5246", drain: 14 }
+    { label: "Masala Chai & Samosa", icon: "☕", sprite: SPRITES.chai, color: "#C04E2A", drain: 15 },
+    { label: "Swiggy Flash Alert", icon: "📱", sprite: SPRITES.swiggy, color: "#661414", drain: 18 },
+    { label: "Office Jalebi Box", icon: "🍩", sprite: SPRITES.jalebi, color: "#D97736", drain: 16 },
+    { label: "Mom's WhatsApp Ladoo", icon: "📲", sprite: SPRITES.ladoo, color: "#8E44AD", drain: 15 },
+    { label: "Desk Haldiram Bhujia", icon: "🥨", sprite: SPRITES.namkeen, color: "#7D5246", drain: 14 },
+    { label: "Colleague Chai Break", icon: "🗣️", sprite: SPRITES.mug, color: "#2E86C1", drain: 12 }
   ];
 
   function resize() {
@@ -2583,9 +2071,10 @@ Direct Consultation: https://steerclub.com/?utm_source=willpower_arcade&utm_medi
       items.push({
         x: Math.random() * (width - 60) + 30,
         y: -30,
-        radius: 20,
+        radius: 22,
         vy: 2.2,
         icon: "✨",
+        sprite: SPRITES.glp1Sphere,
         label: "+ Paced Satiety",
         color: "#235937",
         isCalm: true
@@ -2598,9 +2087,10 @@ Direct Consultation: https://steerclub.com/?utm_source=willpower_arcade&utm_medi
     items.push({
       x: Math.random() * (width - 70) + 35,
       y: -30,
-      radius: 24,
+      radius: 25,
       vy: (3.0 + Math.random() * 2.0) * lunchInfo.speedMult,
       icon: type.icon,
+      sprite: type.sprite,
       label: type.label,
       color: type.color,
       drain: Math.round(type.drain * lunchInfo.drainMult),
@@ -2807,18 +2297,24 @@ Direct Consultation: https://steerclub.com/?utm_source=willpower_arcade&utm_medi
         }
 
         ctx.save();
+        const ir = item.radius;
         ctx.beginPath();
-        ctx.arc(item.x, item.y, item.radius, 0, Math.PI * 2);
-        ctx.fillStyle = item.isCalm ? "#E8F4EC" : "#FFFDFB";
+        ctx.arc(item.x, item.y, ir, 0, Math.PI * 2);
+        ctx.fillStyle = item.isCalm ? "rgba(35, 89, 55, 0.12)" : "rgba(255, 255, 255, 0.88)";
         ctx.fill();
         ctx.strokeStyle = item.color;
         ctx.lineWidth = 2;
         ctx.stroke();
 
-        ctx.font = "18px 'Plus Jakarta Sans'";
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
-        ctx.fillText(item.icon, item.x, item.y);
+        // Draw custom 2D vector cartoon sprite if loaded, fallback to icon
+        if (item.sprite && item.sprite.complete && item.sprite.naturalWidth > 0) {
+          ctx.drawImage(item.sprite, item.x - ir + 2, item.y - ir + 2, (ir - 2) * 2, (ir - 2) * 2);
+        } else {
+          ctx.font = "18px 'Plus Jakarta Sans'";
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          ctx.fillText(item.icon, item.x, item.y);
+        }
         ctx.restore();
       }
 
@@ -2854,11 +2350,32 @@ Direct Consultation: https://steerclub.com/?utm_source=willpower_arcade&utm_medi
       ctx.lineWidth = 2;
       ctx.stroke();
 
-      const mascotEmoji = glp1Active ? "😌" : (willpower > 60 ? "🧠" : (willpower > 25 ? "😰" : "😵"));
-      ctx.font = "26px sans-serif";
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-      ctx.fillText(mascotEmoji, paddle.x, paddle.y - 24);
+      // Draw Mascot Brain Sprite (Adjusted to size & stamina state)
+      let mascotImg = null;
+      let fallbackEmoji = "🧠";
+      if (glp1Active) {
+        mascotImg = SPRITES.brainGlp1;
+        fallbackEmoji = "😌";
+      } else if (willpower <= 0) {
+        mascotImg = SPRITES.brainCollapse;
+        fallbackEmoji = "😵";
+      } else if (willpower < 40) {
+        mascotImg = SPRITES.brainLow;
+        fallbackEmoji = "😰";
+      } else {
+        mascotImg = SPRITES.brainHigh;
+        fallbackEmoji = "🧠";
+      }
+
+      const mSize = 44;
+      if (mascotImg && mascotImg.complete && mascotImg.naturalWidth > 0) {
+        ctx.drawImage(mascotImg, paddle.x - mSize / 2, paddle.y - mSize - 2, mSize, mSize);
+      } else {
+        ctx.font = "26px sans-serif";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(fallbackEmoji, paddle.x, paddle.y - 24);
+      }
 
       ctx.font = "10px 'Plus Jakarta Sans'";
       ctx.fillStyle = "#FFF";
