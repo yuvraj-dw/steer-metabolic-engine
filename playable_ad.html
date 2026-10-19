@@ -824,7 +824,7 @@
   <!-- Arcade Mode Navigation Rail -->
   <div class="arcade-nav-rail">
     <button class="arcade-tab active" id="atab-willpower" onclick="switchArcadeGame('willpower')">🛡️ 4 PM Willpower</button>
-    <button class="arcade-tab" id="atab-dexa" onclick="switchArcadeGame('dexa')">🔬 70kg DEXA Scan</button>
+    <button class="arcade-tab" id="atab-buffet" onclick="switchArcadeGame('buffet')">🍛 Shaadi Buffet Dash</button>
     <button class="arcade-tab" id="atab-tug" onclick="switchArcadeGame('tug')">🪢 Hunger Tug-of-War</button>
     <button class="arcade-tab" id="atab-thali" onclick="switchArcadeGame('thali')">🍛 Thali Glycemic</button>
   </div>
@@ -1188,90 +1188,87 @@
 
   </div> <!-- /sec-willpower -->
 
-  <!-- SECTION 2: 70KG DEXA X-RAY INVESTIGATOR -->
-  <div id="sec-dexa" class="game-section">
-    <div class="dexa-container">
-      <div>
-        <span class="intro-badge">The Lancet 2021 • South Asian Phenotype</span>
-        <h2 class="headline" style="font-size: 26px;">The 70 kg Paradox: <em>The Scale is Lying.</em></h2>
-        <p class="desc" style="margin-bottom: 10px;">
-          Both individuals weigh 70.0 kg at normal BMI 22.8. Drag the DEXA slider to scan deep internal organs and expose hidden ectopic fat.
-        </p>
-      </div>
+  <!-- SECTION 2: SHAADI BUFFET DASH -->
+  <div id="sec-buffet" class="game-section">
+    <div style="padding: 12px 16px 6px;">
+      <span class="intro-badge">Food Sequencing Arcade • Diabetes Care</span>
+      <h2 class="headline" style="font-size: 24px; margin-bottom: 4px;">Shaadi Buffet Dash: <em>Beat the 11 PM Crash.</em></h2>
+      <p class="desc" style="font-size: 11.5px; margin-bottom: 8px;">
+        Catch 🥗 Salad & 🧀 Paneer FIRST to build your Glucose Shield. If you catch 🍩 Jalebi on an empty stomach, your insulin spikes!
+      </p>
+    </div>
 
-      <!-- DEXA Viewer Stage -->
-      <div class="dexa-viewer-box">
-        <div class="dexa-canvas-stage">
-          <canvas id="dexaCanvas"></canvas>
+    <!-- Realtime Buffet HUD -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 0 16px 8px;">
+      <div class="hud-box">
+        <div class="hud-label">
+          <span>Blood Glucose</span>
+          <span id="buffet-glucose-val" style="color: var(--teal-calm);">90 mg/dL</span>
         </div>
-        <div style="margin-top: 10px;">
-          <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: #DEC3B5; margin-bottom: 4px;">
-            <span>Scan Depth: Surface</span>
-            <span id="dexa-depth-label" style="color: #F7C56B;">Visceral Organ Level (100%)</span>
-          </div>
-          <input type="range" id="dexa-slider" min="0" max="100" value="100" style="width: 100%; accent-color: var(--rust); cursor: pointer;" oninput="updateDexaScan(this.value)">
-        </div>
-
-        <div class="dexa-telemetry-row">
-          <div class="dexa-tele-card">
-            <div class="dexa-tele-lbl">Visceral Ectopic Fat</div>
-            <div class="dexa-tele-val" id="dexa-vat-val">+80% VAT</div>
-            <div style="font-size: 9.5px; color: #DEC3B5; margin-top: 2px;">Liver & pancreas infiltration</div>
-          </div>
-          <div class="dexa-tele-card">
-            <div class="dexa-tele-lbl">Normal BMI Diabetes Risk</div>
-            <div class="dexa-tele-val" style="color: #F7C56B;" id="dexa-risk-val">5.3x Risk</div>
-            <div style="font-size: 9.5px; color: #DEC3B5; margin-top: 2px;">BMJ Narayan 2021 cohort</div>
-          </div>
+        <div class="bar-bg">
+          <div id="buffet-glucose-bar" class="bar-fill" style="width: 25%; background: var(--teal-calm);"></div>
         </div>
       </div>
-
-      <div class="doctor-box">
-        <strong>The Clinical Reality:</strong> "Weighing scales only quantify gravitational mass. In South Asian biology, normal weight often hides dangerous ectopic visceral adiposity. Steer replaces guesswork with a Day-1 DEXA scan and physician-guided lipid clearance."
-      </div>
-
-      <!-- 4-Point Doubt Audit Scorecard -->
-      <div class="doubt-audit-box">
-        <div style="font-size: 11px; font-weight: 800; color: var(--clay); text-transform: uppercase; margin-bottom: 6px; display: flex; justify-content: space-between;">
-          <span>Diagnostic Evidence Receipts</span>
-          <span style="color: var(--teal-calm);">Lancet & BMJ Verified</span>
+      <div class="hud-box">
+        <div class="hud-label">
+          <span>Fiber / Protein Shield</span>
+          <span id="buffet-shield-val" style="color: var(--rust);">0%</span>
         </div>
-        <div class="doubt-row" onclick="this.classList.toggle('open')">
-          <div class="doubt-row-left"><span>🇮🇳</span><span>Why BMI 22.8 triggers diabetes?</span></div>
-          <span class="doubt-pill doubt-pill-green">✓ Lancet 2021</span>
+        <div class="bar-bg">
+          <div id="buffet-shield-bar" class="bar-fill" style="width: 0%; background: var(--rust);"></div>
         </div>
-        <div class="doubt-detail">
-          South Asians have lower subcutaneous fat buffering thresholds. Excess calories spill directly into visceral organ fat around the liver and pancreas a decade earlier than Western counterparts.
-        </div>
-        <div class="doubt-row" onclick="this.classList.toggle('open')">
-          <div class="doubt-row-left"><span>🔬</span><span>How Steer tracks visceral loss?</span></div>
-          <span class="doubt-pill doubt-pill-green">✓ DEXA Telemetry</span>
-        </div>
-        <div class="doubt-detail">
-          Every member gets a Day-1 DEXA body composition scan repeated every 8 weeks to confirm internal visceral fat is cleared while preserving vital skeletal muscle mass.
-        </div>
-      </div>
-
-      <div>
-        <div style="display: flex; gap: 6px; margin-bottom: 8px;">
-          <button class="btn-secondary" style="border-color: var(--rust); color: var(--rust); font-weight: 700; flex: 1; padding: 10px 8px; font-size: 11.5px;" onclick="downloadStoryCard('dexa')">
-            📥 Story Card
-          </button>
-          <button class="btn-secondary" style="border-color: var(--rust); color: var(--rust); font-weight: 700; flex: 1; padding: 10px 8px; font-size: 11.5px;" onclick="copyDoctorBrief('dexa')">
-            📋 Copy Brief
-          </button>
-          <button class="btn-secondary btn-whatsapp" style="font-weight: 700; flex: 1.2; padding: 10px 8px; font-size: 11.5px;" onclick="sendDoctorWhatsApp('dexa')">
-            📲 WhatsApp
-          </button>
-        </div>
-        <a href="https://steerclub.com/?utm_source=willpower_arcade&utm_medium=dexa_game&utm_campaign=tofi_70kg&worry=visceral_fat" target="_blank" style="text-decoration: none;">
-          <button class="btn-action">
-            Book Day-1 DEXA Scan at steerclub.com <span>→</span>
-          </button>
-        </a>
       </div>
     </div>
-  </div> <!-- /sec-dexa -->
+
+    <!-- Buffet Live Canvas Area -->
+    <div style="flex: 1; min-height: 320px; position: relative; background: #220E0E; overflow: hidden; margin: 0 16px 10px; border-radius: 16px; border: 1px solid var(--blush); touch-action: none;">
+      <canvas id="buffetCanvas"></canvas>
+
+      <!-- Overlay for Buffet Start -->
+      <div id="buffet-start-overlay" style="position: absolute; inset: 0; background: rgba(29, 10, 10, 0.92); z-index: 10; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; text-align: center;">
+        <span style="font-size: 36px; margin-bottom: 8px;">🍛</span>
+        <h3 style="font-family: var(--font-serif); font-size: 26px; color: #FFF; margin-bottom: 6px;">The Wedding Buffet Gate</h3>
+        <p style="font-size: 12px; color: #DEC3B5; max-width: 280px; margin-bottom: 16px; line-height: 1.4;">
+          Drag your thali plate left & right. Catch green salad and paneer to coat your gut with fiber. Avoid unbuffered sweets!
+        </p>
+        <button class="btn-action" style="width: auto; padding: 12px 28px;" onclick="startBuffetGame()">
+          START BUFFET (30s) →
+        </button>
+      </div>
+
+      <!-- Overlay for Buffet Outcome -->
+      <div id="buffet-end-overlay" style="position: absolute; inset: 0; background: rgba(29, 10, 10, 0.94); z-index: 10; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 20px; text-align: center;">
+        <span id="buffet-end-icon" style="font-size: 40px; margin-bottom: 6px;">🏆</span>
+        <h3 id="buffet-end-title" style="font-family: var(--font-serif); font-size: 24px; color: #FFF; margin-bottom: 6px;">Metabolic Victory!</h3>
+        <p id="buffet-end-desc" style="font-size: 12px; color: #DEC3B5; max-width: 290px; margin-bottom: 14px; line-height: 1.4;">
+          You sequenced protein & fiber first, reducing peak glucose by 40% and preventing the 11 PM food crash.
+        </p>
+        <button class="btn-action btn-teal" style="width: auto; padding: 10px 24px; font-size: 13px;" onclick="startBuffetGame()">
+          ↺ Play Again
+        </button>
+      </div>
+    </div>
+
+    <!-- Bottom Action Controls -->
+    <div style="padding: 0 16px 14px;">
+      <div style="display: flex; gap: 6px; margin-bottom: 8px;">
+        <button class="btn-secondary" style="border-color: var(--rust); color: var(--rust); font-weight: 700; flex: 1; padding: 10px 8px; font-size: 11.5px;" onclick="downloadStoryCard('buffet')">
+          📥 Story Card
+        </button>
+        <button class="btn-secondary" style="border-color: var(--rust); color: var(--rust); font-weight: 700; flex: 1; padding: 10px 8px; font-size: 11.5px;" onclick="copyDoctorBrief('buffet')">
+          📋 Copy Brief
+        </button>
+        <button class="btn-secondary btn-whatsapp" style="font-weight: 700; flex: 1.2; padding: 10px 8px; font-size: 11.5px;" onclick="sendDoctorWhatsApp('buffet')">
+          📲 WhatsApp
+        </button>
+      </div>
+      <a href="https://steerclub.com/?utm_source=willpower_arcade&utm_medium=buffet_game&utm_campaign=food_sequencing&worry=visceral_fat" target="_blank" style="text-decoration: none;">
+        <button class="btn-action">
+          Get Doctor-Guided Metabolic Care <span>→</span>
+        </button>
+      </a>
+    </div>
+  </div> <!-- /sec-buffet -->
 
   <!-- SECTION 3: HUNGER TUG-OF-WAR -->
   <div id="sec-tug" class="game-section">
@@ -1455,9 +1452,9 @@
 
     if (gameId === 'willpower') {
       resize();
-    } else if (gameId === 'dexa') {
+    } else if (gameId === 'buffet') {
       stopFoodNoise();
-      initDexa();
+      initBuffet();
     } else if (gameId === 'tug') {
       stopFoodNoise();
       initTug();
@@ -1467,109 +1464,264 @@
     }
   }
 
-  /* GAME 2: DEXA SCANNER LOGIC */
-  let dexaCanvas, dexaCtx, dexaVal = 100;
-  function initDexa() {
-    dexaCanvas = document.getElementById('dexaCanvas');
-    if (!dexaCanvas) return;
-    const rect = dexaCanvas.parentElement.getBoundingClientRect();
-    dexaCanvas.width = rect.width * (window.devicePixelRatio || 1);
-    dexaCanvas.height = rect.height * (window.devicePixelRatio || 1);
-    dexaCtx = dexaCanvas.getContext('2d');
-    dexaCtx.scale(window.devicePixelRatio || 1, window.devicePixelRatio || 1);
-    drawDexaFigures(rect.width, rect.height, dexaVal);
+  /* GAME 2: SHAADI BUFFET DASH LOGIC */
+  let buffetCanvas, buffetCtx;
+  let buffetWidth = 0, buffetHeight = 0;
+  let buffetState = 'intro';
+  let buffetGlucose = 90;
+  let buffetShield = 0;
+  let buffetScore = 0;
+  let buffetTimeLeft = 30;
+  let buffetTimer = null;
+  let buffetPaddle = { x: 150, y: 260, w: 90, h: 20, targetX: 150 };
+  let buffetItems = [];
+  let buffetParticles = [];
+  let lastBuffetSpawn = 0;
+
+  const BUFFET_ITEM_TYPES = [
+    { label: "Salad", icon: "🥗", type: "fiber", val: 25, color: "#235937" },
+    { label: "Paneer", icon: "🧀", type: "protein", val: 25, color: "#D97736" },
+    { label: "Dal", icon: "🍲", type: "protein", val: 20, color: "#C04E2A" },
+    { label: "Tandoori", icon: "🍗", type: "protein", val: 25, color: "#7D5246" },
+    { label: "Butter Naan", icon: "🫓", type: "carb", spike: 35, color: "#E09A55" },
+    { label: "Biryani", icon: "🍚", type: "carb", spike: 30, color: "#E59866" },
+    { label: "Jalebi", icon: "🍩", type: "sugar", spike: 50, color: "#C0392B" },
+    { label: "Gulab Jamun", icon: "🍨", type: "sugar", spike: 50, color: "#922B21" }
+  ];
+
+  function initBuffet() {
+    buffetCanvas = document.getElementById('buffetCanvas');
+    if (!buffetCanvas) return;
+    resizeBuffet();
+    bindBuffetControls();
   }
 
-  function updateDexaScan(val) {
-    dexaVal = parseInt(val);
-    const label = document.getElementById('dexa-depth-label');
-    const vatVal = document.getElementById('dexa-vat-val');
-    const riskVal = document.getElementById('dexa-risk-val');
-
-    if (dexaVal < 30) {
-      if (label) label.innerText = "Surface Scale View (0-30%)";
-      if (vatVal) vatVal.innerText = "70.0 KG (Normal)";
-      if (riskVal) riskVal.innerText = "BMI 22.8 (Identical)";
-    } else if (dexaVal < 70) {
-      if (label) label.innerText = "Subcutaneous Fat Layer (50%)";
-      if (vatVal) vatVal.innerText = "+25% SubQ Fat";
-      if (riskVal) riskVal.innerText = "Slight Abdominal Store";
-    } else {
-      if (label) label.innerText = "Visceral Organ Ectopic Fat (100%)";
-      if (vatVal) vatVal.innerText = "+80% VAT";
-      if (riskVal) riskVal.innerText = "5.3x Risk";
-    }
-
-    if (dexaCanvas) {
-      const rect = dexaCanvas.parentElement.getBoundingClientRect();
-      drawDexaFigures(rect.width, rect.height, dexaVal);
+  function resizeBuffet() {
+    if (!buffetCanvas) return;
+    const rect = buffetCanvas.parentElement.getBoundingClientRect();
+    buffetWidth = rect.width;
+    buffetHeight = rect.height;
+    const dpr = window.devicePixelRatio || 1;
+    buffetCanvas.width = buffetWidth * dpr;
+    buffetCanvas.height = buffetHeight * dpr;
+    buffetCtx = buffetCanvas.getContext('2d');
+    buffetCtx.setTransform(1, 0, 0, 1, 0, 0);
+    buffetCtx.scale(dpr, dpr);
+    buffetPaddle.y = buffetHeight - 26;
+    if (buffetPaddle.x === 150) {
+      buffetPaddle.x = buffetWidth / 2;
+      buffetPaddle.targetX = buffetWidth / 2;
     }
   }
 
-  function drawDexaFigures(w, h, depth) {
-    if (!dexaCtx) return;
-    dexaCtx.clearRect(0, 0, w, h);
+  function startBuffetGame() {
+    initAudio();
+    resizeBuffet();
+    document.getElementById('buffet-start-overlay').style.display = 'none';
+    document.getElementById('buffet-end-overlay').style.display = 'none';
 
-    const fW = w / 2;
-    // 1. European Control
-    dexaCtx.font = "bold 11px -apple-system, sans-serif";
-    dexaCtx.fillStyle = "#DEC3B5";
-    dexaCtx.textAlign = "center";
-    dexaCtx.fillText("CAUCASIAN (70 KG, BMI 22.8)", fW * 0.5, 20);
+    buffetState = 'playing';
+    buffetGlucose = 90;
+    buffetShield = 0;
+    buffetScore = 0;
+    buffetTimeLeft = 30;
+    buffetItems = [];
+    buffetParticles = [];
+    lastBuffetSpawn = performance.now();
+    updateBuffetHUD();
 
-    // 2. South Asian
-    dexaCtx.fillText("SOUTH ASIAN (70 KG, BMI 22.8)", fW * 1.5, 20);
-
-    // Draw silhouettes
-    [fW * 0.5, fW * 1.5].forEach((cx, idx) => {
-      const isSouthAsian = (idx === 1);
-      dexaCtx.fillStyle = "rgba(255, 255, 255, 0.15)";
-      dexaCtx.beginPath();
-      dexaCtx.arc(cx, 55, 18, 0, Math.PI * 2); // head
-      dexaCtx.fill();
-
-      dexaCtx.beginPath();
-      dexaCtx.roundRect(cx - 28, 80, 56, 120, 16); // torso
-      dexaCtx.fill();
-
-      // Visceral Fat Layer Reveal based on depth
-      if (depth > 25) {
-        const alpha = Math.min(1.0, (depth - 25) / 75);
-        if (isSouthAsian) {
-          dexaCtx.fillStyle = `rgba(217, 66, 40, ${alpha * 0.9})`; // Deep ectopic fat in red
-          dexaCtx.beginPath();
-          dexaCtx.ellipse(cx, 135, 22, 34, 0, 0, Math.PI * 2);
-          dexaCtx.fill();
-
-          dexaCtx.fillStyle = `rgba(247, 197, 107, ${alpha})`;
-          dexaCtx.font = "bold 10px -apple-system, sans-serif";
-          dexaCtx.fillText("+80% VAT", cx, 140);
-          dexaCtx.fillText("FATTY LIVER", cx, 154);
-        } else {
-          dexaCtx.fillStyle = `rgba(78, 189, 118, ${alpha * 0.7})`; // Healthy clear
-          dexaCtx.beginPath();
-          dexaCtx.ellipse(cx, 135, 14, 22, 0, Math.PI * 2);
-          dexaCtx.fill();
-
-          dexaCtx.fillStyle = "#FFF";
-          dexaCtx.font = "bold 10px -apple-system, sans-serif";
-          dexaCtx.fillText("CLEAR ORGANS", cx, 142);
-        }
+    if (buffetTimer) clearInterval(buffetTimer);
+    buffetTimer = setInterval(() => {
+      if (buffetState !== 'playing') return;
+      buffetTimeLeft--;
+      if (buffetTimeLeft <= 0) {
+        endBuffetGame(true);
       }
-    });
+    }, 1000);
 
-    // Scan line
-    const scanY = 30 + (h - 40) * (depth / 100);
-    dexaCtx.strokeStyle = "#F7C56B";
-    dexaCtx.lineWidth = 2;
-    dexaCtx.setLineDash([6, 4]);
-    dexaCtx.beginPath();
-    dexaCtx.moveTo(10, scanY);
-    dexaCtx.lineTo(w - 10, scanY);
-    dexaCtx.stroke();
-    dexaCtx.setLineDash([]);
+    requestAnimationFrame(buffetLoop);
   }
 
+  function bindBuffetControls() {
+    if (!buffetCanvas) return;
+    function onPointer(e) {
+      if (buffetState !== 'playing') return;
+      initAudio();
+      const rect = buffetCanvas.getBoundingClientRect();
+      const clientX = e.clientX || (e.touches && e.touches[0] ? e.touches[0].clientX : null);
+      if (clientX !== null) {
+        const x = (clientX - rect.left) * (buffetWidth / (rect.width || buffetWidth || 1));
+        buffetPaddle.targetX = Math.max(buffetPaddle.w / 2, Math.min(buffetWidth - buffetPaddle.w / 2, x));
+      }
+    }
+    buffetCanvas.addEventListener('pointerdown', onPointer);
+    buffetCanvas.addEventListener('pointermove', onPointer);
+    buffetCanvas.addEventListener('touchstart', onPointer, { passive: true });
+    buffetCanvas.addEventListener('touchmove', onPointer, { passive: true });
+  }
+
+  function spawnBuffetItem() {
+    const isFiber = Math.random() < 0.55;
+    const candidates = BUFFET_ITEM_TYPES.filter(it => isFiber ? (it.type === 'fiber' || it.type === 'protein') : (it.type === 'carb' || it.type === 'sugar'));
+    const item = candidates[Math.floor(Math.random() * candidates.length)];
+    buffetItems.push({
+      x: Math.random() * (buffetWidth - 50) + 25,
+      y: -25,
+      radius: 20,
+      vy: 2.8 + Math.random() * 2.2,
+      ...item
+    });
+  }
+
+  function updateBuffetHUD() {
+    const glucVal = document.getElementById('buffet-glucose-val');
+    const glucBar = document.getElementById('buffet-glucose-bar');
+    const shldVal = document.getElementById('buffet-shield-val');
+    const shldBar = document.getElementById('buffet-shield-bar');
+
+    if (glucVal) {
+      glucVal.innerText = `${Math.round(buffetGlucose)} mg/dL`;
+      glucVal.style.color = buffetGlucose > 140 ? 'var(--rust)' : 'var(--teal-calm)';
+    }
+    if (glucBar) {
+      const pct = Math.min(100, Math.max(10, ((buffetGlucose - 70) / 130) * 100));
+      glucBar.style.width = `${pct}%`;
+      glucBar.style.background = buffetGlucose > 140 ? 'var(--rust)' : 'var(--teal-calm)';
+    }
+    if (shldVal) shldVal.innerText = `${buffetShield}%`;
+    if (shldBar) shldBar.style.width = `${buffetShield}%`;
+  }
+
+  function endBuffetGame(isVictory) {
+    buffetState = 'ended';
+    if (buffetTimer) clearInterval(buffetTimer);
+
+    const endOverlay = document.getElementById('buffet-end-overlay');
+    const endIcon = document.getElementById('buffet-end-icon');
+    const endTitle = document.getElementById('buffet-end-title');
+    const endDesc = document.getElementById('buffet-end-desc');
+
+    if (isVictory) {
+      playVictoryChime();
+      if (endIcon) endIcon.innerText = "🏆";
+      if (endTitle) endTitle.innerText = "Shaadi Buffet Conquered!";
+      if (endDesc) endDesc.innerText = `You finished the buffet at a calm ${Math.round(buffetGlucose)} mg/dL! By sequencing protein and fiber first, you blunted the postprandial glucose spike by 40% (Diabetes Care 2015).`;
+    } else {
+      playCrashSound();
+      if (endIcon) endIcon.innerText = "💥";
+      if (endTitle) endTitle.innerText = "11:15 PM Endocrine Crash!";
+      if (endDesc) endDesc.innerText = `Unbuffered jalebi and naan spiked blood glucose to ${Math.round(buffetGlucose)} mg/dL, causing a massive insulin surge that locked your fat stores and triggered a reactive sugar crash.`;
+    }
+
+    if (endOverlay) endOverlay.style.display = 'flex';
+  }
+
+  function buffetLoop(now) {
+    if (buffetState !== 'playing') return;
+
+    buffetCtx.clearRect(0, 0, buffetWidth, buffetHeight);
+
+    // Update paddle
+    buffetPaddle.x += (buffetPaddle.targetX - buffetPaddle.x) * 0.25;
+
+    // Spawn items
+    if (now - lastBuffetSpawn > 650) {
+      spawnBuffetItem();
+      lastBuffetSpawn = now;
+    }
+
+    // Update & draw items
+    for (let i = buffetItems.length - 1; i >= 0; i--) {
+      const it = buffetItems[i];
+      it.y += it.vy;
+
+      // Catch check
+      const padTop = buffetPaddle.y - buffetPaddle.h / 2;
+      const padBot = buffetPaddle.y + buffetPaddle.h / 2;
+      const padLeft = buffetPaddle.x - buffetPaddle.w / 2;
+      const padRight = buffetPaddle.x + buffetPaddle.w / 2;
+
+      if (it.y + it.radius >= padTop && it.y - it.radius <= padBot && it.x >= padLeft - 10 && it.x <= padRight + 10) {
+        if (it.type === 'fiber' || it.type === 'protein') {
+          buffetShield = Math.min(100, buffetShield + it.val);
+          playBounceSound(460 + buffetShield * 2);
+          buffetScore += 50;
+        } else {
+          if (buffetShield > 0) {
+            buffetShield = Math.max(0, buffetShield - (it.type === 'sugar' ? 30 : 20));
+            buffetGlucose = Math.min(200, buffetGlucose + 8);
+            playBounceSound(380);
+            buffetScore += 30;
+          } else {
+            buffetGlucose += it.spike;
+            playCrashSound();
+            if (buffetGlucose >= 180) {
+              endBuffetGame(false);
+              return;
+            }
+          }
+        }
+        updateBuffetHUD();
+        buffetItems.splice(i, 1);
+        continue;
+      }
+
+      // Drop off screen
+      if (it.y > buffetHeight + 30) {
+        buffetItems.splice(i, 1);
+        continue;
+      }
+
+      // Draw item
+      buffetCtx.save();
+      buffetCtx.beginPath();
+      buffetCtx.arc(it.x, it.y, it.radius, 0, Math.PI * 2);
+      buffetCtx.fillStyle = it.type === 'fiber' || it.type === 'protein' ? "rgba(35, 89, 55, 0.25)" : "rgba(192, 78, 42, 0.25)";
+      buffetCtx.fill();
+      buffetCtx.strokeStyle = it.color;
+      buffetCtx.lineWidth = 2;
+      buffetCtx.stroke();
+
+      buffetCtx.font = "18px sans-serif";
+      buffetCtx.textAlign = "center";
+      buffetCtx.textBaseline = "middle";
+      buffetCtx.fillText(it.icon, it.x, it.y);
+      buffetCtx.restore();
+    }
+
+    // Draw Player Thali Plate
+    buffetCtx.save();
+    const pw = buffetPaddle.w;
+    const ph = buffetPaddle.h;
+    const px = buffetPaddle.x - pw / 2;
+    const py = buffetPaddle.y - ph / 2;
+
+    buffetCtx.beginPath();
+    buffetCtx.roundRect(px, py, pw, ph, 10);
+    buffetCtx.fillStyle = buffetShield > 0 ? "var(--teal-calm)" : "var(--rust)";
+    buffetCtx.fill();
+    buffetCtx.strokeStyle = buffetShield > 0 ? "#64E78B" : "#FFF";
+    buffetCtx.lineWidth = 2;
+    buffetCtx.stroke();
+
+    // Shield Halo
+    if (buffetShield > 0) {
+      buffetCtx.strokeStyle = "rgba(100, 231, 139, 0.4)";
+      buffetCtx.lineWidth = 6;
+      buffetCtx.beginPath();
+      buffetCtx.roundRect(px - 3, py - 3, pw + 6, ph + 6, 12);
+      buffetCtx.stroke();
+    }
+
+    buffetCtx.font = "bold 9.5px -apple-system, sans-serif";
+    buffetCtx.fillStyle = "#FFF";
+    buffetCtx.textAlign = "center";
+    buffetCtx.textBaseline = "middle";
+    buffetCtx.fillText(buffetShield > 0 ? "SHIELDED THALI" : "EMPTY STOMACH", buffetPaddle.x, buffetPaddle.y);
+    buffetCtx.restore();
+
+    requestAnimationFrame(buffetLoop);
+  }
   /* GAME 3: TUG-OF-WAR LOGIC */
   let tugRound = 1;
   let tugPos = 50; // 0 to 100%
@@ -1821,7 +1973,7 @@
 
   function sendDoctorWhatsApp(type) {
     let text = "";
-    if (type === 'dexa') {
+    if (type === 'buffet' || type === 'dexa') {
       text =
 `Hi Dr. at Steer! I just completed the 70kg DEXA X-Ray Simulator on steerclub.com:
 • Scan Finding: +80% Visceral Ectopic Fat around liver & pancreas at BMI 22.8
@@ -1876,7 +2028,7 @@ I'd like to consult a Steer doctor for a 55-biomarker panel and metabolic assess
 
   function copyDoctorBrief(type) {
     let brief = "";
-    if (type === 'dexa') {
+    if (type === 'buffet' || type === 'dexa') {
       brief =
 `STEER CLINICAL INTAKE BRIEF (70 KG DEXA PARADOX INVESTIGATION)
 Patient Mode: The 70kg DEXA X-Ray Simulator
@@ -2067,7 +2219,7 @@ Direct Consultation: https://steerclub.com/?utm_source=willpower_arcade&utm_medi
     const c = cardCanvas.getContext('2d');
 
     const isVictory = (type === 'victory');
-    const isDexa = (type === 'dexa');
+    const isBuffet = (type === 'buffet' || type === 'dexa');
     const isTug = (type === 'tug');
     const isThali = (type === 'thali');
 
@@ -2097,7 +2249,7 @@ Direct Consultation: https://steerclub.com/?utm_source=willpower_arcade&utm_medi
     let badgeText = '⚠️  WILLPOWER EXHAUSTED';
     let badgeW = 420;
     if (isVictory) { badgeText = '✓  FULL RESET ACHIEVED'; badgeW = 440; }
-    else if (isDexa) { badgeText = '🔬  70 KG PARADOX TELEMETRY'; badgeW = 480; }
+    else if (isBuffet) { badgeText = '🍛  SHAADI BUFFET SURVIVOR'; badgeW = 460; }
     else if (isTug) { badgeText = '🪢  HUNGER TUG-OF-WAR'; badgeW = 410; }
     else if (isThali) { badgeText = '🍛  THALI GLYCEMIC AUDIT'; badgeW = 430; }
 
@@ -2119,9 +2271,9 @@ Direct Consultation: https://steerclub.com/?utm_source=willpower_arcade&utm_medi
     if (isVictory) {
       c.fillText('I felt the biological', 90, 345);
       c.fillText('difference.', 90, 430);
-    } else if (isDexa) {
-      c.fillText('The weighing scale', 90, 345);
-      c.fillText('is lying.', 90, 430);
+    } else if (isBuffet) {
+      c.fillText('I survived the Shaadi', 90, 345);
+      c.fillText('buffet rush.', 90, 430);
     } else if (isTug) {
       c.fillText('Willpower snapped', 90, 345);
       c.fillText('at 4:12 PM.', 90, 430);
@@ -2169,12 +2321,12 @@ Direct Consultation: https://steerclub.com/?utm_source=willpower_arcade&utm_medi
       subText = 'Incretin satiety receptors actively pacing gastric emptying.';
       quote = '"When your biology is supported, willpower is not a daily struggle."';
       proofTitle = '✓  STEP-1 CLINICAL TRIAL VERIFIED (NEJM)';
-    } else if (isDexa) {
-      metricStr = '+80% VAT';
-      metricTitle = 'Ectopic Organ Adiposity';
-      subText = 'Toxic visceral fat wrapping liver and pancreas at normal BMI 22.8.';
-      quote = '"Traditional scales measure gravity. DEXA measures the fat driving diabetes."';
-      proofTitle = '✓  THE LANCET DIABETES & ENDOCRINOLOGY (2021)';
+    } else if (isBuffet) {
+      metricStr = '90 mg/dL';
+      metricTitle = 'Paced Glucose Stability';
+      subText = 'Fiber and protein sequencing blunted postprandial glucose spike by 40%.';
+      quote = '"Eating protein and fiber first prevents late-night insulin crashes."';
+      proofTitle = '✓  FOOD SEQUENCING TRIAL (DIABETES CARE)';
     } else if (isTug) {
       metricStr = '+240%';
       metricTitle = 'Ghrelin Famine Surge';
