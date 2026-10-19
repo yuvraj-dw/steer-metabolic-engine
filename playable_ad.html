@@ -577,7 +577,237 @@
     #glp1-banner.visible {
       transform: translateY(0);
     }
+
+    /* Arcade Navigation Rail */
+    .arcade-nav-rail {
+      display: flex;
+      gap: 6px;
+      padding: 8px 14px;
+      background: #EFE4D6;
+      border-bottom: 1px solid var(--blush);
+      overflow-x: auto;
+      scrollbar-width: none;
+      z-index: 25;
+    }
+    .arcade-nav-rail::-webkit-scrollbar { display: none; }
+
+    .arcade-tab {
+      background: var(--soft-paper);
+      border: 1px solid var(--blush);
+      border-radius: 100px;
+      padding: 5px 12px;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--clay);
+      white-space: nowrap;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .arcade-tab:hover {
+      background: #FFF;
+      color: var(--oxblood);
+    }
+    .arcade-tab.active {
+      background: var(--deep-maroon);
+      color: #FFF;
+      border-color: var(--deep-maroon);
+      box-shadow: 0 2px 8px rgba(102, 20, 20, 0.25);
+    }
+
+    /* Game View Sections */
+    .game-section {
+      flex: 1;
+      position: relative;
+      display: none;
+      flex-direction: column;
+      overflow-y: auto;
+      background: var(--cream);
+    }
+    .game-section.active {
+      display: flex;
+    }
+
+    /* GAME 2: DEXA SCANNER STYLES */
+    .dexa-container {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .dexa-viewer-box {
+      background: #1D0A0A;
+      border-radius: 16px;
+      padding: 14px;
+      text-align: center;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+    }
+    .dexa-canvas-stage {
+      width: 100%;
+      height: 250px;
+      background: #250C0C;
+      border-radius: 12px;
+      position: relative;
+      overflow: hidden;
+    }
+    .dexa-telemetry-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .dexa-tele-card {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(222, 195, 181, 0.2);
+      border-radius: 10px;
+      padding: 8px 10px;
+      text-align: left;
+    }
+    .dexa-tele-lbl { font-size: 9.5px; font-weight: 700; color: #DEC3B5; text-transform: uppercase; }
+    .dexa-tele-val { font-family: var(--font-serif); font-size: 22px; color: #FFF; font-weight: bold; margin-top: 2px; }
+
+    /* GAME 3: TUG-OF-WAR STYLES */
+    .tug-container {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      flex: 1;
+    }
+    .tug-arena {
+      background: var(--soft-paper);
+      border: 1.5px solid var(--blush);
+      border-radius: 16px;
+      padding: 18px 14px;
+      position: relative;
+      text-align: center;
+    }
+    .tug-teams-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+    .tug-team {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      font-size: 34px;
+    }
+    .tug-team-name {
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: var(--ink);
+    }
+    .tug-rope-track {
+      position: relative;
+      width: 100%;
+      height: 12px;
+      background: #D8C7B5;
+      border-radius: 6px;
+      margin: 16px 0;
+    }
+    .tug-knot {
+      position: absolute;
+      top: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--rust);
+      border: 3px solid #FFF;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      transition: left 0.08s ease-out;
+    }
+    .tug-tap-btn {
+      width: 124px;
+      height: 124px;
+      border-radius: 50%;
+      background: var(--rust);
+      color: #FFF;
+      font-size: 16px;
+      font-weight: 800;
+      border: 4px solid #FFF;
+      box-shadow: 0 6px 20px rgba(192, 78, 42, 0.4);
+      cursor: pointer;
+      margin: 10px auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      line-height: 1.2;
+    }
+    .tug-tap-btn:active { transform: scale(0.94); background: #A93E1D; }
+
+    /* GAME 4: THALI GLYCEMIC SIMULATOR */
+    .thali-container {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .thali-graph-card {
+      background: #FFF;
+      border: 1.5px solid var(--blush);
+      border-radius: 14px;
+      padding: 10px;
+    }
+    .thali-plate-wrap {
+      background: var(--soft-paper);
+      border: 1.5px solid var(--blush);
+      border-radius: 16px;
+      padding: 12px;
+      text-align: center;
+    }
+    .katori-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      margin-top: 8px;
+    }
+    .katori-slot {
+      background: #FFF;
+      border: 1.5px dashed var(--blush);
+      border-radius: 12px;
+      padding: 8px 4px;
+      text-align: center;
+      cursor: pointer;
+      min-height: 68px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .katori-slot.filled {
+      border-style: solid;
+      border-color: var(--rust);
+      background: var(--rust-light);
+    }
+    .katori-ico { font-size: 24px; }
+    .katori-lbl { font-size: 9.5px; font-weight: 700; color: var(--clay); margin-top: 3px; }
+
+    .food-chips-tray {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 8px;
+    }
+    .food-chip {
+      background: #FFF;
+      border: 1px solid var(--blush);
+      border-radius: 8px;
+      padding: 4px 8px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--ink);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .food-chip:hover { border-color: var(--rust); color: var(--rust); }
   </style>
+
 </head>
 <body>
 
@@ -590,8 +820,17 @@
       <span id="game-clock">01:30 PM</span>
     </div>
   </div>
+  <!-- Arcade Mode Navigation Rail -->
+  <div class="arcade-nav-rail">
+    <button class="arcade-tab active" id="atab-willpower" onclick="switchArcadeGame('willpower')">🛡️ 4 PM Willpower</button>
+    <button class="arcade-tab" id="atab-dexa" onclick="switchArcadeGame('dexa')">🔬 70kg DEXA Scan</button>
+    <button class="arcade-tab" id="atab-tug" onclick="switchArcadeGame('tug')">🪢 Hunger Tug-of-War</button>
+    <button class="arcade-tab" id="atab-thali" onclick="switchArcadeGame('thali')">🍛 Thali Glycemic</button>
+  </div>
 
-  <!-- Realtime Telemetry HUD -->
+  <!-- SECTION 1: WILLPOWER DEFENSE ARCADE -->
+  <div id="sec-willpower" class="game-section active">
+    <!-- Realtime Telemetry HUD -->
   <div class="hud">
     <div class="hud-box">
       <div class="hud-label">
@@ -945,9 +1184,580 @@
       </button>
     </div>
   </div>
+
+  </div> <!-- /sec-willpower -->
+
+  <!-- SECTION 2: 70KG DEXA X-RAY INVESTIGATOR -->
+  <div id="sec-dexa" class="game-section">
+    <div class="dexa-container">
+      <div>
+        <span class="intro-badge">The Lancet 2021 • South Asian Phenotype</span>
+        <h2 class="headline" style="font-size: 26px;">The 70 kg Paradox: <em>The Scale is Lying.</em></h2>
+        <p class="desc" style="margin-bottom: 10px;">
+          Both individuals weigh 70.0 kg at normal BMI 22.8. Drag the DEXA slider to scan deep internal organs and expose hidden ectopic fat.
+        </p>
+      </div>
+
+      <!-- DEXA Viewer Stage -->
+      <div class="dexa-viewer-box">
+        <div class="dexa-canvas-stage">
+          <canvas id="dexaCanvas"></canvas>
+        </div>
+        <div style="margin-top: 10px;">
+          <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: #DEC3B5; margin-bottom: 4px;">
+            <span>Scan Depth: Surface</span>
+            <span id="dexa-depth-label" style="color: #F7C56B;">Visceral Organ Level (100%)</span>
+          </div>
+          <input type="range" id="dexa-slider" min="0" max="100" value="100" style="width: 100%; accent-color: var(--rust); cursor: pointer;" oninput="updateDexaScan(this.value)">
+        </div>
+
+        <div class="dexa-telemetry-row">
+          <div class="dexa-tele-card">
+            <div class="dexa-tele-lbl">Visceral Ectopic Fat</div>
+            <div class="dexa-tele-val" id="dexa-vat-val">+80% VAT</div>
+            <div style="font-size: 9.5px; color: #DEC3B5; margin-top: 2px;">Liver & pancreas infiltration</div>
+          </div>
+          <div class="dexa-tele-card">
+            <div class="dexa-tele-lbl">Normal BMI Diabetes Risk</div>
+            <div class="dexa-tele-val" style="color: #F7C56B;" id="dexa-risk-val">5.3x Risk</div>
+            <div style="font-size: 9.5px; color: #DEC3B5; margin-top: 2px;">BMJ Narayan 2021 cohort</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="doctor-box">
+        <strong>The Clinical Reality:</strong> "Weighing scales only quantify gravitational mass. In South Asian biology, normal weight often hides dangerous ectopic visceral adiposity. Steer replaces guesswork with a Day-1 DEXA scan and physician-guided lipid clearance."
+      </div>
+
+      <!-- 4-Point Doubt Audit Scorecard -->
+      <div class="doubt-audit-box">
+        <div style="font-size: 11px; font-weight: 800; color: var(--clay); text-transform: uppercase; margin-bottom: 6px; display: flex; justify-content: space-between;">
+          <span>Diagnostic Evidence Receipts</span>
+          <span style="color: var(--teal-calm);">Lancet & BMJ Verified</span>
+        </div>
+        <div class="doubt-row" onclick="this.classList.toggle('open')">
+          <div class="doubt-row-left"><span>🇮🇳</span><span>Why BMI 22.8 triggers diabetes?</span></div>
+          <span class="doubt-pill doubt-pill-green">✓ Lancet 2021</span>
+        </div>
+        <div class="doubt-detail">
+          South Asians have lower subcutaneous fat buffering thresholds. Excess calories spill directly into visceral organ fat around the liver and pancreas a decade earlier than Western counterparts.
+        </div>
+        <div class="doubt-row" onclick="this.classList.toggle('open')">
+          <div class="doubt-row-left"><span>🔬</span><span>How Steer tracks visceral loss?</span></div>
+          <span class="doubt-pill doubt-pill-green">✓ DEXA Telemetry</span>
+        </div>
+        <div class="doubt-detail">
+          Every member gets a Day-1 DEXA body composition scan repeated every 8 weeks to confirm internal visceral fat is cleared while preserving vital skeletal muscle mass.
+        </div>
+      </div>
+
+      <div>
+        <div style="display: flex; gap: 6px; margin-bottom: 8px;">
+          <button class="btn-secondary" style="border-color: var(--rust); color: var(--rust); font-weight: 700; flex: 1; padding: 10px 8px; font-size: 11.5px;" onclick="downloadStoryCard('dexa')">
+            📥 Story Card
+          </button>
+          <button class="btn-secondary" style="border-color: var(--rust); color: var(--rust); font-weight: 700; flex: 1; padding: 10px 8px; font-size: 11.5px;" onclick="copyDoctorBrief('dexa')">
+            📋 Copy Brief
+          </button>
+          <button class="btn-secondary btn-whatsapp" style="font-weight: 700; flex: 1.2; padding: 10px 8px; font-size: 11.5px;" onclick="sendDoctorWhatsApp('dexa')">
+            📲 WhatsApp
+          </button>
+        </div>
+        <a href="https://steerclub.com/?utm_source=willpower_arcade&utm_medium=dexa_game&utm_campaign=tofi_70kg&worry=visceral_fat" target="_blank" style="text-decoration: none;">
+          <button class="btn-action">
+            Book Day-1 DEXA Scan at steerclub.com <span>→</span>
+          </button>
+        </a>
+      </div>
+    </div>
+  </div> <!-- /sec-dexa -->
+
+  <!-- SECTION 3: HUNGER TUG-OF-WAR -->
+  <div id="sec-tug" class="game-section">
+    <div class="tug-container">
+      <div>
+        <span class="intro-badge">STEP-1 Trial Extension • Neurobiology Sim</span>
+        <h2 class="headline" style="font-size: 26px;">Hunger Tug-of-War: <em>Willpower vs Biology.</em></h2>
+        <p class="desc" style="margin-bottom: 10px;">
+          Tap as fast as you can to pull against hunger alarms. 3 rounds of biological resistance.
+        </p>
+      </div>
+
+      <div class="tug-arena">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <span style="font-size: 11px; font-weight: 800; color: var(--rust); text-transform: uppercase;" id="tug-round-title">Round 1: 09:00 AM (Post-Breakfast)</span>
+          <span style="font-size: 11px; font-weight: 700; color: var(--clay);" id="tug-timer">10s</span>
+        </div>
+
+        <div class="tug-teams-row">
+          <div class="tug-team">
+            <span>🧠</span>
+            <span class="tug-team-name">Your Willpower</span>
+          </div>
+          <div class="tug-team">
+            <span>⚡</span>
+            <span class="tug-team-name" id="tug-opp-name">Ghrelin Alarm</span>
+          </div>
+        </div>
+
+        <div class="tug-rope-track">
+          <div class="tug-knot" id="tug-knot"></div>
+        </div>
+
+        <div id="tug-status-msg" style="font-size: 12px; font-weight: 700; color: var(--oxblood); margin-top: 8px;">
+          Tap the button below to pull!
+        </div>
+
+        <button class="tug-tap-btn" id="tug-tap-btn" onclick="pullTug()">
+          <span>PULL!</span>
+          <span style="font-size: 11px; font-weight: 600; opacity: 0.9;">TAP FAST</span>
+        </button>
+      </div>
+
+      <!-- Tug Outcome Box (Visible on Collapse) -->
+      <div id="tug-outcome-box" style="display: none; background: #FFF; border: 1.5px solid var(--blush); border-radius: 14px; padding: 12px;">
+        <span class="intro-badge" style="background: rgba(102, 20, 20, 0.1); color: var(--deep-maroon);">
+          BIOLOGICAL COLLAPSE DETECTED
+        </span>
+        <h3 style="font-family: var(--font-serif); font-size: 20px; color: var(--deep-maroon); margin-top: 4px;">
+          Primitive famine alarms overpowered willpower.
+        </h3>
+        <p style="font-size: 12px; color: var(--clay); line-height: 1.45; margin-top: 4px;">
+          In the STEP-1 Extension trial (DOM 2022), stopping treatment abruptly caused <strong>67% weight regain</strong> because circulating leptin dropped -40% while hunger ghrelin spiked +240%.
+        </p>
+        <div class="doctor-box" style="margin-top: 8px;">
+          <strong>The Solution:</strong> Steer’s 12-week doctor-guided exit off-ramp anchors protein intake and gradual dose tapering to defend your new metabolic set-point permanently.
+        </div>
+      </div>
+
+      <div>
+        <div style="display: flex; gap: 6px; margin-bottom: 8px;">
+          <button class="btn-secondary" style="border-color: var(--rust); color: var(--rust); font-weight: 700; flex: 1; padding: 10px 8px; font-size: 11.5px;" onclick="downloadStoryCard('tug')">
+            📥 Story Card
+          </button>
+          <button class="btn-secondary" style="border-color: var(--rust); color: var(--rust); font-weight: 700; flex: 1; padding: 10px 8px; font-size: 11.5px;" onclick="copyDoctorBrief('tug')">
+            📋 Copy Brief
+          </button>
+          <button class="btn-secondary btn-whatsapp" style="font-weight: 700; flex: 1.2; padding: 10px 8px; font-size: 11.5px;" onclick="sendDoctorWhatsApp('tug')">
+            📲 WhatsApp
+          </button>
+        </div>
+        <a href="https://steerclub.com/?utm_source=willpower_arcade&utm_medium=tug_game&utm_campaign=step1_ext&worry=weight_regain" target="_blank" style="text-decoration: none;">
+          <button class="btn-action">
+            Build Your Planned Exit Off-Ramp <span>→</span>
+          </button>
+        </a>
+      </div>
+    </div>
+  </div> <!-- /sec-tug -->
+
+  <!-- SECTION 4: THALI GLYCEMIC SIMULATOR -->
+  <div id="sec-thali" class="game-section">
+    <div class="thali-container">
+      <div>
+        <span class="intro-badge">Glycemic Kinetics & Food Order Sim</span>
+        <h2 class="headline" style="font-size: 26px;">Build Your Thali: <em>Beat the 4 PM Crash.</em></h2>
+        <p class="desc" style="margin-bottom: 8px;">
+          Tap foods below to build your 1:30 PM Indian lunch. Watch how protein and fiber buffers stabilize your 6-hour glucose curve.
+        </p>
+      </div>
+
+      <!-- Realtime Glucose Curve Canvas -->
+      <div class="thali-graph-card">
+        <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: 800; color: var(--clay); margin-bottom: 4px;">
+          <span>POSTPRANDIAL BLOOD GLUCOSE WAVE</span>
+          <span id="thali-status-tag" style="color: var(--rust);">⚠️ 3:45 PM CRASH PREDICTED</span>
+        </div>
+        <div style="height: 140px; width: 100%;">
+          <canvas id="thaliGraphCanvas"></canvas>
+        </div>
+      </div>
+
+      <!-- Interactive Thali Plate -->
+      <div class="thali-plate-wrap">
+        <div style="font-size: 11px; font-weight: 800; color: var(--clay); text-transform: uppercase;">Your 1:30 PM Thali:</div>
+        <div class="katori-grid">
+          <div class="katori-slot filled" id="kslot-carb" onclick="clearKatori('carb')">
+            <span class="katori-ico" id="kico-carb">🍚</span>
+            <span class="katori-lbl" id="klbl-carb">Basmati Rice</span>
+          </div>
+          <div class="katori-slot filled" id="kslot-prot" onclick="clearKatori('prot')">
+            <span class="katori-ico" id="kico-prot">🍲</span>
+            <span class="katori-lbl" id="klbl-prot">Dal Tadka</span>
+          </div>
+          <div class="katori-slot filled" id="kslot-fib" onclick="clearKatori('fib')">
+            <span class="katori-ico" id="kico-fib">🥗</span>
+            <span class="katori-lbl" id="klbl-fib">Kachumber</span>
+          </div>
+          <div class="katori-slot filled" id="kslot-side" onclick="clearKatori('side')">
+            <span class="katori-ico" id="kico-side">🥛</span>
+            <span class="katori-lbl" id="klbl-side">Dahi</span>
+          </div>
+        </div>
+
+        <div style="margin-top: 10px; font-size: 10.5px; font-weight: 800; color: var(--clay); text-align: left; text-transform: uppercase;">
+          Tap to swap plate ingredients:
+        </div>
+        <div class="food-chips-tray">
+          <button class="food-chip" onclick="swapThaliFood('carb', '🍚', 'Basmati Rice', 45)">🍚 Basmati Rice (+45 GI)</button>
+          <button class="food-chip" onclick="swapThaliFood('carb', '🫓', 'Butter Naan', 50)">🫓 2 Butter Naan (+50 GI)</button>
+          <button class="food-chip" onclick="swapThaliFood('carb', '🫓', 'Missi Roti', 15)">🫓 Missi Roti (+15 GI)</button>
+          <button class="food-chip" onclick="swapThaliFood('prot', '🧀', 'Paneer Tikka', -15)">🧀 Paneer Tikka (Protein Buffer)</button>
+          <button class="food-chip" onclick="swapThaliFood('prot', '🍗', 'Tandoori Chk', -20)">🍗 Tandoori Chicken (-20)</button>
+          <button class="food-chip" onclick="swapThaliFood('fib', '🥗', 'Kachumber', -25)">🥗 Green Salad (Fiber Shield)</button>
+          <button class="food-chip" onclick="swapThaliFood('fib', '🥦', 'Palak Saag', -18)">🥦 Palak Saag (-18)</button>
+          <button class="food-chip" onclick="swapThaliFood('side', '🍩', 'Gulab Jamun', 60)">🍩 Gulab Jamun (+60 Spike!)</button>
+          <button class="food-chip" onclick="swapThaliFood('side', '🥛', 'Dahi / Curd', -15)">🥛 Fresh Dahi (-15)</button>
+        </div>
+      </div>
+
+      <div class="doctor-box" id="thali-impact-desc">
+        <strong>Metabolic Telemetry:</strong> High glycemic load spikes postprandial glucose to 185 mg/dL, triggering an acute insulin surge that locks fat storage and causes a reactive crash at 3:48 PM.
+      </div>
+
+      <div>
+        <div style="display: flex; gap: 6px; margin-bottom: 8px;">
+          <button class="btn-secondary" style="border-color: var(--rust); color: var(--rust); font-weight: 700; flex: 1; padding: 10px 8px; font-size: 11.5px;" onclick="downloadStoryCard('thali')">
+            📥 Story Card
+          </button>
+          <button class="btn-secondary" style="border-color: var(--rust); color: var(--rust); font-weight: 700; flex: 1; padding: 10px 8px; font-size: 11.5px;" onclick="copyDoctorBrief('thali')">
+            📋 Copy Brief
+          </button>
+          <button class="btn-secondary btn-whatsapp" style="font-weight: 700; flex: 1.2; padding: 10px 8px; font-size: 11.5px;" onclick="sendDoctorWhatsApp('thali')">
+            📲 WhatsApp
+          </button>
+        </div>
+        <a href="https://steerclub.com/?utm_source=willpower_arcade&utm_medium=thali_sim&utm_campaign=nutrition_kinetics&worry=food_noise" target="_blank" style="text-decoration: none;">
+          <button class="btn-action">
+            Get 55 Biomarkers Evaluated by Steer <span>→</span>
+          </button>
+        </a>
+      </div>
+    </div>
+  </div> <!-- /sec-thali -->
+
 </div>
 
 <script>
+  
+  let activeArcadeGame = 'willpower';
+
+  function switchArcadeGame(gameId) {
+    activeArcadeGame = gameId;
+    document.querySelectorAll('.arcade-tab').forEach(b => b.classList.remove('active'));
+    const tabBtn = document.getElementById('atab-' + gameId);
+    if (tabBtn) tabBtn.classList.add('active');
+
+    document.querySelectorAll('.game-section').forEach(sec => sec.classList.remove('active'));
+    const secEl = document.getElementById('sec-' + gameId);
+    if (secEl) secEl.classList.add('active');
+
+    if (gameId === 'willpower') {
+      resize();
+    } else if (gameId === 'dexa') {
+      stopFoodNoise();
+      initDexa();
+    } else if (gameId === 'tug') {
+      stopFoodNoise();
+      initTug();
+    } else if (gameId === 'thali') {
+      stopFoodNoise();
+      initThali();
+    }
+  }
+
+  /* GAME 2: DEXA SCANNER LOGIC */
+  let dexaCanvas, dexaCtx, dexaVal = 100;
+  function initDexa() {
+    dexaCanvas = document.getElementById('dexaCanvas');
+    if (!dexaCanvas) return;
+    const rect = dexaCanvas.parentElement.getBoundingClientRect();
+    dexaCanvas.width = rect.width * (window.devicePixelRatio || 1);
+    dexaCanvas.height = rect.height * (window.devicePixelRatio || 1);
+    dexaCtx = dexaCanvas.getContext('2d');
+    dexaCtx.scale(window.devicePixelRatio || 1, window.devicePixelRatio || 1);
+    drawDexaFigures(rect.width, rect.height, dexaVal);
+  }
+
+  function updateDexaScan(val) {
+    dexaVal = parseInt(val);
+    const label = document.getElementById('dexa-depth-label');
+    const vatVal = document.getElementById('dexa-vat-val');
+    const riskVal = document.getElementById('dexa-risk-val');
+
+    if (dexaVal < 30) {
+      if (label) label.innerText = "Surface Scale View (0-30%)";
+      if (vatVal) vatVal.innerText = "70.0 KG (Normal)";
+      if (riskVal) riskVal.innerText = "BMI 22.8 (Identical)";
+    } else if (dexaVal < 70) {
+      if (label) label.innerText = "Subcutaneous Fat Layer (50%)";
+      if (vatVal) vatVal.innerText = "+25% SubQ Fat";
+      if (riskVal) riskVal.innerText = "Slight Abdominal Store";
+    } else {
+      if (label) label.innerText = "Visceral Organ Ectopic Fat (100%)";
+      if (vatVal) vatVal.innerText = "+80% VAT";
+      if (riskVal) riskVal.innerText = "5.3x Risk";
+    }
+
+    if (dexaCanvas) {
+      const rect = dexaCanvas.parentElement.getBoundingClientRect();
+      drawDexaFigures(rect.width, rect.height, dexaVal);
+    }
+  }
+
+  function drawDexaFigures(w, h, depth) {
+    if (!dexaCtx) return;
+    dexaCtx.clearRect(0, 0, w, h);
+
+    const fW = w / 2;
+    // 1. European Control
+    dexaCtx.font = "bold 11px -apple-system, sans-serif";
+    dexaCtx.fillStyle = "#DEC3B5";
+    dexaCtx.textAlign = "center";
+    dexaCtx.fillText("CAUCASIAN (70 KG, BMI 22.8)", fW * 0.5, 20);
+
+    // 2. South Asian
+    dexaCtx.fillText("SOUTH ASIAN (70 KG, BMI 22.8)", fW * 1.5, 20);
+
+    // Draw silhouettes
+    [fW * 0.5, fW * 1.5].forEach((cx, idx) => {
+      const isSouthAsian = (idx === 1);
+      dexaCtx.fillStyle = "rgba(255, 255, 255, 0.15)";
+      dexaCtx.beginPath();
+      dexaCtx.arc(cx, 55, 18, 0, Math.PI * 2); // head
+      dexaCtx.fill();
+
+      dexaCtx.beginPath();
+      dexaCtx.roundRect(cx - 28, 80, 56, 120, 16); // torso
+      dexaCtx.fill();
+
+      // Visceral Fat Layer Reveal based on depth
+      if (depth > 25) {
+        const alpha = Math.min(1.0, (depth - 25) / 75);
+        if (isSouthAsian) {
+          dexaCtx.fillStyle = `rgba(217, 66, 40, ${alpha * 0.9})`; // Deep ectopic fat in red
+          dexaCtx.beginPath();
+          dexaCtx.ellipse(cx, 135, 22, 34, 0, 0, Math.PI * 2);
+          dexaCtx.fill();
+
+          dexaCtx.fillStyle = `rgba(247, 197, 107, ${alpha})`;
+          dexaCtx.font = "bold 10px -apple-system, sans-serif";
+          dexaCtx.fillText("+80% VAT", cx, 140);
+          dexaCtx.fillText("FATTY LIVER", cx, 154);
+        } else {
+          dexaCtx.fillStyle = `rgba(78, 189, 118, ${alpha * 0.7})`; // Healthy clear
+          dexaCtx.beginPath();
+          dexaCtx.ellipse(cx, 135, 14, 22, 0, Math.PI * 2);
+          dexaCtx.fill();
+
+          dexaCtx.fillStyle = "#FFF";
+          dexaCtx.font = "bold 10px -apple-system, sans-serif";
+          dexaCtx.fillText("CLEAR ORGANS", cx, 142);
+        }
+      }
+    });
+
+    // Scan line
+    const scanY = 30 + (h - 40) * (depth / 100);
+    dexaCtx.strokeStyle = "#F7C56B";
+    dexaCtx.lineWidth = 2;
+    dexaCtx.setLineDash([6, 4]);
+    dexaCtx.beginPath();
+    dexaCtx.moveTo(10, scanY);
+    dexaCtx.lineTo(w - 10, scanY);
+    dexaCtx.stroke();
+    dexaCtx.setLineDash([]);
+  }
+
+  /* GAME 3: TUG-OF-WAR LOGIC */
+  let tugRound = 1;
+  let tugPos = 50; // 0 to 100%
+  let tugTimer = 10;
+  let tugInterval = null;
+  let tugActive = false;
+
+  function initTug() {
+    tugRound = 1;
+    tugPos = 50;
+    tugTimer = 10;
+    tugActive = true;
+    updateTugUI();
+
+    if (tugInterval) clearInterval(tugInterval);
+    tugInterval = setInterval(() => {
+      if (!tugActive) return;
+      tugTimer -= 1;
+      if (tugTimer <= 0) {
+        advanceTugRound();
+      }
+      // Hunger pulls continuously
+      const pullForce = tugRound === 1 ? 0.8 : (tugRound === 2 ? 2.5 : 5.8);
+      tugPos = Math.min(95, tugPos + pullForce);
+      updateTugUI();
+
+      if (tugRound === 3 && tugPos >= 90) {
+        collapseTug();
+      }
+    }, 500);
+  }
+
+  function pullTug() {
+    initAudio();
+    playBounceSound(360 + (100 - tugPos) * 2);
+    const userStrength = tugRound === 1 ? 6.5 : (tugRound === 2 ? 4.0 : 2.2);
+    tugPos = Math.max(5, tugPos - userStrength);
+    updateTugUI();
+  }
+
+  function advanceTugRound() {
+    if (tugRound < 3) {
+      tugRound++;
+      tugTimer = 10;
+      tugPos = 50;
+      playVictoryChime();
+    } else {
+      collapseTug();
+    }
+    updateTugUI();
+  }
+
+  function collapseTug() {
+    tugActive = false;
+    clearInterval(tugInterval);
+    playCrashSound();
+    const box = document.getElementById('tug-outcome-box');
+    if (box) box.style.display = 'block';
+    const btn = document.getElementById('tug-tap-btn');
+    if (btn) btn.disabled = true;
+  }
+
+  function updateTugUI() {
+    const knot = document.getElementById('tug-knot');
+    if (knot) knot.style.left = `${tugPos}%`;
+
+    const rTitle = document.getElementById('tug-round-title');
+    const oppName = document.getElementById('tug-opp-name');
+    const timerEl = document.getElementById('tug-timer');
+
+    if (timerEl) timerEl.innerText = `${tugTimer}s`;
+    if (rTitle) {
+      if (tugRound === 1) rTitle.innerText = "Round 1: 09:00 AM (Post-Breakfast Sanctuary)";
+      else if (tugRound === 2) rTitle.innerText = "Round 2: 01:30 PM (Post-Lunch Lull)";
+      else rTitle.innerText = "Round 3: 04:12 PM (Post-Dieting Famine Alarm)";
+    }
+    if (oppName) {
+      if (tugRound === 1) oppName.innerText = "Low Ghrelin (Calm)";
+      else if (tugRound === 2) oppName.innerText = "Rising Cravings";
+      else oppName.innerText = "+240% GHRELIN SURGE!";
+    }
+  }
+
+  /* GAME 4: THALI GLYCEMIC SIMULATOR LOGIC */
+  let thaliPlate = {
+    carb: { icon: "🍚", name: "Basmati Rice", gi: 45 },
+    prot: { icon: "🍲", name: "Dal Tadka", gi: 10 },
+    fib: { icon: "🥗", name: "Kachumber", gi: -25 },
+    side: { icon: "🥛", name: "Fresh Dahi", gi: -15 }
+  };
+
+  let thaliCanvas, thaliCtx;
+  function initThali() {
+    thaliCanvas = document.getElementById('thaliGraphCanvas');
+    if (!thaliCanvas) return;
+    const rect = thaliCanvas.parentElement.getBoundingClientRect();
+    thaliCanvas.width = rect.width * (window.devicePixelRatio || 1);
+    thaliCanvas.height = rect.height * (window.devicePixelRatio || 1);
+    thaliCtx = thaliCanvas.getContext('2d');
+    thaliCtx.scale(window.devicePixelRatio || 1, window.devicePixelRatio || 1);
+    renderThaliGraph(rect.width, rect.height);
+  }
+
+  function swapThaliFood(cat, icon, name, gi) {
+    initAudio();
+    playBounceSound(440);
+    thaliPlate[cat] = { icon, name, gi };
+
+    const icoEl = document.getElementById('kico-' + cat);
+    const lblEl = document.getElementById('klbl-' + cat);
+    if (icoEl) icoEl.innerText = icon;
+    if (lblEl) lblEl.innerText = name;
+
+    const rect = thaliCanvas.parentElement.getBoundingClientRect();
+    renderThaliGraph(rect.width, rect.height);
+  }
+
+  function clearKatori(cat) {
+    swapThaliFood(cat, "➕", "Empty", 0);
+  }
+
+  function renderThaliGraph(w, h) {
+    if (!thaliCtx) return;
+    thaliCtx.clearRect(0, 0, w, h);
+
+    const totalGI = thaliPlate.carb.gi + thaliPlate.prot.gi + thaliPlate.fib.gi + thaliPlate.side.gi;
+    const isCrashing = totalGI > 35;
+
+    // Background zones
+    const gy_top = 20, gy_bot = h - 25;
+    thaliCtx.fillStyle = "rgba(35, 89, 55, 0.08)";
+    thaliCtx.fillRect(35, gy_top + 30, w - 45, 55); // Green target zone
+
+    thaliCtx.font = "bold 9.5px -apple-system, sans-serif";
+    thaliCtx.fillStyle = "#235937";
+    thaliCtx.fillText("OPTIMAL 80-130 mg/dL ZONE", 40, gy_top + 42);
+
+    // Axes
+    thaliCtx.strokeStyle = "#D5C5B3";
+    thaliCtx.lineWidth = 1;
+    thaliCtx.beginPath();
+    thaliCtx.moveTo(35, gy_bot);
+    thaliCtx.lineTo(w - 10, gy_bot);
+    thaliCtx.stroke();
+
+    // Timeline labels
+    thaliCtx.font = "9px -apple-system, sans-serif";
+    thaliCtx.fillStyle = "#7D5246";
+    thaliCtx.fillText("1:30 PM", 35, gy_bot + 14);
+    thaliCtx.fillText("3:00 PM", w * 0.35, gy_bot + 14);
+    thaliCtx.fillText("4:30 PM", w * 0.65, gy_bot + 14);
+    thaliCtx.fillText("6:00 PM", w - 45, gy_bot + 14);
+
+    // Glucose Curve
+    thaliCtx.lineWidth = 3;
+    thaliCtx.beginPath();
+    thaliCtx.moveTo(35, gy_top + 60);
+
+    const peakY = isCrashing ? gy_top + 5 : gy_top + 45;
+    const crashY = isCrashing ? gy_bot - 4 : gy_top + 60;
+
+    thaliCtx.strokeStyle = isCrashing ? "#C04E2A" : "#235937";
+    thaliCtx.bezierCurveTo(w * 0.25, peakY, w * 0.45, peakY, w * 0.60, crashY);
+    thaliCtx.bezierCurveTo(w * 0.75, crashY + (isCrashing ? 10 : 0), w * 0.85, gy_top + 65, w - 10, gy_top + 65);
+    thaliCtx.stroke();
+
+    // Status updates
+    const tagEl = document.getElementById('thali-status-tag');
+    const descEl = document.getElementById('thali-impact-desc');
+
+    if (isCrashing) {
+      if (tagEl) {
+        tagEl.innerText = "⚠️ 3:45 PM CRASH PREDICTED";
+        tagEl.style.color = "var(--rust)";
+      }
+      if (descEl) {
+        descEl.innerHTML = "<strong>Metabolic Alert:</strong> High glycemic load spikes blood sugar, triggering an emergency insulin surge that locks fat storage and causes a reactive brain crash at 3:48 PM.";
+      }
+    } else {
+      if (tagEl) {
+        tagEl.innerText = "✓ SUSTAINED PLATEAU TO 6:30 PM";
+        tagEl.style.color = "var(--teal-calm)";
+      }
+      if (descEl) {
+        descEl.innerHTML = "<strong>Metabolic Sanctuary:</strong> High protein and soluble fiber slowed gastric absorption, defending smooth blood glucose without triggering 4 PM food noise.";
+      }
+    }
+  }
+
   let audioCtx = null;
   function initAudio() {
     if (!audioCtx) {
@@ -1009,18 +1819,42 @@
   }
 
   function sendDoctorWhatsApp(type) {
-    const isVictory = (type === 'victory');
-    const lunchInfo = LUNCH_CONFIG[selectedLunch] || LUNCH_CONFIG['heavy'];
-    const crashTimeText = document.getElementById('crash-time-display')?.innerText || lunchInfo.crashTimeStr;
-    const worryMap = {
-      visceral_fat: "Indian Ectopic Visceral Belly Fat (Lancet TOFI)",
-      muscle_loss: "Lean Muscle Mass Protection & DEXA Scan",
-      weight_regain: "Weight Rebound Defense (STEP-1 Extension)",
-      food_noise: "4 PM Food Noise & Craving Modulation"
-    };
-    const worryText = worryMap[selectedWorry] || "Metabolic Health Evaluation";
+    let text = "";
+    if (type === 'dexa') {
+      text =
+`Hi Dr. at Steer! I just completed the 70kg DEXA X-Ray Simulator on steerclub.com:
+• Scan Finding: +80% Visceral Ectopic Fat around liver & pancreas at BMI 22.8
+• Primary Concern: Indian Ectopic Belly Fat & Fatty Liver Clearance (Lancet TOFI)
+• Request: Day 1 DEXA Body Composition Scan + 55 Biomarker Panel.
+Can I schedule my consultation?`;
+    } else if (type === 'tug') {
+      text =
+`Hi Dr. at Steer! I just tested the Hunger Tug-of-War Simulator on steerclub.com:
+• Simulation Finding: Willpower Overpowered under +240% Ghrelin Famine Surge
+• Primary Concern: Rebound Weight Regain After Stopping GLP-1 (STEP-1 Extension)
+• Request: Steer Doctor-Guided 12-Week Exit Off-Ramp with DEXA Muscle Defense.
+Can I schedule my consultation?`;
+    } else if (type === 'thali') {
+      const carbName = thaliPlate?.carb?.name || "Basmati Rice";
+      text =
+`Hi Dr. at Steer! I just simulated my Indian lunch on the Steer Thali Glycemic Simulator:
+• Plate Configuration: ${carbName}, Dal, Salad, Dahi
+• Predicted Outcome: Postprandial Glucose Volatility & 4 PM Food Noise
+• Request: Comprehensive 55-Biomarker Metabolic Evaluation & Doctor Oversight.
+Can I schedule my consultation?`;
+    } else {
+      const isVictory = (type === 'victory');
+      const lunchInfo = LUNCH_CONFIG[selectedLunch] || LUNCH_CONFIG['heavy'];
+      const crashTimeText = document.getElementById('crash-time-display')?.innerText || lunchInfo.crashTimeStr;
+      const worryMap = {
+        visceral_fat: "Indian Ectopic Visceral Belly Fat (Lancet TOFI)",
+        muscle_loss: "Lean Muscle Mass Protection & DEXA Scan",
+        weight_regain: "Weight Rebound Defense (STEP-1 Extension)",
+        food_noise: "4 PM Food Noise & Craving Modulation"
+      };
+      const worryText = worryMap[selectedWorry] || "Metabolic Health Evaluation";
 
-    const text = isVictory ?
+      text = isVictory ?
 `Hi Dr. at Steer! I just completed The Willpower Defense Arcade on steerclub.com:
 • Simulation Result: 5/5 GLP-1 Incretin Signals Activated (Full Satiety Reset)
 • 1:30 PM Lunch: ${lunchInfo.name}
@@ -1033,15 +1867,51 @@ Can I schedule my consultation?` :
 • Primary Concern: ${worryText}
 • Observation: Calorie restriction triggered intense hypothalamic food noise.
 I'd like to consult a Steer doctor for a 55-biomarker panel and metabolic assessment.`;
+    }
 
     const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
     window.open(url, '_blank');
   }
 
   function copyDoctorBrief(type) {
-    const lunchInfo = LUNCH_CONFIG[selectedLunch] || LUNCH_CONFIG['heavy'];
-    const crashTimeText = document.getElementById('crash-time-display')?.innerText || lunchInfo.crashTimeStr;
-    const brief = type === 'victory' ?
+    let brief = "";
+    if (type === 'dexa') {
+      brief =
+`STEER CLINICAL INTAKE BRIEF (70 KG DEXA PARADOX INVESTIGATION)
+Patient Mode: The 70kg DEXA X-Ray Simulator
+Clinical Finding: Visceral Adipose Tissue (VAT) +80% Above Western Baseline
+Diagnostic Risk: 5.3x Diabetes Incidence at Normal BMI 22.8 (BMJ Narayan 2021)
+Primary Priority: Ectopic Visceral Fat Clearance & Lean Muscle Protection
+Baseline Request: Day 1 DEXA Scan + 55 Biomarker Panel
+Clinical Target: Physician-Guided Lipid Decompression & Incretin Signaling
+Evidence Base: Lancet Diabetes & Endocrinology 2021 / BMJ Open 2021
+Direct Consultation: https://steerclub.com/?utm_source=willpower_arcade&utm_medium=dexa_brief&worry=visceral_fat`;
+    } else if (type === 'tug') {
+      brief =
+`STEER CLINICAL INTAKE BRIEF (HUNGER TUG-OF-WAR: REBOUND DEFENSE)
+Patient Mode: STEP-1 Rebound Tug-of-War Simulation
+Clinical Finding: Willpower Overpowered under Famine Neurobiology (+240% Ghrelin)
+Clinical Fact: 67% of Lost Weight Returns Without Structured Tapering (Wilding 2022)
+Primary Priority: Set-Point Recalibration & Planned Exit Off-Ramp
+Baseline Request: Day 1 DEXA Scan + Resistance Protein Protocol
+Clinical Target: Physician-Supervised Medication Off-Ramp (Zero Rebound)
+Evidence Base: STEP-1 Trial Extension (DOM 2022)
+Direct Consultation: https://steerclub.com/?utm_source=willpower_arcade&utm_medium=tug_brief&worry=weight_regain`;
+    } else if (type === 'thali') {
+      const carbName = thaliPlate?.carb?.name || "Basmati Rice";
+      brief =
+`STEER CLINICAL INTAKE BRIEF (THALI GLYCEMIC LOAD SIMULATION)
+Patient Mode: Build Your Thali & Glycemic Kinetics Simulator
+Selected Plate: ${carbName}, Dal, Salad, Dahi
+Clinical Finding: Postprandial Glucose Volatility & Reactive Hypoglycemic Crash
+Primary Priority: Satiety Peptide Activation & Insulin Sensitization
+Baseline Request: 55 Biomarker Panel (Fasting Insulin, HOMA-IR, HbA1c, ApoB)
+Clinical Target: Incretin Hormone Pacing & Dietary Buffer Stabilization
+Direct Consultation: https://steerclub.com/?utm_source=willpower_arcade&utm_medium=thali_brief&worry=food_noise`;
+    } else {
+      const lunchInfo = LUNCH_CONFIG[selectedLunch] || LUNCH_CONFIG['heavy'];
+      const crashTimeText = document.getElementById('crash-time-display')?.innerText || lunchInfo.crashTimeStr;
+      brief = (type === 'victory') ?
 `STEER CLINICAL INTAKE BRIEF (METABOLIC RESET ACHIEVED)
 Patient Mode: The Willpower Defense Arcade Simulation
 Selected Lunch: ${lunchInfo.name}
@@ -1061,6 +1931,7 @@ Baseline Request: 55 Biomarker Panel + DEXA Visceral Fat Scan
 Clinical Target: Incretin Signaling Recalibration & Satiety Restoration
 Evidence Base: STEP-1 Extension 2022 / Lancet TOFI 2021
 Direct Consultation: https://steerclub.com/?utm_source=willpower_arcade&utm_medium=intake_brief&utm_campaign=crash_ghrelin&worry=${selectedWorry}&lunch=${selectedLunch}`;
+    }
 
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(brief).then(() => {
@@ -1195,11 +2066,15 @@ Direct Consultation: https://steerclub.com/?utm_source=willpower_arcade&utm_medi
     const c = cardCanvas.getContext('2d');
 
     const isVictory = (type === 'victory');
-    c.fillStyle = isVictory ? '#235937' : '#2A1416';
+    const isDexa = (type === 'dexa');
+    const isTug = (type === 'tug');
+    const isThali = (type === 'thali');
+
+    c.fillStyle = (isVictory || isThali) ? '#235937' : '#2A1416';
     c.fillRect(0, 0, 1080, 1920);
 
     // Subtle background telemetry grid
-    c.strokeStyle = isVictory ? 'rgba(255, 255, 255, 0.06)' : 'rgba(255, 255, 255, 0.04)';
+    c.strokeStyle = (isVictory || isThali) ? 'rgba(255, 255, 255, 0.06)' : 'rgba(255, 255, 255, 0.04)';
     c.lineWidth = 1;
     for (let x = 0; x < 1080; x += 60) {
       c.beginPath(); c.moveTo(x, 0); c.lineTo(x, 1920); c.stroke();
@@ -1218,8 +2093,13 @@ Direct Consultation: https://steerclub.com/?utm_source=willpower_arcade&utm_medi
     c.fillText('•  Clinical Metabolic Care', 235, 142);
 
     // Dynamic Pill Badge
-    const badgeText = isVictory ? '✓  FULL RESET ACHIEVED' : '⚠️  WILLPOWER EXHAUSTED';
-    const badgeW = isVictory ? 440 : 420;
+    let badgeText = '⚠️  WILLPOWER EXHAUSTED';
+    let badgeW = 420;
+    if (isVictory) { badgeText = '✓  FULL RESET ACHIEVED'; badgeW = 440; }
+    else if (isDexa) { badgeText = '🔬  70 KG PARADOX TELEMETRY'; badgeW = 480; }
+    else if (isTug) { badgeText = '🪢  HUNGER TUG-OF-WAR'; badgeW = 410; }
+    else if (isThali) { badgeText = '🍛  THALI GLYCEMIC AUDIT'; badgeW = 430; }
+
     c.fillStyle = 'rgba(255, 255, 255, 0.15)';
     c.beginPath();
     c.roundRect(90, 210, badgeW, 52, 26);
@@ -1238,6 +2118,15 @@ Direct Consultation: https://steerclub.com/?utm_source=willpower_arcade&utm_medi
     if (isVictory) {
       c.fillText('I felt the biological', 90, 345);
       c.fillText('difference.', 90, 430);
+    } else if (isDexa) {
+      c.fillText('The weighing scale', 90, 345);
+      c.fillText('is lying.', 90, 430);
+    } else if (isTug) {
+      c.fillText('Willpower snapped', 90, 345);
+      c.fillText('at 4:12 PM.', 90, 430);
+    } else if (isThali) {
+      c.fillText('I predicted my 4 PM', 90, 345);
+      c.fillText('energy crash.', 90, 430);
     } else {
       c.fillText('My willpower lasted', 90, 345);
       c.fillText('14 seconds.', 90, 430);
@@ -1266,20 +2155,49 @@ Direct Consultation: https://steerclub.com/?utm_source=willpower_arcade&utm_medi
 
     // 2. Primary Metric
     c.font = 'bold 116px Georgia, serif';
-    c.fillStyle = isVictory ? '#235937' : '#C04E2A';
-    c.fillText(isVictory ? '0 dB' : '84 dB', innerX, cardY + 175);
+    c.fillStyle = (isVictory || isThali) ? '#235937' : '#C04E2A';
+    let metricStr = '84 dB';
+    let metricTitle = 'Food Noise Siren';
+    let subText = 'Insulin surging, fat stores locked, brain demanding fast sugar.';
+    let quote = '"Obesity is not a moral failure. It is a gut-brain receptor signal."';
+    let proofTitle = '⚠️  GLP-1 RECEPTOR RESISTANCE DETECTED';
+
+    if (isVictory) {
+      metricStr = '0 dB';
+      metricTitle = 'Hypothalamic Silence';
+      subText = 'Incretin satiety receptors actively pacing gastric emptying.';
+      quote = '"When your biology is supported, willpower isn't a daily struggle."';
+      proofTitle = '✓  STEP-1 CLINICAL TRIAL VERIFIED (NEJM)';
+    } else if (isDexa) {
+      metricStr = '+80% VAT';
+      metricTitle = 'Ectopic Organ Adiposity';
+      subText = 'Toxic visceral fat wrapping liver and pancreas at normal BMI 22.8.';
+      quote = '"Traditional scales measure gravity. DEXA measures the fat driving diabetes."';
+      proofTitle = '✓  THE LANCET DIABETES & ENDOCRINOLOGY (2021)';
+    } else if (isTug) {
+      metricStr = '+240%';
+      metricTitle = 'Ghrelin Famine Surge';
+      subText = 'Primitive starvation alarms overpower willpower after abrupt stopping.';
+      quote = '"Stopping abruptly causes 67% rebound. Steer builds the planned exit off-ramp."';
+      proofTitle = '✓  STEP-1 TRIAL EXTENSION (DOM 2022)';
+    } else if (isThali) {
+      metricStr = '185 mg/dL';
+      metricTitle = 'Insulin Lockout Spike';
+      subText = 'Postprandial glycemic volatility triggering a steep 3:48 PM collapse.';
+      quote = '"Food ordering and protein buffers protect your brain from food noise."';
+      proofTitle = '✓  POSTPRANDIAL GLUCOSE KINETICS SIMULATOR';
+    }
+
+    c.fillText(metricStr, innerX, cardY + 175);
 
     // 3. Metric Title
     c.font = 'bold 36px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
     c.fillStyle = '#2B1616';
-    c.fillText(isVictory ? 'Hypothalamic Silence' : 'Food Noise Siren', innerX, cardY + 235);
+    c.fillText(metricTitle, innerX, cardY + 235);
 
     // 4. Metric Subtitle (Cleanly Wrapped)
     c.font = '24px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
     c.fillStyle = '#7D5246';
-    const subText = isVictory ? 
-      'Incretin satiety receptors actively pacing gastric emptying.' : 
-      'Insulin surging, fat stores locked, brain demanding fast sugar.';
     const subLines = wrapCanvasLines(c, subText, innerW);
     let ySub = cardY + 282;
     for (let sl of subLines) {
@@ -1299,9 +2217,6 @@ Direct Consultation: https://steerclub.com/?utm_source=willpower_arcade&utm_medi
     // 6. Italic Quote (Cleanly Wrapped Across Lines with Zero Overflow)
     c.font = 'italic 34px Georgia, serif';
     c.fillStyle = '#2B1616';
-    const quote = isVictory ? 
-      '"When your biology is supported, willpower isn\'t a daily struggle."' :
-      '"Obesity is not a moral failure. It is a gut-brain receptor signal."';
     const quoteLines = wrapCanvasLines(c, quote, innerW);
     let yQ = divY + 46;
     for (let ql of quoteLines) {
@@ -1312,17 +2227,16 @@ Direct Consultation: https://steerclub.com/?utm_source=willpower_arcade&utm_medi
     // 7. Clinical Proof Badge Box
     const proofY = yQ + 20;
     const proofH = 95;
-    c.fillStyle = isVictory ? '#EDF5F0' : '#FAF0EB';
+    c.fillStyle = (isVictory || isThali) ? '#EDF5F0' : '#FAF0EB';
     c.beginPath();
     c.roundRect(innerX, proofY, innerW, proofH, 16);
     c.fill();
-    c.strokeStyle = isVictory ? '#B8DFCA' : '#F0C5B4';
+    c.strokeStyle = (isVictory || isThali) ? '#B8DFCA' : '#F0C5B4';
     c.lineWidth = 1;
     c.stroke();
 
     c.font = 'bold 22px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
-    c.fillStyle = isVictory ? '#235937' : '#C04E2A';
-    const proofTitle = isVictory ? '✓  STEP-1 CLINICAL TRIAL VERIFIED (NEJM)' : '⚠️  GLP-1 RECEPTOR RESISTANCE DETECTED';
+    c.fillStyle = (isVictory || isThali) ? '#235937' : '#C04E2A';
     c.fillText(proofTitle, innerX + 24, proofY + 38);
 
     c.font = '20px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
