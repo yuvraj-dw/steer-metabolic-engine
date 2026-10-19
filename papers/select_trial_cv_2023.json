@@ -1,0 +1,31 @@
+{
+  "study_id": "SELECT-2023",
+  "title": "Semaglutide and Cardiovascular Outcomes in Obesity without Diabetes",
+  "journal": "The New England Journal of Medicine",
+  "year": 2023,
+  "doi": "10.1056/NEJMoa2307563",
+  "sample_size": 17604,
+  "key_findings": [
+    {
+      "claim": "Semaglutide 2.4mg once weekly reduced composite cardiovascular death, nonfatal myocardial infarction, or nonfatal stroke by 20% over 40 months",
+      "metric": "20%",
+      "p_value": "<0.001",
+      "citation_location": "Lincoff et al., N Engl J Med 2023;389:2073-2084, Abstract Primary Outcomes",
+      "clinical_interpretation": "GLP-1 receptor agonism provides direct cardiovascular disease risk reduction beyond weight clearance alone."
+    },
+    {
+      "claim": "Landmark trial enrolled 17,604 participants aged >=45 years with preexisting CV disease and BMI >=27 without diabetes",
+      "metric": "17,604",
+      "p_value": "<0.001",
+      "citation_location": "N Engl J Med 2023;389:2073-2084, Methods Trial Population",
+      "clinical_interpretation": "Cardiovascular protective benefits demonstrated in the largest GLP-1 cardiovascular outcomes study to date."
+    },
+    {
+      "claim": "Primary CV endpoint event occurred in 6.5% on semaglutide vs 8.0% on placebo over 40 months follow-up",
+      "metric": "6.5% vs 8.0%",
+      "p_value": "<0.001",
+      "citation_location": "N Engl J Med 2023;389:2073-2084, Results Primary Cardiovascular Outcomes",
+      "clinical_interpretation": "Sustained long-term event reduction requires continuous physician monitoring rather than unguided intermittent use."
+    }
+  ]
+}

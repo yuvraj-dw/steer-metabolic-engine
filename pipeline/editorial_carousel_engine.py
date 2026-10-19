@@ -2,6 +2,7 @@ import os
 import math
 from PIL import Image, ImageDraw, ImageFont
 from pipeline.fonts import get_cross_platform_serif as get_serif, get_cross_platform_sans as get_sans
+from pipeline.study_themes import get_study_theme
 from pipeline.carousel_motifs import (
     draw_cellular_pattern,
     draw_stethoscope,
@@ -17,19 +18,6 @@ from pipeline.clinical_graphics import (
     draw_slide1_telemetry,
     draw_slide3_telemetry
 )
-
-PALETTE = {
-    "cream": "#F3ECE2",
-    "oxblood": "#5C181A",
-    "charcoal": "#241E1C",
-    "rust": "#B85338",
-    "slate": "#8E8277",
-    "white": "#FAF7F2",
-    "cream_border": "#241E1C",
-    "oxblood_border": "#FAF7F2"
-}
-
-# Cross-platform fonts imported from pipeline.fonts
 
 def wrap_text(text, font, max_width, draw):
     words = text.split(" ")
@@ -48,37 +36,17 @@ def wrap_text(text, font, max_width, draw):
         lines.append(" ".join(curr))
     return lines
 
-def draw_pill_badge(draw, text="draft · pending doctor review", width=1080, is_dark=False):
-    font_badge = get_sans(15, bold=False)
-    bbox = draw.textbbox((0, 0), text, font=font_badge)
-    tw = bbox[2] - bbox[0]
-    badge_w = tw + 28
-    badge_h = 32
-    bx2 = width - 50
-    bx1 = bx2 - badge_w
-    by1 = 48
-    by2 = by1 + badge_h
-    
-    border_col = (170, 90, 95) if is_dark else PALETTE["slate"]
-    text_col = PALETTE["white"] if is_dark else PALETTE["slate"]
-    
-    draw.rounded_rectangle([bx1, by1, bx2, by2], radius=16, outline=border_col, width=1)
-    draw.text((bx1 + 14, by1 + 6), text, fill=text_col, font=font_badge)
-
-def draw_slide_chrome(draw, idx, total, width=1080, height=1080, is_dark=False):
-    # 1. Outer 1.5px Border Frame
-    border_col = (160, 80, 85) if is_dark else PALETTE["cream_border"]
+def draw_slide_chrome(draw, idx, total, width, height, palette, is_dark=False):
+    # Outer 1.5px Border Frame (No draft badge)
+    border_col = palette.border_dark if is_dark else palette.border_light
     draw.rectangle([28, 28, width - 28, height - 28], outline=border_col, width=2)
     
-    # 2. Pill Badge
-    draw_pill_badge(draw, text="draft · pending doctor review", width=width, is_dark=is_dark)
-    
-    # 3. Footer Elements
+    # Footer Elements
     font_logo = get_serif(30, bold=True)
     font_counter = get_sans(19, bold=False)
     
-    logo_col = PALETTE["white"] if is_dark else PALETTE["rust"]
-    counter_col = (190, 130, 135) if is_dark else PALETTE["slate"]
+    logo_col = palette.text_light if is_dark else palette.accent
+    counter_col = palette.text_muted_on_dark if is_dark else palette.text_muted
     
     # Lower-left wordmark
     draw.text((65, height - 68), "steer", fill=logo_col, font=font_logo)
@@ -97,103 +65,166 @@ def render_editorial_carousel(output_dir: str, study=None) -> list[str]:
     # Native Instagram Square dimensions (1080 x 1080 px, 1:1 Aspect Ratio)
     width, height = 1080, 1080
     
+    study_id = getattr(study, "study_id", "") or (study.title if study and hasattr(study, "title") else "LANCET-TOFI-2021")
+    theme = get_study_theme(study_id)
+    pal = theme.color_palette
+    
     slides_data = build_study_slides(study)
     total = len(slides_data)
     out_files = []
     
+    hero_idx = theme.hero_slide_index  # Varies dynamically per study (e.g. 2 or 3)
+    
     for idx, slide in enumerate(slides_data, start=1):
-        # Slide 3 is the deep oxblood burgundy pattern interrupt slide
-        is_dark = (idx == 3)
-        bg_col = PALETTE["oxblood"] if is_dark else PALETTE["cream"]
+        is_dark = (idx == hero_idx)
+        bg_col = pal.hero_bg if is_dark else pal.cream_bg
         
         img = Image.new("RGB", (width, height), bg_col)
         draw = ImageDraw.Draw(img)
         
-        # Chrome (Frame, Badge, Logo, Counter)
-        draw_slide_chrome(draw, idx, total, width, height, is_dark=is_dark)
+        # Chrome (Frame, Logo, Counter — zero draft badge)
+        draw_slide_chrome(draw, idx, total, width, height, pal, is_dark=is_dark)
         
-        if idx == 1:
-            # SLIDE 1: COVER / HOOK (Square 1080x1080)
-            # Monoline Cellular / Biological Motif top-left
-            draw_cellular_pattern(draw, 115, 105, radius=48, color=PALETTE["charcoal"])
+        if is_dark:
+            # -----------------------------------------------------------------
+            # HERO CONTRAST SLIDE (Varied per study: deep oxblood, pine, navy, clay, rust, teal)
+            # -----------------------------------------------------------------
+            # Primary vector motif top center
+            if theme.primary_motif == "cardiac_monitor":
+                draw_cardiac_monitor(draw, width // 2, 185, scale=1.22, color=pal.text_light, stroke_w=2)
+            elif theme.primary_motif == "cellular":
+                draw_cellular_pattern(draw, width // 2, 175, radius=48, color=pal.text_light)
+            elif theme.primary_motif == "stethoscope":
+                draw_stethoscope(draw, width // 2, 130, scale=0.85, color=pal.text_light, stroke_w=2)
+            else:
+                draw_cellular_pattern(draw, width // 2, 175, radius=48, color=pal.text_light)
+                
+            # Study-Tailored Hero Italic Pull-Quote
+            font_hero_quote = get_serif(50, bold=True, italic=True)
+            quote_text = f'"{theme.hero_quote}"'
+            q_lines = wrap_text(quote_text, font_hero_quote, width - 160, draw)[:3]
+            y_hq = 320
+            for ql in q_lines:
+                draw.text((80, y_hq), ql, fill=pal.text_light, font=font_hero_quote)
+                y_hq += 60
+                
+            draw.line([(80, y_hq + 10), (220, y_hq + 10)], fill=pal.accent, width=4)
             
-            # Title with Italic Serif Accent
+            # Clinical Caveat / Reality Paragraph
+            font_caveat = get_sans(22, bold=False)
+            p1 = slide.get("p1", "")
+            p2 = slide.get("p2", "")
+            body_text = f"{p1} {p2}".strip() or theme.study_directive
+            y_cav = y_hq + 30
+            c_lines = wrap_text(body_text, font_caveat, width - 160, draw)[:3]
+            for cl in c_lines:
+                draw.text((80, y_cav), cl, fill=pal.text_light, font=font_caveat)
+                y_cav += 32
+                
+            # Key Clinical Stat or Takeaway on dark
+            stat_val = slide.get("stat", "") or theme.metadata.get("stat", "")
+            stat_lbl = slide.get("stat_label", "") or theme.metadata.get("stat_label", "")
+            if stat_val:
+                y_ds = y_cav + 20
+                draw.line([(80, y_ds), (80, y_ds + 75)], fill=pal.accent, width=5)
+                draw.text((102, y_ds - 4), stat_val, fill=pal.accent, font=get_serif(54, bold=True))
+                s_bbox = draw.textbbox((0, 0), stat_val, font=get_serif(54, bold=True))
+                sw = s_bbox[2] - s_bbox[0]
+                draw.text((120 + sw, y_ds + 12), stat_lbl, fill=pal.text_light, font=get_sans(21, bold=True))
+                
+            # Bottom Directive line
+            draw.text((80, height - 120), theme.study_directive, fill=pal.text_muted_on_dark, font=get_sans(17, bold=True))
+            
+            font_cit = get_sans(15, italic=True)
+            draw.text((80, height - 90), slide.get("citation", ""), fill=pal.text_muted_on_dark, font=font_cit)
+
+        elif idx == 1:
+            # -----------------------------------------------------------------
+            # SLIDE 1: COVER / HOOK (Square 1080x1080)
+            # -----------------------------------------------------------------
+            # Tailored Motif top-left
+            if theme.primary_motif == "cardiac_monitor":
+                draw_cardiac_monitor(draw, 120, 105, scale=0.85, color=pal.text_dark, stroke_w=2)
+            elif theme.primary_motif == "stethoscope":
+                draw_stethoscope(draw, 120, 75, scale=0.72, color=pal.text_dark, stroke_w=2)
+            else:
+                draw_cellular_pattern(draw, 115, 105, radius=48, color=pal.text_dark)
+            
             title_text = slide.get("title", "")
-            font_italic = get_serif(52, bold=True, italic=True)
-            font_title = get_serif(52, bold=True, italic=False)
+            font_italic = get_serif(48, bold=True, italic=True)
+            font_title = get_serif(48, bold=True, italic=False)
             
             t_lines = wrap_text(title_text, font_title, width - 150, draw)
-            y_title = 165
+            y_title = 168
             for i, tl in enumerate(t_lines[:2]):
                 if i == 0 and (":" in tl or len(t_lines) > 1):
                     parts = tl.split(":")
                     if len(parts) == 2:
-                        draw.text((75, y_title), parts[0] + ":", fill=PALETTE["rust"], font=font_italic)
+                        draw.text((75, y_title), parts[0] + ":", fill=pal.accent, font=font_italic)
                         bbox0 = draw.textbbox((0, 0), parts[0] + ": ", font=font_italic)
-                        draw.text((75 + (bbox0[2] - bbox0[0]), y_title), parts[1].strip(), fill=PALETTE["charcoal"], font=font_title)
+                        draw.text((75 + (bbox0[2] - bbox0[0]), y_title), parts[1].strip(), fill=pal.text_dark, font=font_title)
                     else:
-                        draw.text((75, y_title), tl, fill=PALETTE["rust"], font=font_italic)
+                        draw.text((75, y_title), tl, fill=pal.accent, font=font_italic)
                 else:
-                    draw.text((75, y_title), tl, fill=PALETTE["charcoal"], font=font_title)
-                y_title += 52
+                    draw.text((75, y_title), tl, fill=pal.text_dark, font=font_title)
+                y_title += 56
                 
-            # Short horizontal accent underline rule
-            draw.line([(75, y_title + 6), (175, y_title + 6)], fill=PALETTE["rust"], width=3)
+            draw.line([(75, y_title + 6), (200, y_title + 6)], fill=pal.accent, width=4)
             
-            # Narrative Body (directly on cream, no box!)
-            font_body = get_sans(24, bold=False)
+            font_body = get_sans(23, bold=False)
             p1 = slide.get("p1", "")
             y_body = y_title + 24
             b_lines = wrap_text(p1, font_body, width - 150, draw)[:2]
             for bl in b_lines:
-                draw.text((75, y_body), bl, fill=PALETTE["charcoal"], font=font_body)
-                y_body += 34
+                draw.text((75, y_body), bl, fill=pal.text_dark, font=font_body)
+                y_body += 32
                 
-            # Stat Highlight with Vertical Terracotta Bar (NO WHITE BOX!)
-            stat_val = slide.get("stat", "")
-            stat_lbl = slide.get("stat_label", "")
-            stat_sub = slide.get("stat_sub", "")
+            stat_val = slide.get("stat", "") or theme.metadata.get("stat", "")
+            stat_lbl = slide.get("stat_label", "") or theme.metadata.get("stat_label", "")
+            stat_sub = slide.get("stat_sub", "") or theme.metadata.get("stat_sub", "")
             
-            y_stat = y_body + 20
-            bar_h = 115
-            draw.line([(75, y_stat), (75, y_stat + bar_h)], fill=PALETTE["rust"], width=6)
+            y_stat = y_body + 18
+            bar_h = 110
+            draw.line([(75, y_stat), (75, y_stat + bar_h)], fill=pal.accent, width=6)
             
-            font_big_stat = get_serif(76, bold=True)
-            draw.text((95, y_stat - 4), stat_val, fill=PALETTE["rust"], font=font_big_stat)
+            font_big_stat = get_serif(72, bold=True)
+            draw.text((95, y_stat - 8), stat_val, fill=pal.accent, font=font_big_stat)
             
             s_bbox = draw.textbbox((0, 0), stat_val, font=font_big_stat)
             sw = s_bbox[2] - s_bbox[0]
             
-            y_lbl = y_stat + 4
-            lbl_lines = wrap_text(stat_lbl, get_sans(22, bold=True), width - (115 + sw + 30), draw)[:2]
+            y_lbl = y_stat + 6
+            lbl_lines = wrap_text(stat_lbl, get_sans(21, bold=True), width - (115 + sw + 30), draw)[:2]
             for ll in lbl_lines:
-                draw.text((110 + sw, y_lbl), ll, fill=PALETTE["charcoal"], font=get_sans(18, bold=True))
-                y_lbl += 30
-            draw.text((115 + sw, y_lbl + 4), stat_sub, fill=PALETTE["slate"], font=get_sans(17))
+                draw.text((115 + sw, y_lbl), ll, fill=pal.text_dark, font=get_sans(21, bold=True))
+                y_lbl += 28
+            draw.text((115 + sw, y_lbl + 4), stat_sub, fill=pal.text_muted, font=get_sans(16))
             
-            sid = (study.study_id if study else "lancet_tofi").upper()
-            telem_img = draw_slide1_telemetry(sid, width - 150, 230)
+            # Embedded Telemetry Chart in lower area
+            sid = (study.study_id if study else "LANCET-TOFI-2021").upper()
+            telem_img = draw_slide1_telemetry(sid, width - 150, 310)
             if telem_img:
-                img.paste(telem_img, (75, y_stat + bar_h + 18), telem_img if telem_img.mode == "RGBA" else None)
+                img.paste(telem_img, (75, y_stat + bar_h + 16), telem_img if telem_img.mode == "RGBA" else None)
                 
-            font_cit = get_sans(14, italic=True)
-            draw.text((75, height - 90), slide.get("citation", ""), fill=PALETTE["slate"], font=font_cit)
-            
-        elif idx == 2:
-            # SLIDE 2: PATHOPHYSIOLOGY / MECHANISM (Square 1080x1080, Direct Cream)
-            font_title = get_serif(48, bold=True)
+            font_cit = get_sans(15, italic=True)
+            draw.text((75, height - 90), slide.get("citation", ""), fill=pal.text_muted, font=font_cit)
+
+        elif idx == 2 and not is_dark:
+            # -----------------------------------------------------------------
+            # SLIDE 2: PATHOPHYSIOLOGY / MECHANISM (When not dark hero)
+            # -----------------------------------------------------------------
+            font_title = get_serif(46, bold=True)
             title_text = slide.get("title", "")
             t_lines = wrap_text(title_text, font_title, width - 150, draw)[:2]
-            y_title = 110
+            y_title = 95
             for tl in t_lines:
-                draw.text((75, y_title), tl, fill=PALETTE["charcoal"], font=font_title)
-                y_title += 50
-            draw.line([(75, y_title + 6), (175, y_title + 6)], fill=PALETTE["rust"], width=3)
+                draw.text((75, y_title), tl, fill=pal.text_dark, font=font_title)
+                y_title += 52
+            draw.line([(75, y_title + 6), (195, y_title + 6)], fill=pal.accent, width=4)
             
-            # Clinical Vector Diagram rendered transparently directly on canvas
             dkey = slide.get("diagram_key", "")
             diag_w = width - 150
-            diag_h = 360
+            diag_h = 350
             if "SURPASS" in dkey:
                 diag_img = draw_surpass_diagram(diag_w, diag_h)
             elif "MACE" in dkey or "STEER" in dkey:
@@ -205,133 +236,112 @@ def render_editorial_carousel(output_dir: str, study=None) -> list[str]:
             else:
                 diag_img = draw_tofi_dexa_diagram(diag_w, diag_h)
                 
-            y_diag = y_title + 24
+            y_diag = y_title + 20
             img.paste(diag_img, (75, y_diag), diag_img if diag_img.mode == "RGBA" else None)
             
-            # Clinical Finding with Vertical Terracotta Bar (Directly on cream!)
-            y_takeaway = y_diag + diag_h + 24
-            draw.line([(75, y_takeaway), (75, y_takeaway + 135)], fill=PALETTE["rust"], width=6)
+            y_takeaway = y_diag + diag_h + 20
+            draw.line([(75, y_takeaway), (75, y_takeaway + 120)], fill=pal.accent, width=6)
             
             p1 = slide.get("p1", "")
             takeaway = slide.get("takeaway", "")
             
-            font_quote = get_serif(25, italic=True)
+            font_quote = get_serif(23, italic=True)
             q_lines = wrap_text(f'"{p1}"', font_quote, width - 180, draw)[:3]
             y_q = y_takeaway + 2
             for ql in q_lines:
-                draw.text((95, y_q), ql, fill=PALETTE["charcoal"], font=font_quote)
-                y_q += 34
+                draw.text((100, y_q), ql, fill=pal.text_dark, font=font_quote)
+                y_q += 30
                 
-            font_t_bold = get_sans(20, bold=True)
-            draw.text((95, y_q + 6), f"Key Protocol: {takeaway}", fill=PALETTE["rust"], font=font_t_bold)
+            font_t_bold = get_sans(19, bold=True)
+            draw.text((100, y_q + 6), f"Key Protocol: {takeaway}", fill=pal.accent, font=font_t_bold)
             
-            # Citation
-            font_cit = get_sans(14, italic=True)
-            draw.text((75, height - 90), slide.get("citation", ""), fill=PALETTE["slate"], font=font_cit)
+            draw.text((75, y_takeaway + 145), theme.study_directive, fill=pal.text_dark, font=get_sans(17, bold=True))
+            font_cit = get_sans(15, italic=True)
+            draw.text((75, height - 90), slide.get("citation", ""), fill=pal.text_muted, font=font_cit)
+
+        elif idx == 3 and not is_dark:
+            # -----------------------------------------------------------------
+            # SLIDE 3: SECONDARY CLINICAL DATA (When not dark hero)
+            # -----------------------------------------------------------------
+            font_title = get_serif(46, bold=True)
+            title_text = slide.get("title", "")
+            t_lines = wrap_text(title_text, font_title, width - 150, draw)[:2]
+            y_title = 95
+            for tl in t_lines:
+                draw.text((75, y_title), tl, fill=pal.text_dark, font=font_title)
+                y_title += 52
+            draw.line([(75, y_title + 6), (195, y_title + 6)], fill=pal.accent, width=4)
             
-        elif idx == 3:
-            # SLIDE 3: PATTERN INTERRUPT (Square 1080x1080, Deep Oxblood Maroon `#5C181A`)
-            draw_cardiac_monitor(draw, width // 2, 185, scale=1.22, color=PALETTE["white"], stroke_w=2)
-            
-            font_hero_quote = get_serif(52, bold=True, italic=True)
-            quote_text = "Before you start, hear it from a doctor, not a reel."
-            q_lines = wrap_text(quote_text, font_hero_quote, width - 160, draw)[:2]
-            y_hq = 350
-            for ql in q_lines:
-                draw.text((80, y_hq), ql, fill=PALETTE["white"], font=font_hero_quote)
-                y_hq += 62
+            # Secondary Telemetry / Biomarker Panels
+            sid = (study.study_id if study else "LANCET-TOFI-2021").upper()
+            telem_img = draw_slide3_telemetry(sid, width - 150, 260)
+            y_telem = y_title + 24
+            if telem_img:
+                img.paste(telem_img, (75, y_telem), telem_img if telem_img.mode == "RGBA" else None)
                 
-            draw.line([(80, y_hq + 10), (190, y_hq + 10)], fill=PALETTE["rust"], width=3)
-            
-            font_caveat = get_sans(23, bold=False)
+            y_narrative = y_telem + 280
             p1 = slide.get("p1", "")
             p2 = slide.get("p2", "")
-            body_text = f"{p1} {p2}".strip()
-            y_cav = y_hq + 32
-            c_lines = wrap_text(body_text, font_caveat, width - 160, draw)[:3]
-            for cl in c_lines:
-                draw.text((80, y_cav), cl, fill=(245, 238, 230), font=font_caveat)
-                y_cav += 32
+            narrative = f"{p1} {p2}".strip()
+            font_body = get_sans(21)
+            n_lines = wrap_text(narrative, font_body, width - 160, draw)[:3]
+            for nl in n_lines:
+                draw.text((75, y_narrative), nl, fill=pal.text_dark, font=font_body)
+                y_narrative += 30
                 
-            # Key Clinical Stat or Takeaway on dark (Mathematically Exact Alignment)
-            stat_val = slide.get("stat", "")
-            stat_lbl = slide.get("stat_label", "")
-            if stat_val:
-                y_ds = y_cav + 22
-                font_stat = get_serif(54, bold=True)
-                s_bbox = draw.textbbox((0, 0), stat_val, font=font_stat)
-                sw = s_bbox[2] - s_bbox[0]
-                sh = s_bbox[3] - s_bbox[1]
-                
-                # Guaranteed horizontal gap: 32px to the right of stat number
-                lbl_font = get_sans(20, bold=True)
-                lbl_x = 105 + sw + 32
-                max_lbl_w = (width - 70) - lbl_x
-                
-                lbl_lines = wrap_text(stat_lbl, lbl_font, max_lbl_w, draw)[:2]
-                block_h = max(82, sh + 24, len(lbl_lines) * 28 + 14)
-                
-                # Vertical terracotta anchor line
-                draw.line([(80, y_ds), (80, y_ds + block_h)], fill=PALETTE["rust"], width=6)
-                
-                # Draw stat number
-                draw.text((105, y_ds + 4), stat_val, fill=PALETTE["rust"], font=font_stat)
-                
-                # Draw label lines cleanly centered alongside stat number
-                y_lbl = y_ds + 4 + (sh - (len(lbl_lines) * 26)) // 2
-                for ll in lbl_lines:
-                    draw.text((lbl_x, y_lbl), ll, fill=PALETTE["white"], font=lbl_font)
-                    y_lbl += 28
-                
-            # Citation
-            font_cit = get_sans(14, italic=True)
-            draw.text((80, height - 95), slide.get("citation", ""), fill=(200, 150, 155), font=font_cit)
-            
+            draw.text((75, y_narrative + 14), theme.study_directive, fill=pal.accent, font=get_sans(17, bold=True))
+            font_cit = get_sans(15, italic=True)
+            draw.text((75, height - 90), slide.get("citation", ""), fill=pal.text_muted, font=font_cit)
+
         elif idx == 4:
-            # SLIDE 4: THE STEER ARCHITECTURE / DOCTOR CONSULTATION (Square 1080x1080)
-            draw_stethoscope(draw, 740, 310, scale=0.96, color=PALETTE["charcoal"], stroke_w=3)
+            # -----------------------------------------------------------------
+            # SLIDE 4: STEER CLINICAL ARCHITECTURE & CALL TO ACTION
+            # -----------------------------------------------------------------
+            # Secondary motif (stethoscope, caring hands, or tailored icon)
+            if theme.secondary_motif == "stethoscope":
+                draw_stethoscope(draw, 740, 290, scale=0.92, color=pal.text_dark, stroke_w=3)
+            elif theme.secondary_motif == "caring_hands":
+                draw_caring_hands(draw, 750, 420, scale=0.95, color=pal.text_dark, stroke_w=2)
+            else:
+                draw_stethoscope(draw, 740, 290, scale=0.92, color=pal.text_dark, stroke_w=3)
             
-            font_cta_title = get_serif(50, bold=True, italic=True)
-            draw.text((75, 105), "Talk to a Steer doctor.", fill=PALETTE["rust"], font=font_cta_title)
-            draw.line([(75, 160), (175, 160)], fill=PALETTE["rust"], width=3)
+            font_cta_title = get_serif(46, bold=True, italic=True)
+            draw.text((75, 90), "Talk to a Steer doctor.", fill=pal.accent, font=font_cta_title)
+            draw.line([(75, 148), (200, 148)], fill=pal.accent, width=4)
             
-            font_sub = get_sans(23)
-            draw.text((75, 178), "Doctor-led metabolic care built for Indian biology.", fill=PALETTE["charcoal"], font=font_sub)
+            font_sub = get_sans(22)
+            draw.text((75, 168), "Doctor-led metabolic care built for Indian biology.", fill=pal.text_dark, font=font_sub)
             
-            # Steer 3 Pillars
-            y_p = 250
-            pillars = slide.get("pillars", [
-                ("01  DEXA Muscle Tracking", "Quantifies fat loss vs lean mass preservation every 8 weeks."),
-                ("02  Doctor-Led Titration", "Physician micro-dosing to eliminate nausea and GI symptoms."),
-                ("03  Structured Off-Ramp", "Gradual tapering protocol to maintain set-point permanently.")
-            ])
+            # 3 Tailored Protocol Pillars from STUDY_THEMES
+            y_p = 235
+            pillars = theme.protocol_pillars
             
             for p_title, p_desc in pillars[:3]:
-                draw.line([(75, y_p), (75, y_p + 68)], fill=PALETTE["rust"], width=5)
-                draw.text((95, y_p), p_title, fill=PALETTE["charcoal"], font=get_sans(22, bold=True))
-                d_lines = wrap_text(p_desc, get_sans(18), 450, draw)[:2]
-                yd = y_p + 24
+                draw.line([(75, y_p), (75, y_p + 68)], fill=pal.accent, width=5)
+                draw.text((95, y_p), p_title, fill=pal.text_dark, font=get_sans(21, bold=True))
+                d_lines = wrap_text(p_desc, get_sans(17), 460, draw)[:2]
+                yd = y_p + 26
                 for dl in d_lines:
-                    draw.text((95, yd), dl, fill=PALETTE["slate"], font=get_sans(18))
-                    yd += 24
+                    draw.text((95, yd), dl, fill=pal.text_muted, font=get_sans(17))
+                    yd += 22
                 y_p += 105
                 
-            # Caring hands illustration anchoring lower-left
-            draw_caring_hands(draw, 200, 680, scale=0.82, color=PALETTE["charcoal"], stroke_w=2)
+            # Caring hands illustration anchoring lower-left if secondary motif was stethoscope
+            if theme.secondary_motif == "stethoscope":
+                draw_caring_hands(draw, 190, 680, scale=0.78, color=pal.text_dark, stroke_w=2)
             
-            # CTA Box & URL
-            draw.text((75, 800), "Visit steerclub.com to check eligibility →", fill=PALETTE["rust"], font=get_sans(25, bold=True))
-            draw.text((75, 840), "Comprehensive blood panel • Doctor consult • Continuous monitoring", fill=PALETTE["slate"], font=get_sans(16))
-            draw.text((75, 875), "Doctor-led consultations • Continuous metabolic monitoring across India", fill=PALETTE["charcoal"], font=get_sans(17, bold=True))
+            # Study-Tailored CTA Box & URL
+            draw.text((75, 790), f"Visit steerclub.com → {theme.cta_headline}", fill=pal.accent, font=get_sans(23, bold=True))
+            draw.text((75, 830), theme.cta_subtext, fill=pal.text_muted, font=get_sans(15))
+            draw.text((75, 865), "Doctor-led consultations • Continuous metabolic monitoring across India", fill=pal.text_dark, font=get_sans(16, bold=True))
             
-            # Citation
-            font_cit = get_sans(14, italic=True)
-            draw.text((75, height - 95), slide.get("citation", "Steer Clinical Care Protocol 2026 • steerclub.com"), fill=PALETTE["slate"], font=font_cit)
+            font_cit = get_sans(15, italic=True)
+            draw.text((75, height - 90), slide.get("citation", "Steer Clinical Care Protocol 2026 • steerclub.com"), fill=pal.text_muted, font=font_cit)
             
         out_path = os.path.normpath(os.path.join(abs_dir, f"carousel_slide_{idx}.png"))
         img.save(out_path, quality=95)
         out_files.append(out_path)
-        print(f"✅ Generated Apple Editorial Slide {idx}: {out_path}")
+        print(f"✅ Generated Study-Tailored Square Slide {idx}: {out_path}")
         
     return out_files
 

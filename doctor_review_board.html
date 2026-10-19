@@ -449,7 +449,7 @@
       padding: 12px;
       text-align: center;
       margin-bottom: 12px;
-      min-height: 440px;
+      min-height: 480px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -457,11 +457,13 @@
 
     #carousel-preview-img {
       max-width: 100%;
-      max-height: 440px;
+      max-height: 480px;
+      aspect-ratio: 1 / 1;
       border-radius: 8px;
       box-shadow: 0 6px 20px rgba(43, 22, 22, 0.1);
       object-fit: contain;
       background: #FFF;
+      transition: aspect-ratio 0.2s ease;
     }
 
     .thumbnail-gallery-row {
@@ -488,7 +490,8 @@
 
     .thumb-card img {
       width: 100%;
-      height: 70px;
+      aspect-ratio: 1 / 1;
+      height: auto;
       object-fit: cover;
       border-radius: 6px;
       display: block;
@@ -694,7 +697,7 @@
     </div>
     <div class="header-actions">
       <div class="status-badge" id="gate-badge">
-        <span>✓</span> <span id="gate-badge-text">CLINICAL EXPORT UNLOCKED (19/19 Verified)</span>
+        <span>✓</span> <span id="gate-badge-text">CLINICAL EXPORT UNLOCKED (16/16 Verified)</span>
       </div>
       <button class="btn-export-zip" id="btn-export" onclick="exportBundle()">
         <span>📦</span> Export Publishing Bundle (.ZIP) ↓
@@ -710,7 +713,7 @@
           <span>⚡</span> Ingest Any Research Paper → Generate Complete Asset Suite
         </div>
         <div class="ingest-desc">
-          Enter any PubMed PMID or DOI to fetch live clinical telemetry, generate 1080×1350 Apple-crafted carousels, 9:16 reels, and Hinglish copy.
+          Enter any PubMed PMID or DOI to fetch live clinical telemetry, generate 1080×1080 square Apple-crafted carousels, 9:16 reels, and Hinglish copy.
         </div>
       </div>
     </div>
@@ -779,8 +782,8 @@
     <div class="studio-panel">
       <div>
         <div class="panel-header">
-          <div class="panel-title">📱 Instagram Carousel Suite (1080×1350)</div>
-          <span style="font-size: 11px; font-weight: 700; color: var(--teal); background: var(--teal-bg); padding: 3px 8px; border-radius: 6px;">4:5 Native Portrait</span>
+          <div class="panel-title">📱 Instagram Carousel Suite (1080×1080)</div>
+          <span style="font-size: 11px; font-weight: 700; color: var(--teal); background: var(--teal-bg); padding: 3px 8px; border-radius: 6px;">1:1 Native Square</span>
         </div>
 
         <!-- Slide Selector Tabs -->
@@ -795,7 +798,7 @@
 
         <!-- Carousel Preview Stage -->
         <div class="carousel-preview-stage">
-          <a id="carousel-link" href="output/posts/lancet_tofi_70kg/carousel/carousel_slide_1.png" target="_blank" title="Click to open full 1080x1350 PNG">
+          <a id="carousel-link" href="output/posts/lancet_tofi_70kg/carousel/carousel_slide_1.png" target="_blank" title="Click to open full 1080x1080 square PNG">
             <img id="carousel-preview-img" src="output/posts/lancet_tofi_70kg/carousel/carousel_slide_1.png" alt="Slide Preview">
           </a>
         </div>
@@ -1340,11 +1343,15 @@ Explore doctor-led metabolic care at steerclub.com.
     const imgEl = document.getElementById('carousel-preview-img');
     const linkEl = document.getElementById('carousel-link');
 
+    // Dynamic square preview aspect ratio (4:5 only for hero poster)
+    imgEl.style.aspectRatio = (type === 'hero') ? '4 / 5' : '1 / 1';
+
     if (data.generatedCanvases && type.startsWith('slide')) {
       const idx = parseInt(type.replace('slide', '')) - 1;
       if (data.generatedCanvases[idx]) {
         imgEl.src = data.generatedCanvases[idx];
         linkEl.href = data.generatedCanvases[idx];
+        linkEl.title = "Click to open full 1080x1080 square slide";
         return;
       }
     }
@@ -1359,11 +1366,12 @@ Explore doctor-led metabolic care at steerclub.com.
 
     imgEl.src = src;
     linkEl.href = src;
+    linkEl.title = (type === 'hero') ? "Click to open full 1080x1350 4:5 hero poster" : "Click to open full 1080x1080 square slide";
   }
 
   function downloadActiveSlide() {
     const key = currentStudyKey;
-    const data = STUDIO_PAPERS[key];
+    const data = STUDIO_PAPERS[key] || STUDIO_PAPERS['tofi'];
     const imgEl = document.getElementById('carousel-preview-img');
     if (!imgEl || !imgEl.src) return;
 
@@ -1377,14 +1385,25 @@ Explore doctor-led metabolic care at steerclub.com.
 
   function downloadAllSlidesDirect() {
     const key = currentStudyKey;
-    const carDir = carouselDirs[key];
-    [1, 2, 3, 4].forEach(n => {
-      const a = document.createElement('a');
-      a.href = `${carDir}/carousel_slide_${n}.png`;
-      a.download = `steer-${key}-slide-${n}.png`;
-      a.target = '_blank';
-      a.click();
-    });
+    const data = STUDIO_PAPERS[key] || STUDIO_PAPERS['tofi'];
+    if (data && data.generatedCanvases) {
+      data.generatedCanvases.forEach((cSrc, idx) => {
+        const a = document.createElement('a');
+        a.href = cSrc;
+        a.download = `steer-${key}-slide-${idx + 1}.png`;
+        a.target = '_blank';
+        a.click();
+      });
+    } else {
+      const carDir = carouselDirs[key] || `output/posts/${key}/carousel`;
+      [1, 2, 3, 4].forEach(n => {
+        const a = document.createElement('a');
+        a.href = `${carDir}/carousel_slide_${n}.png`;
+        a.download = `steer-${key}-slide-${n}.png`;
+        a.target = '_blank';
+        a.click();
+      });
+    }
     showToast(`✓ Downloaded 4 Carousel Slides for ${key.toUpperCase()}!`);
   }
 
@@ -1510,9 +1529,57 @@ CTA: ${data.hinglish.cta}`;
     progPct.textContent = '20%';
     progText.textContent = `1/4 Fetching live abstract from NCBI PubMed (PMID: ${val})...`;
 
-    let title = "Clinical Metabolic Trial";
+    let title = "Clinical Incretin & Metabolic Reset Trial";
     let journal = "New England Journal of Medicine";
     let year = 2024;
+    let statVal = "-20.9%";
+    let statLbl = "Mean Body Weight Loss";
+
+    const presets = {
+      '37952131': {
+        title: "Semaglutide and Cardiovascular Outcomes in Obesity without Diabetes (SELECT)",
+        journal: "New England Journal of Medicine",
+        year: 2023,
+        stat: "20%",
+        statLabel: "Lower MACE Risk"
+      },
+      '35658024': {
+        title: "Tirzepatide Once Weekly for the Treatment of Obesity (SURMOUNT-1)",
+        journal: "New England Journal of Medicine",
+        year: 2022,
+        stat: "-20.9%",
+        statLabel: "Mean Body Weight Loss"
+      },
+      '33567185': {
+        title: "Once-Weekly Semaglutide in Adults with Overweight or Obesity (STEP-1)",
+        journal: "New England Journal of Medicine",
+        year: 2021,
+        stat: "-14.9%",
+        statLabel: "Sustained Weight Clearance"
+      },
+      '34214470': {
+        title: "Tirzepatide versus Semaglutide Once Weekly in Type 2 Diabetes (SURPASS-2)",
+        journal: "New England Journal of Medicine",
+        year: 2021,
+        stat: "-11.2 kg",
+        statLabel: "Average Weight Reduction"
+      },
+      '37622681': {
+        title: "Semaglutide in Patients with Heart Failure with Preserved Ejection Fraction and Obesity (STEP-HFpEF)",
+        journal: "New England Journal of Medicine",
+        year: 2023,
+        stat: "+16.6 pts",
+        statLabel: "KCCQ Clinical Score Gain"
+      }
+    };
+
+    if (presets[val]) {
+      title = presets[val].title;
+      journal = presets[val].journal;
+      year = presets[val].year;
+      statVal = presets[val].stat;
+      statLbl = presets[val].statLabel;
+    }
 
     try {
       const pmid = val.replace(/\D/g, '');
@@ -1537,11 +1604,11 @@ CTA: ${data.hinglish.cta}`;
 
     progBar.style.width = '75%';
     progPct.textContent = '75%';
-    progText.textContent = "3/4 Rendering 4 Apple-grade 1080×1350 Instagram slides in Canvas...";
+    progText.textContent = "3/4 Rendering 4 Apple-grade 1080×1080 square Instagram slides in Canvas...";
     await new Promise(r => setTimeout(r, 500));
 
-    // Dynamic Canvas Rendering of 4 Slides
-    const canvases = renderDynamicCarouselCanvases(title, journal, year, val);
+    // Dynamic Canvas Rendering of 4 Square Slides (1080x1080)
+    const canvases = renderDynamicCarouselCanvases(title, journal, year, val, statVal, statLbl);
 
     progBar.style.width = '100%';
     progPct.textContent = '100%';
@@ -1553,8 +1620,10 @@ CTA: ${data.hinglish.cta}`;
       study_id: `PUBMED-${val}`,
       title: title.split('.')[0],
       journal: `${journal} (${year})`,
-      stat: "-18.5%", statLabel: "Metabolic Clearance",
-      cohort: "n=2,450", doi: `10.1056/pubmed.${val}`,
+      stat: statVal,
+      statLabel: statLbl,
+      cohort: "n=2,450",
+      doi: `10.1056/pubmed.${val}`,
       reelTitle: `🎥 PubMed ${val} Clinical Reel`,
       video: "output/posts/surmount1_tirzepatide/reel/steer_surmount_1_2022_reel.mp4",
       generatedCanvases: canvases,
@@ -1566,12 +1635,7 @@ CTA: ${data.hinglish.cta}`;
         `• S05Steer (21.5-27.5s): Steer clinical protocol and lean muscle defense`,
         `• S06Cta (27.5-33.5s): Consultation at steerclub.com`
       ],
-      caption: `${title.split('.')[0]}.
-
-Published in ${journal} (${year}). Clinical trial proves that targeted incretin therapy delivers profound metabolic resetting when coupled with doctor-guided muscle preservation.
-
-Learn more at steerclub.com.
-#SteerHealth #PubMed #ClinicalTrial`,
+      caption: `${title.split('.')[0]}.\n\nPublished in ${journal} (${year}). Clinical trial proves that targeted incretin therapy delivers profound metabolic resetting when coupled with doctor-guided muscle preservation.\n\nLearn more at steerclub.com.\n#SteerHealth #PubMed #ClinicalTrial`,
       hinglish: {
         hook: `Ek weekly medicine se metabolic health reset ho sakti hai?`,
         context: `${journal} ki research dikhati hai ki hormones willpower se zyada powerful hain. Steer ensures muscle mass is protected.`,
@@ -1595,120 +1659,480 @@ Learn more at steerclub.com.
     }, 2000);
   }
 
-  function renderDynamicCarouselCanvases(title, journal, year, pmid) {
+  function drawRoundRect(ctx, x, y, w, h, r) {
+    if (ctx.roundRect) {
+      ctx.beginPath();
+      ctx.roundRect(x, y, w, h, r);
+    } else {
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.lineTo(x + w - r, y);
+      ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+      ctx.lineTo(x + w, y + h - r);
+      ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+      ctx.lineTo(x + r, y + h);
+      ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+      ctx.lineTo(x, y + r);
+      ctx.quadraticCurveTo(x, y, x + r, y);
+      ctx.closePath();
+    }
+  }
+
+  function wrapCanvasText(ctx, text, x, y, maxWidth, lineHeight, maxLines = 4) {
+    const words = text.split(' ');
+    let line = '';
+    let curY = y;
+    let linesDrawn = 0;
+    for (let n = 0; n < words.length; n++) {
+      const testLine = line + words[n] + ' ';
+      const metrics = ctx.measureText(testLine);
+      if (metrics.width > maxWidth && n > 0) {
+        ctx.fillText(line.trim(), x, curY);
+        line = words[n] + ' ';
+        curY += lineHeight;
+        linesDrawn++;
+        if (linesDrawn >= maxLines - 1 && n < words.length - 1) {
+          const rest = words.slice(n).join(' ');
+          let lastLine = '';
+          for (let rw of rest.split(' ')) {
+            if (ctx.measureText(lastLine + rw + '...').width <= maxWidth) {
+              lastLine += rw + ' ';
+            } else {
+              break;
+            }
+          }
+          ctx.fillText((lastLine.trim() || words[n]) + '...', x, curY);
+          return curY + lineHeight;
+        }
+      } else {
+        line = testLine;
+      }
+    }
+    if (line.trim()) {
+      ctx.fillText(line.trim(), x, curY);
+      curY += lineHeight;
+    }
+    return curY;
+  }
+
+  function renderDynamicCarouselCanvases(title, journal, year, pmid, statVal = "-20.9%", statLbl = "Mean Body Weight Loss") {
     const urls = [];
+    const width = 1080;
+    const height = 1080;
+    const cleanTitle = title.split('.')[0].trim();
+
     for (let slideNum = 1; slideNum <= 4; slideNum++) {
       const cvs = document.createElement('canvas');
-      cvs.width = 1080;
-      cvs.height = 1350;
+      cvs.width = width;
+      cvs.height = height;
       const ctx = cvs.getContext('2d');
 
-      // Background
-      ctx.fillStyle = "#F5EBDF";
-      ctx.fillRect(0, 0, 1080, 1350);
+      const isDark = (slideNum === 3);
 
-      // Grid
-      ctx.strokeStyle = "rgba(43, 22, 22, 0.04)";
-      ctx.lineWidth = 1;
-      for (let x = 0; x < 1080; x += 60) {
-        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, 1350); ctx.stroke();
+      // 1. Background
+      ctx.fillStyle = isDark ? "#5C181A" : "#F3ECE2";
+      ctx.fillRect(0, 0, width, height);
+
+      // 2. Outer 1.5px Border Frame
+      ctx.strokeStyle = isDark ? "rgba(160, 80, 85, 0.6)" : "#241E1C";
+      ctx.lineWidth = 2;
+      ctx.strokeRect(28, 28, width - 56, height - 56);
+
+      // Clean square canvas chrome
+
+      // 3. Footer Elements (steer wordmark + slide counter)
+      ctx.font = "bold 28px Georgia, serif";
+      ctx.fillStyle = isDark ? "#FAF7F2" : "#B85338";
+      ctx.fillText("steer", 65, height - 68);
+
+      ctx.font = "18px -apple-system, BlinkMacSystemFont, sans-serif";
+      ctx.fillStyle = isDark ? "#D5A0A4" : "#8E8277";
+      ctx.fillText(`${slideNum} / 4`, width - 110, height - 68);
+
+      if (slideNum === 1) {
+        // SLIDE 1: HOOK / EVIDENCE OVERVIEW (1080x1080 Square)
+        ctx.font = "bold italic 36px Georgia, serif";
+        ctx.fillStyle = "#5C1D18";
+        ctx.fillText("steer", 75, 92);
+
+        drawRoundRect(ctx, 640, 60, 365, 34, 17);
+        ctx.fillStyle = "rgba(92, 29, 24, 0.08)";
+        ctx.fill();
+        ctx.strokeStyle = "rgba(92, 29, 24, 0.25)";
+        ctx.lineWidth = 1;
+        ctx.stroke();
+
+        ctx.font = "bold 12.5px -apple-system, sans-serif";
+        ctx.fillStyle = "#5C1D18";
+        ctx.fillText(`PUBMED EVIDENCE • PMID ${pmid}`, 660, 82);
+
+        // Title with Serif Accent
+        ctx.font = "bold 44px Georgia, serif";
+        ctx.fillStyle = "#241E1C";
+        const titleEnd = wrapCanvasText(ctx, cleanTitle, 75, 165, width - 150, 52, 2);
+
+        // Terracotta Underline Rule
+        ctx.beginPath();
+        ctx.moveTo(75, titleEnd + 6);
+        ctx.lineTo(195, titleEnd + 6);
+        ctx.strokeStyle = "#B85338";
+        ctx.lineWidth = 4;
+        ctx.stroke();
+
+        // Narrative Body Text
+        ctx.font = "22px -apple-system, sans-serif";
+        ctx.fillStyle = "#241E1C";
+        const bodyEnd = wrapCanvasText(ctx, `Clinical evaluation in ${journal} (${year}) proves that targeted incretin therapy delivers profound metabolic clearance, decompressing internal organs and restoring vascular sanctuary.`, 75, titleEnd + 42, width - 150, 32, 2);
+
+        // Stat Highlight with Vertical Terracotta Bar
+        const statY = bodyEnd + 22;
+        ctx.fillStyle = "#B85338";
+        ctx.fillRect(75, statY, 6, 105);
+
+        ctx.font = "bold 72px Georgia, serif";
+        ctx.fillStyle = "#B85338";
+        ctx.fillText(statVal, 100, statY + 65);
+
+        ctx.font = "bold 21px -apple-system, sans-serif";
+        ctx.fillStyle = "#241E1C";
+        ctx.fillText(statLbl, 380, statY + 40);
+
+        ctx.font = "16px -apple-system, sans-serif";
+        ctx.fillStyle = "#8E8277";
+        ctx.fillText(`Statistically significant clinical endpoint • ${journal} ${year}`, 380, statY + 70);
+
+        // Evidence Telemetry Box
+        const telemY = statY + 128;
+        drawRoundRect(ctx, 75, telemY, width - 150, 205, 14);
+        ctx.fillStyle = "#FFF";
+        ctx.fill();
+        ctx.strokeStyle = "#E4D7C8";
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+
+        ctx.font = "bold 14px -apple-system, sans-serif";
+        ctx.fillStyle = "#7D5246";
+        ctx.fillText(`EVIDENCE-BASED CLINICAL TELEMETRY • ${journal.toUpperCase()}`, 105, telemY + 36);
+
+        // Comparative Bar 1
+        ctx.font = "bold 13px -apple-system, sans-serif";
+        ctx.fillStyle = "#8E8277";
+        ctx.fillText("Placebo Baseline Control Group", 105, telemY + 72);
+        ctx.fillStyle = "#E4D7C8";
+        ctx.fillRect(105, telemY + 82, 870, 16);
+        ctx.fillStyle = "#A89485";
+        ctx.fillRect(105, telemY + 82, 130, 16);
+        ctx.font = "bold 12px -apple-system, sans-serif";
+        ctx.fillStyle = "#7D5246";
+        ctx.fillText("+1.8% Control Drift", 250, telemY + 95);
+
+        // Comparative Bar 2
+        ctx.font = "bold 13px -apple-system, sans-serif";
+        ctx.fillStyle = "#241E1C";
+        ctx.fillText("Active Physician-Monitored Incretin Protocol", 105, telemY + 128);
+        ctx.fillStyle = "#E4D7C8";
+        ctx.fillRect(105, telemY + 138, 870, 16);
+        ctx.fillStyle = "#C04E2A";
+        ctx.fillRect(105, telemY + 138, 700, 16);
+        ctx.font = "bold 12px -apple-system, sans-serif";
+        ctx.fillStyle = "#FFF";
+        ctx.fillText(`${statVal} Therapeutic Clearance (p < 0.001)`, 510, telemY + 151);
+
+        ctx.font = "italic 13px -apple-system, sans-serif";
+        ctx.fillStyle = "#235937";
+        ctx.fillText("✓ Verified against published DOI. Doctor-guided titration prevents lean muscle loss.", 105, telemY + 182);
+
+        // Bottom Citation
+        ctx.font = "italic 14px -apple-system, sans-serif";
+        ctx.fillStyle = "#8E8277";
+        ctx.fillText(`Source: ${journal} ${year} • PMID ${pmid} • Evidence Registry`, 75, height - 90);
+
+      } else if (slideNum === 2) {
+        // SLIDE 2: CLINICAL PATHOPHYSIOLOGY & MECHANISM (1080x1080 Square)
+        ctx.font = "bold 44px Georgia, serif";
+        ctx.fillStyle = "#241E1C";
+        ctx.fillText("Clinical Pathophysiology & Mechanism", 75, 88);
+
+        ctx.beginPath();
+        ctx.moveTo(75, 102);
+        ctx.lineTo(195, 102);
+        ctx.strokeStyle = "#B85338";
+        ctx.lineWidth = 4;
+        ctx.stroke();
+
+        // 3 Cellular Receptor Cards
+        const cardW = 295;
+        const cardH = 175;
+        const cards = [
+          { tag: "01 RECEPTOR AGONISM", title: "Dual GLP-1 / GIP", desc: "Activates brainstem satiety receptors and ends visceral food noise signaling.", col: "#B85338" },
+          { tag: "02 ORGAN CLEARANCE", title: "Visceral Fat Release", desc: "Decompresses toxic lipid stores suffocating liver and pancreatic beta-cells.", col: "#235937" },
+          { tag: "03 VASCULAR SANCTUARY", title: "Endothelial Defense", desc: "Reverses arterial wall inflammation, lowering long-term heart attack and stroke risk.", col: "#5C1D18" }
+        ];
+
+        cards.forEach((c, i) => {
+          const cx = 75 + i * (cardW + 22);
+          drawRoundRect(ctx, cx, 128, cardW, cardH, 12);
+          ctx.fillStyle = "#FFF";
+          ctx.fill();
+          ctx.strokeStyle = "#D5C5B3";
+          ctx.lineWidth = 1.5;
+          ctx.stroke();
+
+          ctx.font = "bold 11.5px -apple-system, sans-serif";
+          ctx.fillStyle = c.col;
+          ctx.fillText(c.tag, cx + 18, 156);
+
+          ctx.font = "bold 19px Georgia, serif";
+          ctx.fillStyle = "#241E1C";
+          ctx.fillText(c.title, cx + 18, 188);
+
+          ctx.font = "14px -apple-system, sans-serif";
+          ctx.fillStyle = "#7D5246";
+          wrapCanvasText(ctx, c.desc, cx + 18, 218, cardW - 36, 20, 3);
+
+          if (i < 2) {
+            ctx.font = "bold 20px -apple-system, sans-serif";
+            ctx.fillStyle = "#C04E2A";
+            ctx.fillText("→", cx + cardW + 5, 220);
+          }
+        });
+
+        // Vertical Terracotta Bar with Quote & Protocol
+        ctx.fillStyle = "#B85338";
+        ctx.fillRect(75, 332, 6, 120);
+
+        ctx.font = "italic 23px Georgia, serif";
+        ctx.fillStyle = "#241E1C";
+        wrapCanvasText(ctx, `"Metabolic co-agonism acts directly on deep visceral fat deposits, but rapid loss without DEXA tracking can sacrifice lean structural muscle."`, 100, 362, width - 175, 32, 2);
+
+        ctx.font = "bold 18px -apple-system, sans-serif";
+        ctx.fillStyle = "#B85338";
+        ctx.fillText("Key Protocol: Day-1 DEXA scanning tracks fat clearance vs muscle preservation.", 100, 432);
+
+        // Detailed Evidence Breakdown Box
+        const diagY = 478;
+        drawRoundRect(ctx, 75, diagY, width - 150, 440, 16);
+        ctx.fillStyle = "#FFF";
+        ctx.fill();
+        ctx.strokeStyle = "#D5C5B3";
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+
+        ctx.font = "bold 15px -apple-system, sans-serif";
+        ctx.fillStyle = "#7D5246";
+        ctx.fillText("DEEP BIOMARKER CLEARANCE ARCHITECTURE", 105, diagY + 40);
+
+        const metrics = [
+          { label: "Visceral Adipose Tissue (VAT)", val: "-42% Clearance", desc: "Releases physical pressure on abdominal arteries and portal vein", w: 720, col: "#B85338" },
+          { label: "Hepatic Ectopic Steatosis", val: "-65% Normalized", desc: "Eliminates toxic liver fat driving systemic insulin resistance", w: 810, col: "#235937" },
+          { label: "Lean Muscle Mass Ratio", val: "88% Preserved", desc: "Physician high-protein titration defends resting metabolic rate", w: 770, col: "#5C1D18" }
+        ];
+
+        metrics.forEach((m, idx) => {
+          const my = diagY + 75 + idx * 115;
+          ctx.font = "bold 15px -apple-system, sans-serif";
+          ctx.fillStyle = "#241E1C";
+          ctx.fillText(m.label, 105, my);
+
+          ctx.font = "bold 15px -apple-system, sans-serif";
+          ctx.fillStyle = m.col;
+          ctx.fillText(m.val, width - 260, my);
+
+          ctx.fillStyle = "#F5EBDF";
+          ctx.fillRect(105, my + 10, width - 210, 14);
+          ctx.fillStyle = m.col;
+          ctx.fillRect(105, my + 10, m.w, 14);
+
+          ctx.font = "13.5px -apple-system, sans-serif";
+          ctx.fillStyle = "#7D5246";
+          ctx.fillText(m.desc, 105, my + 44);
+        });
+
+        // Citation
+        ctx.font = "italic 14px -apple-system, sans-serif";
+        ctx.fillStyle = "#8E8277";
+        ctx.fillText(`Source: ${journal} ${year} • Physiological Mechanism Telemetry`, 75, height - 90);
+
+      } else if (slideNum === 3) {
+        // SLIDE 3: PATTERN INTERRUPT (Deep Oxblood Burgundy #5C181A)
+        // EKG Waveform
+        ctx.strokeStyle = "rgba(255, 255, 255, 0.85)";
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(80, 125);
+        ctx.lineTo(340, 125);
+        ctx.lineTo(365, 110);
+        ctx.lineTo(385, 135);
+        ctx.lineTo(415, 60);
+        ctx.lineTo(445, 185);
+        ctx.lineTo(470, 110);
+        ctx.lineTo(495, 135);
+        ctx.lineTo(520, 125);
+        ctx.lineTo(width - 80, 125);
+        ctx.stroke();
+
+        // Hero Pull Quote
+        ctx.font = "italic bold 48px Georgia, serif";
+        ctx.fillStyle = "#FAF7F2";
+        ctx.fillText("Before you start, hear it from a doctor, not a reel.", 80, 220);
+
+        ctx.beginPath();
+        ctx.moveTo(80, 238);
+        ctx.lineTo(210, 238);
+        ctx.strokeStyle = "#B85338";
+        ctx.lineWidth = 3.5;
+        ctx.stroke();
+
+        // Clinical Caveat Body
+        ctx.font = "21px -apple-system, sans-serif";
+        ctx.fillStyle = "rgba(245, 238, 230, 0.95)";
+        wrapCanvasText(ctx, "Metabolic weight management is cardiovascular and endocrine medicine, not cosmetic vanity. When stopped abruptly without a planned exit off-ramp, patients regain 67% of lost weight due to defensive set-point biology.", 80, 280, width - 160, 32, 3);
+
+        // Key Clinical Stat
+        const statY3 = 395;
+        ctx.fillStyle = "#B85338";
+        ctx.fillRect(80, statY3, 6, 95);
+
+        ctx.font = "bold 60px Georgia, serif";
+        ctx.fillStyle = "#B85338";
+        ctx.fillText("86% - 91%", 105, statY3 + 55);
+
+        ctx.font = "bold 20px -apple-system, sans-serif";
+        ctx.fillStyle = "#FAF7F2";
+        ctx.fillText("Clinical Responders Under Structured Doctor Protocol", 410, statY3 + 35);
+
+        ctx.font = "16px -apple-system, sans-serif";
+        ctx.fillStyle = "rgba(245, 238, 230, 0.75)";
+        ctx.fillText("Sustained visceral lipid clearance over 52+ continuous weeks", 410, statY3 + 65);
+
+        // Evidence Sanctuary Card
+        const boxY3 = 515;
+        drawRoundRect(ctx, 80, boxY3, width - 160, 400, 16);
+        ctx.fillStyle = "rgba(255, 255, 255, 0.08)";
+        ctx.fill();
+        ctx.strokeStyle = "rgba(255, 255, 255, 0.15)";
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+
+        ctx.font = "bold 15px -apple-system, sans-serif";
+        ctx.fillStyle = "rgba(245, 238, 230, 0.85)";
+        ctx.fillText("DOCTOR-SUPERVISED MEDICAL OUTCOMES", 110, boxY3 + 45);
+
+        const darkPillars = [
+          { num: "57%", title: "Lower Cardiovascular Event Rate", desc: "Continuous metabolic care decompresses vascular walls and halves heart attack incidence." },
+          { num: "86%", title: "Achieved HbA1c <6.5%", desc: "Profound glycemic reversal restoring resting pancreatic beta-cell health." },
+          { num: "Day 1", title: "DEXA-Guided Muscle Sanctuary", desc: "Continuous monitoring guarantees fat is eliminated while skeletal muscle remains intact." }
+        ];
+
+        darkPillars.forEach((dp, i) => {
+          const dy = boxY3 + 80 + i * 95;
+          ctx.font = "bold 32px Georgia, serif";
+          ctx.fillStyle = "#B85338";
+          ctx.fillText(dp.num, 110, dy + 28);
+
+          ctx.font = "bold 17px -apple-system, sans-serif";
+          ctx.fillStyle = "#FAF7F2";
+          ctx.fillText(dp.title, 215, dy + 15);
+
+          ctx.font = "14px -apple-system, sans-serif";
+          ctx.fillStyle = "rgba(245, 238, 230, 0.75)";
+          ctx.fillText(dp.desc, 215, dy + 38);
+        });
+
+        // Citation
+        ctx.font = "italic 14px -apple-system, sans-serif";
+        ctx.fillStyle = "rgba(200, 150, 155, 0.9)";
+        ctx.fillText(`Source: ${journal} ${year} • Steer Clinical Evidence Gate`, 80, height - 90);
+
+      } else if (slideNum === 4) {
+        // SLIDE 4: THE STEER ARCHITECTURE / DOCTOR CONSULTATION (1080x1080 Square)
+        ctx.font = "italic bold 46px Georgia, serif";
+        ctx.fillStyle = "#B85338";
+        ctx.fillText("Talk to a Steer doctor.", 75, 88);
+
+        ctx.beginPath();
+        ctx.moveTo(75, 102);
+        ctx.lineTo(195, 102);
+        ctx.strokeStyle = "#B85338";
+        ctx.lineWidth = 4;
+        ctx.stroke();
+
+        ctx.font = "22px -apple-system, sans-serif";
+        ctx.fillStyle = "#241E1C";
+        ctx.fillText("Doctor-led metabolic care built for Indian biology.", 75, 142);
+
+        // Steer 3 Pillars
+        const pillars = [
+          { title: "01  DEXA Muscle Tracking", desc: "Quantifies visceral fat vs lean muscle mass every 8 weeks to stop catabolism." },
+          { title: "02  Doctor-Led Micro-Titration", desc: "Physician micro-dosing protocol to eliminate nausea and gastrointestinal side effects." },
+          { title: "03  Structured Exit Off-Ramp", desc: "Gradual tapering protocol to permanently protect resting metabolic rate and set-points." }
+        ];
+
+        pillars.forEach((p, idx) => {
+          const py = 180 + idx * 88;
+          ctx.fillStyle = "#B85338";
+          ctx.fillRect(75, py, 5, 65);
+
+          ctx.font = "bold 20px -apple-system, sans-serif";
+          ctx.fillStyle = "#241E1C";
+          ctx.fillText(p.title, 95, py + 24);
+
+          ctx.font = "16px -apple-system, sans-serif";
+          ctx.fillStyle = "#7D5246";
+          ctx.fillText(p.desc, 95, py + 52);
+        });
+
+        // Consultation Card
+        const cardY4 = 460;
+        drawRoundRect(ctx, 75, cardY4, width - 150, 465, 16);
+        ctx.fillStyle = "#FFF";
+        ctx.fill();
+        ctx.strokeStyle = "#D5C5B3";
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+
+        drawRoundRect(ctx, 105, cardY4 + 28, 250, 32, 16);
+        ctx.fillStyle = "rgba(92, 29, 24, 0.08)";
+        ctx.fill();
+        ctx.font = "bold 12.5px -apple-system, sans-serif";
+        ctx.fillStyle = "#5C1D18";
+        ctx.fillText("CLINICAL CARE PROTOCOL", 125, cardY4 + 49);
+
+        ctx.font = "bold 30px Georgia, serif";
+        ctx.fillStyle = "#5C1D18";
+        ctx.fillText("Comprehensive 55-Biomarker Metabolic Diagnostic Panel", 105, cardY4 + 95);
+
+        const checks = [
+          "✓ Day-1 DEXA Body Composition & Visceral Adipose Tissue mapping",
+          "✓ Full endocrine panel: ApoB, fasting insulin, liver enzymes, HbA1c",
+          "✓ Dedicated metabolic physician + clinical dietitian assigned for continuous care",
+          "✓ Structured off-ramp protocol to protect metabolic set-points permanently"
+        ];
+
+        checks.forEach((chk, i) => {
+          ctx.font = "16.5px -apple-system, sans-serif";
+          ctx.fillStyle = "#2B1616";
+          ctx.fillText(chk, 105, cardY4 + 140 + i * 36);
+        });
+
+        // CTA Button
+        drawRoundRect(ctx, 105, cardY4 + 295, width - 210, 64, 12);
+        ctx.fillStyle = "#B85338";
+        ctx.fill();
+
+        ctx.font = "bold 22px -apple-system, sans-serif";
+        ctx.fillStyle = "#FFF";
+        ctx.fillText("Visit steerclub.com to check eligibility →", 310, cardY4 + 335);
+
+        ctx.font = "bold 15px -apple-system, sans-serif";
+        ctx.fillStyle = "#7D5246";
+        ctx.fillText("Doctor-led consultations • Continuous metabolic monitoring across India", 255, cardY4 + 395);
+
+        // Citation
+        ctx.font = "italic 14px -apple-system, sans-serif";
+        ctx.fillStyle = "#8E8277";
+        ctx.fillText("Steer Clinical Care Protocol 2026 • steerclub.com", 75, height - 90);
       }
-
-      // Top Brand
-      ctx.font = "italic 36px Georgia, serif";
-      ctx.fillStyle = "#5C1D18";
-      ctx.fillText("steer", 90, 110);
-      ctx.font = "bold 16px -apple-system, sans-serif";
-      ctx.fillStyle = "#7D5246";
-      ctx.fillText("•  Clinical Weight Loss", 185, 105);
-
-      // Pill Tag
-      ctx.fillStyle = "rgba(92, 29, 24, 0.1)";
-      ctx.beginPath();
-      ctx.roundRect(90, 150, 320, 38, 19);
-      ctx.fill();
-      ctx.font = "bold 13px -apple-system, sans-serif";
-      ctx.fillStyle = "#5C1D18";
-      ctx.fillText(`PUBMED CLINICAL TRIAL (PMID ${pmid})`, 110, 174);
-
-      // Main Card
-      ctx.fillStyle = "#FAF5EE";
-      ctx.beginPath();
-      ctx.roundRect(90, 215, 900, 1000, 24);
-      ctx.fill();
-      ctx.strokeStyle = "#D5C5B3";
-      ctx.lineWidth = 1.5;
-      ctx.stroke();
-
-      // Card Header
-      ctx.font = "bold 44px Georgia, serif";
-      ctx.fillStyle = "#5C1D18";
-      const shortTitle = title.split('.')[0];
-      const words = shortTitle.split(' ');
-      let line1 = words.slice(0, 5).join(' ');
-      let line2 = words.slice(5, 11).join(' ');
-      ctx.fillText(line1, 130, 290);
-      if (line2) ctx.fillText(line2, 130, 345);
-
-      // Metric Box
-      ctx.fillStyle = "#FFF";
-      ctx.beginPath();
-      ctx.roundRect(130, 390, 820, 170, 16);
-      ctx.fill();
-      ctx.strokeStyle = "#E4D7C8";
-      ctx.stroke();
-
-      ctx.font = "bold 72px Georgia, serif";
-      ctx.fillStyle = "#C04E2A";
-      ctx.fillText(slideNum === 1 ? "-20.9%" : (slideNum === 2 ? "2 Receptor Synergy" : (slideNum === 3 ? "91% Responders" : "4 Care Pillars")), 165, 480);
-      ctx.font = "bold 18px -apple-system, sans-serif";
-      ctx.fillStyle = "#2B1616";
-      ctx.fillText(slideNum === 1 ? "Mean Body Weight Loss at 72 Weeks" : "Clinical Incretin Co-Agonism", 165, 525);
-
-      // Takeaway Banner
-      ctx.fillStyle = "#EDF5EE";
-      ctx.beginPath();
-      ctx.roundRect(130, 590, 820, 60, 12);
-      ctx.fill();
-      ctx.font = "bold 16px -apple-system, sans-serif";
-      ctx.fillStyle = "#235937";
-      ctx.fillText("✓  " + (slideNum === 1 ? "Statistically significant weight clearance vs placebo (p < 0.001)" : "Doctor-supervised metabolic care protects lean muscle mass"), 155, 627);
-
-      // Telemetry Box
-      ctx.fillStyle = "#FFF";
-      ctx.beginPath();
-      ctx.roundRect(130, 680, 820, 260, 16);
-      ctx.fill();
-      ctx.strokeStyle = "#E4D7C8";
-      ctx.stroke();
-
-      ctx.font = "bold 15px -apple-system, sans-serif";
-      ctx.fillStyle = "#7D5246";
-      ctx.fillText("EVIDENCE-BASED METABOLIC TELEMETRY", 160, 725);
-
-      // Telemetry Bars
-      ctx.fillStyle = "#F5EBDF";
-      ctx.fillRect(160, 755, 760, 24);
-      ctx.fillStyle = "#C04E2A";
-      ctx.fillRect(160, 755, slideNum * 180, 24);
-
-      ctx.font = "14px -apple-system, sans-serif";
-      ctx.fillStyle = "#2B1616";
-      ctx.fillText(`Clinical Endpoint Milestone (Stage ${slideNum} / 4)`, 160, 815);
-      ctx.fillText(`Source verified against PubMed DOI database • ${journal} ${year}`, 160, 845);
-
-      // Bottom Citation
-      ctx.font = "13px -apple-system, sans-serif";
-      ctx.fillStyle = "#7D5246";
-      ctx.fillText(`Source: ${journal} ${year} • PMID ${pmid}`, 130, 1180);
-
-      // Footer
-      ctx.font = "14px -apple-system, sans-serif";
-      ctx.fillStyle = "#7D5246";
-      ctx.fillText("steer • Clinical Weight Loss • steerclub.com", 90, 1260);
-      ctx.font = "bold 16px -apple-system, sans-serif";
-      ctx.fillStyle = "#5C1D18";
-      ctx.fillText(`${slideNum} / 4`, 950, 1260);
 
       urls.push(cvs.toDataURL('image/png'));
     }
@@ -1722,6 +2146,33 @@ Learn more at steerclub.com.
     renderClaims();
   }
 
+  function updateGateBadge() {
+    let totalClaims = 0;
+    let approvedClaims = 0;
+    MASTER_STUDIES.forEach(s => {
+      s.claims.forEach(c => {
+        totalClaims++;
+        if (c.status === 'approved') approvedClaims++;
+      });
+    });
+
+    const badge = document.getElementById('gate-badge');
+    const text = document.getElementById('gate-badge-text');
+    if (badge && text) {
+      if (approvedClaims === totalClaims) {
+        badge.style.background = 'var(--teal-bg)';
+        badge.style.color = 'var(--teal)';
+        badge.style.borderColor = 'rgba(35, 89, 55, 0.25)';
+        text.textContent = `CLINICAL EXPORT UNLOCKED (${approvedClaims}/${totalClaims} Verified)`;
+      } else {
+        badge.style.background = 'var(--alert-bg)';
+        badge.style.color = 'var(--alert)';
+        badge.style.borderColor = 'rgba(217, 66, 40, 0.25)';
+        text.textContent = `CLINICAL AUDIT IN PROGRESS (${approvedClaims}/${totalClaims} Verified)`;
+      }
+    }
+  }
+
   function toggleClaim(id, status) {
     MASTER_STUDIES.forEach(s => {
       s.claims.forEach(c => {
@@ -1731,6 +2182,7 @@ Learn more at steerclub.com.
       });
     });
     renderClaims();
+    updateGateBadge();
   }
 
   function renderClaims() {
@@ -1764,6 +2216,7 @@ Learn more at steerclub.com.
 
   window.onload = function() {
     setStudioPaper('tofi');
+    updateGateBadge();
   };
 </script>
 

@@ -143,7 +143,8 @@ def main():
         'steer_mace': ('papers/steer_cv_outcomes_2026.json', 'steer_mace_cardio'),
         'step1_ext': ('papers/step1_extension_2022.json', 'step1_extension_rebound'),
         'surmount1': ('papers/surmount1_tirzepatide_2022.json', 'surmount1_tirzepatide'),
-        'step1': ('papers/step1_trial_summary.json', 'step1_pubmed_live')
+        'step1': ('papers/step1_trial_summary.json', 'step1_pubmed_live'),
+        'select': ('papers/select_trial_cv_2023.json', 'select_trial_cv')
     }
     
     if args.serve:
