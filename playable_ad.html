@@ -2377,9 +2377,10 @@ Direct Consultation: https://steerclub.com/?utm_source=willpower_arcade&utm_medi
         ctx.fillText(fallbackEmoji, paddle.x, paddle.y - 24);
       }
 
-      ctx.font = "10px 'Plus Jakarta Sans'";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.font = "bold 9.5px 'Plus Jakarta Sans', -apple-system, sans-serif";
       ctx.fillStyle = "#FFF";
-      ctx.fontWeight = "800";
       ctx.fillText(glp1Active ? "GLP-1 SATIETY FIELD" : "WILLPOWER SHIELD", paddle.x, paddle.y + 1);
       ctx.restore();
     }
