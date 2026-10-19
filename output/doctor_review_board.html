@@ -793,7 +793,6 @@
           <button class="c-tab-btn" id="tab-slide3" onclick="setCarouselPreview('slide3')">Slide 3 (Deep Metrics)</button>
           <button class="c-tab-btn" id="tab-slide4" onclick="setCarouselPreview('slide4')">Slide 4 (Steer Protocol)</button>
           <button class="c-tab-btn" id="tab-hero" onclick="setCarouselPreview('hero')">📱 4:5 Hero Poster</button>
-          <button class="c-tab-btn" id="tab-ai" onclick="setCarouselPreview('ai')">🤖 AI Clinical Art</button>
         </div>
 
         <!-- Carousel Preview Stage -->
@@ -1251,16 +1250,6 @@ Explore doctor-led metabolic care at steerclub.com.
     select: "output/posts/select_trial_cv/visuals/clinical_illustration_card.png"
   };
 
-  const aiArtMap = {
-    tofi: "output/posts/lancet_tofi_70kg/visuals/ai_generated_clinical_art.png",
-    narayan: "output/posts/bmj_narayan_tofi/visuals/ai_generated_clinical_art.png",
-    surpass: "output/posts/surpass2_tirzepatide/visuals/ai_generated_clinical_art.png",
-    mace: "output/posts/steer_mace_cardio/visuals/ai_generated_clinical_art.png",
-    step1: "output/posts/step1_extension_rebound/visuals/ai_generated_clinical_art.png",
-    surmount: "output/posts/surmount1_tirzepatide/visuals/ai_generated_clinical_art.png",
-    select: "output/posts/select_trial_cv/visuals/ai_generated_clinical_art.png"
-  };
-
   let currentStudyKey = 'tofi';
   let currentSlideType = 'slide1';
   let currentMode = 'prof';
@@ -1362,7 +1351,6 @@ Explore doctor-led metabolic care at steerclub.com.
     else if (type === 'slide3') src = `${carouselDirs[key]}/carousel_slide_3.png`;
     else if (type === 'slide4') src = `${carouselDirs[key]}/carousel_slide_4.png`;
     else if (type === 'hero') src = heroMap[key] || `${carouselDirs[key]}/carousel_slide_1.png`;
-    else if (type === 'ai') src = aiArtMap[key] || `${carouselDirs[key]}/carousel_slide_2.png`;
 
     imgEl.src = src;
     linkEl.href = src;
@@ -1452,10 +1440,6 @@ CTA: ${data.hinglish.cta}`);
           if (vecMap[key]) {
             const resp = await fetch(vecMap[key]);
             if (resp.ok) bundle.file("clinical_illustration_card.png", await resp.blob());
-          }
-          if (aiArtMap[key]) {
-            const resp = await fetch(aiArtMap[key]);
-            if (resp.ok) bundle.file("ai_generated_clinical_art.png", await resp.blob());
           }
         } catch(e) {}
 

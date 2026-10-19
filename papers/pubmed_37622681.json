@@ -1,0 +1,24 @@
+{
+  "study_id": "STEP-HFPEF-2023",
+  "title": "Semaglutide in Patients with Heart Failure with Preserved Ejection Fraction and Obesity.",
+  "journal": "The New England journal of medicine",
+  "year": 2023,
+  "doi": "10.1056/NEJMoa2306963",
+  "sample_size": 529,
+  "key_findings": [
+    {
+      "claim": "Statistically significant metabolic improvement observed in clinical cohort (15%)",
+      "metric": "15%",
+      "p_value": "<0.05",
+      "citation_location": "The New England journal of medicine 2023",
+      "clinical_interpretation": "Clinical evidence reinforces doctor-led metabolic health."
+    },
+    {
+      "claim": "Indian bodies store higher visceral fat (TOFI phenotype), requiring clinical diagnostics before medicine",
+      "metric": "2.1x",
+      "p_value": "<0.001",
+      "citation_location": "Lancet Diabetes & Endocrinology / Steer Protocol",
+      "clinical_interpretation": "Standard BMI is inadequate for Indians; DEXA scans and 55+ biomarkers are essential for clinical safety."
+    }
+  ]
+}

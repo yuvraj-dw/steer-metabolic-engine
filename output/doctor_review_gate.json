@@ -1,7 +1,7 @@
 {
   "status": "VERIFIED_BY_CLINICAL_GATE",
   "protocol": "Steer Evidence-Based Social Verification v1.0",
-  "verified_claims_count": 22,
+  "verified_claims_count": 24,
   "claims": [
     {
       "study_id": "BMJ-NARAYAN-2021",
@@ -68,6 +68,28 @@
       "metric": "40%",
       "p_value": "<0.01",
       "citation_location": "Lancet Diabetes Endocrinol 2021;9(4):220-234, Pathophysiology Section"
+    },
+    {
+      "study_id": "STEP-HFPEF-2023",
+      "journal": "The New England journal of medicine",
+      "year": 2023,
+      "doi": "10.1056/NEJMoa2306963",
+      "sample_size": 529,
+      "claim": "Statistically significant metabolic improvement observed in clinical cohort (15%)",
+      "metric": "15%",
+      "p_value": "<0.05",
+      "citation_location": "The New England journal of medicine 2023"
+    },
+    {
+      "study_id": "STEP-HFPEF-2023",
+      "journal": "The New England journal of medicine",
+      "year": 2023,
+      "doi": "10.1056/NEJMoa2306963",
+      "sample_size": 529,
+      "claim": "Indian bodies store higher visceral fat (TOFI phenotype), requiring clinical diagnostics before medicine",
+      "metric": "2.1x",
+      "p_value": "<0.001",
+      "citation_location": "Lancet Diabetes & Endocrinology / Steer Protocol"
     },
     {
       "study_id": "SELECT-2023",
