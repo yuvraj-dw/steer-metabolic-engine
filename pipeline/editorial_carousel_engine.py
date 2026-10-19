@@ -253,16 +253,35 @@ def render_editorial_carousel(output_dir: str, study=None) -> list[str]:
                 draw.text((80, y_cav), cl, fill=(245, 238, 230), font=font_caveat)
                 y_cav += 32
                 
-            # Key Clinical Stat or Takeaway on dark
+            # Key Clinical Stat or Takeaway on dark (Mathematically Exact Alignment)
             stat_val = slide.get("stat", "")
             stat_lbl = slide.get("stat_label", "")
             if stat_val:
-                y_ds = y_cav + 20
-                draw.line([(80, y_ds), (80, y_ds + 82)], fill=PALETTE["rust"], width=5)
-                draw.text((102, y_ds - 4), stat_val, fill=PALETTE["rust"], font=get_serif(56, bold=True))
-                s_bbox = draw.textbbox((0, 0), stat_val, font=get_serif(44, bold=True))
+                y_ds = y_cav + 22
+                font_stat = get_serif(54, bold=True)
+                s_bbox = draw.textbbox((0, 0), stat_val, font=font_stat)
                 sw = s_bbox[2] - s_bbox[0]
-                draw.text((120 + sw, y_ds + 12), stat_lbl, fill=PALETTE["white"], font=get_sans(21, bold=True))
+                sh = s_bbox[3] - s_bbox[1]
+                
+                # Guaranteed horizontal gap: 32px to the right of stat number
+                lbl_font = get_sans(20, bold=True)
+                lbl_x = 105 + sw + 32
+                max_lbl_w = (width - 70) - lbl_x
+                
+                lbl_lines = wrap_text(stat_lbl, lbl_font, max_lbl_w, draw)[:2]
+                block_h = max(82, sh + 24, len(lbl_lines) * 28 + 14)
+                
+                # Vertical terracotta anchor line
+                draw.line([(80, y_ds), (80, y_ds + block_h)], fill=PALETTE["rust"], width=6)
+                
+                # Draw stat number
+                draw.text((105, y_ds + 4), stat_val, fill=PALETTE["rust"], font=font_stat)
+                
+                # Draw label lines cleanly centered alongside stat number
+                y_lbl = y_ds + 4 + (sh - (len(lbl_lines) * 26)) // 2
+                for ll in lbl_lines:
+                    draw.text((lbl_x, y_lbl), ll, fill=PALETTE["white"], font=lbl_font)
+                    y_lbl += 28
                 
             # Citation
             font_cit = get_sans(14, italic=True)
