@@ -704,9 +704,9 @@
     .tug-rope-track {
       position: relative;
       width: 100%;
-      height: 12px;
-      background: #D8C7B5;
-      border-radius: 6px;
+      height: 16px;
+      background: url('assets/game/tug_rope_segment.png') repeat-x center / auto 20px, #D8C7B5;
+      border-radius: 8px;
       margin: 16px 0;
     }
     .tug-knot {
@@ -1232,6 +1232,7 @@
 
       <!-- Tug Outcome Box (Visible on Collapse) -->
       <div id="tug-outcome-box" style="display: none; background: #FFF; border: 1.5px solid var(--blush); border-radius: 14px; padding: 12px;">
+        <img src="assets/game/tug_doctor_anchor.png" style="width: 58px; height: 58px; object-fit: contain; float: right; margin: 0 0 8px 12px;" alt="Doctor Anchor">
         <span class="intro-badge" style="background: rgba(102, 20, 20, 0.1); color: var(--deep-maroon);">
           BIOLOGICAL COLLAPSE DETECTED
         </span>
@@ -1385,6 +1386,8 @@
     const rTitle = document.getElementById('tug-round-title');
     const oppName = document.getElementById('tug-opp-name');
     const timerEl = document.getElementById('tug-timer');
+    const wImg = document.getElementById('tug-willpower-img');
+    const oImg = document.getElementById('tug-opp-img');
 
     if (timerEl) timerEl.innerText = `${tugTimer}s`;
     if (rTitle) {
@@ -1393,9 +1396,19 @@
       else rTitle.innerText = "Round 3: 04:12 PM (Post-Dieting Famine Alarm)";
     }
     if (oppName) {
-      if (tugRound === 1) oppName.innerText = "Low Ghrelin (Calm)";
-      else if (tugRound === 2) oppName.innerText = "Rising Cravings";
-      else oppName.innerText = "+240% GHRELIN SURGE!";
+      if (tugRound === 1) oppName.innerText = "Ghrelin Spark (1.2x)";
+      else if (tugRound === 2) oppName.innerText = "Sugar Rush Devil (2.5x)";
+      else oppName.innerText = "+240% FAMINE ALARM BOSS!";
+    }
+    if (wImg) {
+      if (tugRound === 1) wImg.src = "assets/game/01_brain_stamina_high.png";
+      else if (tugRound === 2) wImg.src = "assets/game/02_brain_stamina_low.png";
+      else wImg.src = "assets/game/03_brain_collapse.png";
+    }
+    if (oImg) {
+      if (tugRound === 1) oImg.src = "assets/game/tug_opp_ghrelin_spark.png";
+      else if (tugRound === 2) oImg.src = "assets/game/tug_opp_sugar_rush.png";
+      else oImg.src = "assets/game/tug_opp_famine_alarm.png";
     }
   }
 

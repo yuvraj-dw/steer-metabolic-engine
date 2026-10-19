@@ -46,11 +46,8 @@ def draw_vector_check(draw, x, y, color="#235937"):
 
 def draw_tofi_dexa_diagram(w=840, h=360) -> Image.Image:
     """Renders dual DEXA body scan comparison in Steer calm editorial aesthetic."""
-    img = Image.new("RGBA", (w, h), PALETTE["soft_paper"])
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
     draw = ImageDraw.Draw(img)
-
-    # Frame
-    draw.rounded_rectangle([2, 2, w - 2, h - 2], radius=16, fill=PALETTE["white"], outline=PALETTE["border"], width=1)
 
     # Left Column: European Control (Subcutaneous)
     # Right Column: South Asian TOFI (Ectopic Visceral)
@@ -58,7 +55,7 @@ def draw_tofi_dexa_diagram(w=840, h=360) -> Image.Image:
     
     # 1. Left Card
     x1, y1 = 20, 20
-    draw.rounded_rectangle([x1, y1, x1 + col_w, y1 + h - 40], radius=12, fill="#F9FAF8", outline="#E0E6E2", width=1)
+    draw.rounded_rectangle([x1, y1, x1 + col_w, y1 + h - 40], radius=12, fill="#EFE8DE", outline="#DCD3C7", width=1)
     draw.text((x1 + 18, y1 + 16), "EUROPEAN REFERENCE", fill=PALETTE["clay"], font=get_font(15, bold=True))
     draw.text((x1 + 18, y1 + 38), "Subcutaneous Safe Buffer", fill=PALETTE["ink"], font=get_font(20, bold=True, serif=True))
     draw.text((x1 + 18, y1 + 68), "Weight: 70.0 kg  •  BMI: 22.8", fill=PALETTE["clay"], font=get_font(15))
@@ -100,10 +97,8 @@ def draw_tofi_dexa_diagram(w=840, h=360) -> Image.Image:
 
 def draw_surpass_diagram(w=840, h=360) -> Image.Image:
     """Renders dual incretin receptor co-agonism synergy diagram."""
-    img = Image.new("RGBA", (w, h), PALETTE["soft_paper"])
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
     draw = ImageDraw.Draw(img)
-
-    draw.rounded_rectangle([2, 2, w - 2, h - 2], radius=16, fill=PALETTE["white"], outline=PALETTE["border"], width=1)
 
     # Header Tag
     draw.text((24, 20), "NEJM 2021 TRIAL MECHANISM", fill=PALETTE["clay"], font=get_font(14, bold=True))
@@ -138,10 +133,8 @@ def draw_surpass_diagram(w=840, h=360) -> Image.Image:
 
 def draw_mace_diagram(w=840, h=360) -> Image.Image:
     """Renders cardiovascular endothelial decompression & arterial defense diagram."""
-    img = Image.new("RGBA", (w, h), PALETTE["soft_paper"])
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
     draw = ImageDraw.Draw(img)
-
-    draw.rounded_rectangle([2, 2, w - 2, h - 2], radius=16, fill=PALETTE["white"], outline=PALETTE["border"], width=1)
 
     draw.text((24, 20), "CARDIOMETABOLIC OUTCOMES (n=24,800)", fill=PALETTE["clay"], font=get_font(14, bold=True))
     draw.text((24, 42), "Arterial Decompression & Vascular Defense", fill=PALETTE["oxblood"], font=get_font(24, bold=True, serif=True))
@@ -183,10 +176,8 @@ def draw_mace_diagram(w=840, h=360) -> Image.Image:
 
 def draw_step1_diagram(w=840, h=360) -> Image.Image:
     """Renders hypothalamic set-point hunger hormone balance scales."""
-    img = Image.new("RGBA", (w, h), PALETTE["soft_paper"])
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
     draw = ImageDraw.Draw(img)
-
-    draw.rounded_rectangle([2, 2, w - 2, h - 2], radius=16, fill=PALETTE["white"], outline=PALETTE["border"], width=1)
 
     draw.text((24, 18), "STEP-1 TRIAL EXTENSION (n=327)", fill=PALETTE["clay"], font=get_font(13, bold=True))
     draw.text((24, 38), "The Neuro-Endocrine Rebound Alarm", fill=PALETTE["oxblood"], font=get_font(22, bold=True, serif=True))
@@ -224,10 +215,8 @@ def draw_step1_diagram(w=840, h=360) -> Image.Image:
 
 def draw_narayan_diagram(w=840, h=360) -> Image.Image:
     """Renders South Asian BMI 22.0 threshold vs Western 25.0 benchmark diagram."""
-    img = Image.new("RGBA", (w, h), PALETTE["soft_paper"])
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
     draw = ImageDraw.Draw(img)
-
-    draw.rounded_rectangle([2, 2, w - 2, h - 2], radius=16, fill=PALETTE["white"], outline=PALETTE["border"], width=1)
 
     draw.text((24, 20), "BMJ OPEN COHORT (n=16,240)", fill=PALETTE["clay"], font=get_font(14, bold=True))
     draw.text((24, 42), "The Premature Inflexion Point Anomaly", fill=PALETTE["oxblood"], font=get_font(24, bold=True, serif=True))
@@ -261,11 +250,9 @@ def draw_narayan_diagram(w=840, h=360) -> Image.Image:
 
 def draw_slide1_telemetry(study_id: str = "", w=840, h=240) -> Image.Image:
     """Renders publication-grade vector trajectory/telemetry for Carousel Slide 1."""
-    img = Image.new("RGBA", (w, h), PALETTE["soft_paper"])
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
     draw = ImageDraw.Draw(img)
     sid = (study_id or "").upper()
-
-    draw.rounded_rectangle([2, 2, w - 2, h - 2], radius=16, fill=PALETTE["white"], outline=PALETTE["border"], width=1)
 
     if "STEP" in sid or "REBOUND" in sid:
         draw.text((24, 16), "STEP-1 REBOUND TRAJECTORY (WEEKS 0 -> 120)", fill=PALETTE["clay"], font=get_font(14, bold=True))
@@ -481,11 +468,9 @@ def draw_slide1_telemetry(study_id: str = "", w=840, h=240) -> Image.Image:
 
 def draw_slide3_telemetry(study_id: str = "", w=840, h=230) -> Image.Image:
     """Renders publication-grade secondary biomarker panels for Carousel Slide 3."""
-    img = Image.new("RGBA", (w, h), PALETTE["soft_paper"])
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
     draw = ImageDraw.Draw(img)
     sid = (study_id or "").upper()
-
-    draw.rounded_rectangle([2, 2, w - 2, h - 2], radius=16, fill=PALETTE["white"], outline=PALETTE["border"], width=1)
 
     if "STEP" in sid or "REBOUND" in sid:
         draw.text((24, 16), "SECONDARY CARDIOMETABOLIC DRIFT AT 12 MONTHS (POST-CESSATION)", fill=PALETTE["clay"], font=get_font(14, bold=True))
