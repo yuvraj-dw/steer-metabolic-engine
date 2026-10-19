@@ -77,7 +77,7 @@ def draw_footer(draw, current_slide, total_slides, width=1080, height=1350):
 
 def generate_static(output_dir: str, study=None) -> str:
     os.makedirs(output_dir, exist_ok=True)
-    width, height = 1080, 1350
+    width, height = 1080, 1080
     img = Image.new("RGB", (width, height), PALETTE["cream"])
     draw = ImageDraw.Draw(img)
     

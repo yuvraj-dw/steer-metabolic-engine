@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  steer-engine:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./output:/app/output
+      - ./papers:/app/papers
+    environment:
+      - PYTHONUNBUFFERED=1
+    command: python run_pipeline.py --serve --port 8000
