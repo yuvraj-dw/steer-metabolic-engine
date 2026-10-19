@@ -115,12 +115,12 @@ def render_editorial_carousel(output_dir: str, study=None) -> list[str]:
         if idx == 1:
             # SLIDE 1: COVER / HOOK (Square 1080x1080)
             # Monoline Cellular / Biological Motif top-left
-            draw_cellular_pattern(draw, 105, 95, radius=38, color=PALETTE["charcoal"])
+            draw_cellular_pattern(draw, 115, 105, radius=48, color=PALETTE["charcoal"])
             
             # Title with Italic Serif Accent
             title_text = slide.get("title", "")
-            font_italic = get_serif(44, bold=True, italic=True)
-            font_title = get_serif(44, bold=True, italic=False)
+            font_italic = get_serif(52, bold=True, italic=True)
+            font_title = get_serif(52, bold=True, italic=False)
             
             t_lines = wrap_text(title_text, font_title, width - 150, draw)
             y_title = 165
@@ -141,13 +141,13 @@ def render_editorial_carousel(output_dir: str, study=None) -> list[str]:
             draw.line([(75, y_title + 6), (175, y_title + 6)], fill=PALETTE["rust"], width=3)
             
             # Narrative Body (directly on cream, no box!)
-            font_body = get_sans(19, bold=False)
+            font_body = get_sans(24, bold=False)
             p1 = slide.get("p1", "")
             y_body = y_title + 24
             b_lines = wrap_text(p1, font_body, width - 150, draw)[:2]
             for bl in b_lines:
                 draw.text((75, y_body), bl, fill=PALETTE["charcoal"], font=font_body)
-                y_body += 28
+                y_body += 34
                 
             # Stat Highlight with Vertical Terracotta Bar (NO WHITE BOX!)
             stat_val = slide.get("stat", "")
@@ -155,33 +155,33 @@ def render_editorial_carousel(output_dir: str, study=None) -> list[str]:
             stat_sub = slide.get("stat_sub", "")
             
             y_stat = y_body + 20
-            bar_h = 92
-            draw.line([(75, y_stat), (75, y_stat + bar_h)], fill=PALETTE["rust"], width=5)
+            bar_h = 115
+            draw.line([(75, y_stat), (75, y_stat + bar_h)], fill=PALETTE["rust"], width=6)
             
-            font_big_stat = get_serif(58, bold=True)
+            font_big_stat = get_serif(76, bold=True)
             draw.text((95, y_stat - 4), stat_val, fill=PALETTE["rust"], font=font_big_stat)
             
             s_bbox = draw.textbbox((0, 0), stat_val, font=font_big_stat)
             sw = s_bbox[2] - s_bbox[0]
             
             y_lbl = y_stat + 4
-            lbl_lines = wrap_text(stat_lbl, get_sans(18, bold=True), width - (110 + sw + 30), draw)[:2]
+            lbl_lines = wrap_text(stat_lbl, get_sans(22, bold=True), width - (115 + sw + 30), draw)[:2]
             for ll in lbl_lines:
                 draw.text((110 + sw, y_lbl), ll, fill=PALETTE["charcoal"], font=get_sans(18, bold=True))
-                y_lbl += 24
-            draw.text((110 + sw, y_lbl + 2), stat_sub, fill=PALETTE["slate"], font=get_sans(14))
+                y_lbl += 30
+            draw.text((115 + sw, y_lbl + 4), stat_sub, fill=PALETTE["slate"], font=get_sans(17))
             
             sid = (study.study_id if study else "lancet_tofi").upper()
-            telem_img = draw_slide1_telemetry(sid, width - 150, 200)
+            telem_img = draw_slide1_telemetry(sid, width - 150, 230)
             if telem_img:
                 img.paste(telem_img, (75, y_stat + bar_h + 18), telem_img if telem_img.mode == "RGBA" else None)
                 
             font_cit = get_sans(14, italic=True)
-            draw.text((75, height - 95), slide.get("citation", ""), fill=PALETTE["slate"], font=font_cit)
+            draw.text((75, height - 90), slide.get("citation", ""), fill=PALETTE["slate"], font=font_cit)
             
         elif idx == 2:
             # SLIDE 2: PATHOPHYSIOLOGY / MECHANISM (Square 1080x1080, Direct Cream)
-            font_title = get_serif(42, bold=True)
+            font_title = get_serif(48, bold=True)
             title_text = slide.get("title", "")
             t_lines = wrap_text(title_text, font_title, width - 150, draw)[:2]
             y_title = 110
@@ -193,7 +193,7 @@ def render_editorial_carousel(output_dir: str, study=None) -> list[str]:
             # Clinical Vector Diagram rendered transparently directly on canvas
             dkey = slide.get("diagram_key", "")
             diag_w = width - 150
-            diag_h = 310
+            diag_h = 360
             if "SURPASS" in dkey:
                 diag_img = draw_surpass_diagram(diag_w, diag_h)
             elif "MACE" in dkey or "STEER" in dkey:
@@ -210,40 +210,40 @@ def render_editorial_carousel(output_dir: str, study=None) -> list[str]:
             
             # Clinical Finding with Vertical Terracotta Bar (Directly on cream!)
             y_takeaway = y_diag + diag_h + 24
-            draw.line([(75, y_takeaway), (75, y_takeaway + 115)], fill=PALETTE["rust"], width=5)
+            draw.line([(75, y_takeaway), (75, y_takeaway + 135)], fill=PALETTE["rust"], width=6)
             
             p1 = slide.get("p1", "")
             takeaway = slide.get("takeaway", "")
             
-            font_quote = get_serif(21, italic=True)
+            font_quote = get_serif(25, italic=True)
             q_lines = wrap_text(f'"{p1}"', font_quote, width - 180, draw)[:3]
             y_q = y_takeaway + 2
             for ql in q_lines:
                 draw.text((95, y_q), ql, fill=PALETTE["charcoal"], font=font_quote)
-                y_q += 28
+                y_q += 34
                 
-            font_t_bold = get_sans(16, bold=True)
+            font_t_bold = get_sans(20, bold=True)
             draw.text((95, y_q + 6), f"Key Protocol: {takeaway}", fill=PALETTE["rust"], font=font_t_bold)
             
             # Citation
             font_cit = get_sans(14, italic=True)
-            draw.text((75, height - 95), slide.get("citation", ""), fill=PALETTE["slate"], font=font_cit)
+            draw.text((75, height - 90), slide.get("citation", ""), fill=PALETTE["slate"], font=font_cit)
             
         elif idx == 3:
             # SLIDE 3: PATTERN INTERRUPT (Square 1080x1080, Deep Oxblood Maroon `#5C181A`)
-            draw_cardiac_monitor(draw, width // 2, 190, scale=1.05, color=PALETTE["white"], stroke_w=2)
+            draw_cardiac_monitor(draw, width // 2, 185, scale=1.22, color=PALETTE["white"], stroke_w=2)
             
-            font_hero_quote = get_serif(44, bold=True, italic=True)
+            font_hero_quote = get_serif(52, bold=True, italic=True)
             quote_text = "Before you start, hear it from a doctor, not a reel."
             q_lines = wrap_text(quote_text, font_hero_quote, width - 160, draw)[:2]
             y_hq = 350
             for ql in q_lines:
                 draw.text((80, y_hq), ql, fill=PALETTE["white"], font=font_hero_quote)
-                y_hq += 54
+                y_hq += 62
                 
             draw.line([(80, y_hq + 10), (190, y_hq + 10)], fill=PALETTE["rust"], width=3)
             
-            font_caveat = get_sans(19, bold=False)
+            font_caveat = get_sans(23, bold=False)
             p1 = slide.get("p1", "")
             p2 = slide.get("p2", "")
             body_text = f"{p1} {p2}".strip()
@@ -251,18 +251,18 @@ def render_editorial_carousel(output_dir: str, study=None) -> list[str]:
             c_lines = wrap_text(body_text, font_caveat, width - 160, draw)[:3]
             for cl in c_lines:
                 draw.text((80, y_cav), cl, fill=(245, 238, 230), font=font_caveat)
-                y_cav += 28
+                y_cav += 32
                 
             # Key Clinical Stat or Takeaway on dark
             stat_val = slide.get("stat", "")
             stat_lbl = slide.get("stat_label", "")
             if stat_val:
                 y_ds = y_cav + 20
-                draw.line([(80, y_ds), (80, y_ds + 68)], fill=PALETTE["rust"], width=4)
-                draw.text((98, y_ds - 2), stat_val, fill=PALETTE["rust"], font=get_serif(44, bold=True))
+                draw.line([(80, y_ds), (80, y_ds + 82)], fill=PALETTE["rust"], width=5)
+                draw.text((102, y_ds - 4), stat_val, fill=PALETTE["rust"], font=get_serif(56, bold=True))
                 s_bbox = draw.textbbox((0, 0), stat_val, font=get_serif(44, bold=True))
                 sw = s_bbox[2] - s_bbox[0]
-                draw.text((115 + sw, y_ds + 10), stat_lbl, fill=PALETTE["white"], font=get_sans(17, bold=True))
+                draw.text((120 + sw, y_ds + 12), stat_lbl, fill=PALETTE["white"], font=get_sans(21, bold=True))
                 
             # Citation
             font_cit = get_sans(14, italic=True)
@@ -270,13 +270,13 @@ def render_editorial_carousel(output_dir: str, study=None) -> list[str]:
             
         elif idx == 4:
             # SLIDE 4: THE STEER ARCHITECTURE / DOCTOR CONSULTATION (Square 1080x1080)
-            draw_stethoscope(draw, 740, 310, scale=0.88, color=PALETTE["charcoal"], stroke_w=2)
+            draw_stethoscope(draw, 740, 310, scale=0.96, color=PALETTE["charcoal"], stroke_w=3)
             
-            font_cta_title = get_serif(42, bold=True, italic=True)
+            font_cta_title = get_serif(50, bold=True, italic=True)
             draw.text((75, 105), "Talk to a Steer doctor.", fill=PALETTE["rust"], font=font_cta_title)
             draw.line([(75, 160), (175, 160)], fill=PALETTE["rust"], width=3)
             
-            font_sub = get_sans(19)
+            font_sub = get_sans(23)
             draw.text((75, 178), "Doctor-led metabolic care built for Indian biology.", fill=PALETTE["charcoal"], font=font_sub)
             
             # Steer 3 Pillars
@@ -288,21 +288,22 @@ def render_editorial_carousel(output_dir: str, study=None) -> list[str]:
             ])
             
             for p_title, p_desc in pillars[:3]:
-                draw.line([(75, y_p), (75, y_p + 58)], fill=PALETTE["rust"], width=4)
-                draw.text((92, y_p), p_title, fill=PALETTE["charcoal"], font=get_sans(18, bold=True))
-                d_lines = wrap_text(p_desc, get_sans(15), 450, draw)[:2]
+                draw.line([(75, y_p), (75, y_p + 68)], fill=PALETTE["rust"], width=5)
+                draw.text((95, y_p), p_title, fill=PALETTE["charcoal"], font=get_sans(22, bold=True))
+                d_lines = wrap_text(p_desc, get_sans(18), 450, draw)[:2]
                 yd = y_p + 24
                 for dl in d_lines:
-                    draw.text((92, yd), dl, fill=PALETTE["slate"], font=get_sans(15))
-                    yd += 20
-                y_p += 92
+                    draw.text((95, yd), dl, fill=PALETTE["slate"], font=get_sans(18))
+                    yd += 24
+                y_p += 105
                 
             # Caring hands illustration anchoring lower-left
-            draw_caring_hands(draw, 190, 680, scale=0.72, color=PALETTE["charcoal"], stroke_w=2)
+            draw_caring_hands(draw, 200, 680, scale=0.82, color=PALETTE["charcoal"], stroke_w=2)
             
             # CTA Box & URL
-            draw.text((75, 800), "Visit steerclub.com to check eligibility →", fill=PALETTE["rust"], font=get_sans(21, bold=True))
-            draw.text((75, 835), "Comprehensive blood panel • Doctor consult • Continuous monitoring", fill=PALETTE["slate"], font=get_sans(14))
+            draw.text((75, 800), "Visit steerclub.com to check eligibility →", fill=PALETTE["rust"], font=get_sans(25, bold=True))
+            draw.text((75, 840), "Comprehensive blood panel • Doctor consult • Continuous monitoring", fill=PALETTE["slate"], font=get_sans(16))
+            draw.text((75, 875), "Doctor-led consultations • Continuous metabolic monitoring across India", fill=PALETTE["charcoal"], font=get_sans(17, bold=True))
             
             # Citation
             font_cit = get_sans(14, italic=True)

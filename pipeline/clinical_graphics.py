@@ -449,20 +449,38 @@ def draw_slide1_telemetry(study_id: str = "", w=840, h=240) -> Image.Image:
         draw.text((x2 + 20, 174), "• 5.3x Diabetes Risk at normal scale weight!", fill=PALETTE["oxblood"], font=get_font(14, bold=True))
 
     else:
-        # Default: Lancet TOFI Adiposity Split-Bar
-        draw.text((24, 16), "INTERNAL VISCERAL VS SUBCUTANEOUS ADIPOSITY SPLIT (AT 70.0 KG)", fill=PALETTE["clay"], font=get_font(14, bold=True))
+        # Proportional Stacked Visual Dual-Segment Progress Bar (Fills canvas with zero void)
+        draw.text((24, 14), "INTERNAL VISCERAL VS SUBCUTANEOUS ADIPOSITY SPLIT (AT 70.0 KG)", fill=PALETTE["clay"], font=get_font(15, bold=True))
         
-        # Bar 1: European 70kg
-        draw.text((28, 52), "European Control (70.0 kg • BMI 22.8)", fill=PALETTE["ink"], font=get_font(15, bold=True))
-        draw.rounded_rectangle([28, 78, 28 + 480, 116], radius=8, fill=PALETTE["teal_light"], outline="#CBE2D3", width=1)
-        draw.text((45, 88), "82% Subcutaneous Safe Buffer  •  18% Visceral (48 cm³)", fill=PALETTE["teal"], font=get_font(15, bold=True))
+        bar_w = w - 50
+        bar_h = 46
         
-        # Bar 2: South Asian TOFI 70kg
-        draw.text((28, 132), "South Asian TOFI (70.0 kg • BMI 22.8)", fill=PALETTE["oxblood"], font=get_font(15, bold=True))
-        draw.rounded_rectangle([28, 158, 28 + 620, 196], radius=8, fill=PALETTE["rust_light"], outline=PALETTE["rust"], width=2)
-        draw.text((45, 168), "45% Subcutaneous  •  55% Visceral (184 cm³, +283% Toxic Organ Fat)", fill=PALETTE["oxblood"], font=get_font(15, bold=True))
+        # 1. European Control
+        draw.text((24, 46), "European Control (70.0 kg • BMI 22.8) — Healthy Peripheral Buffer", fill=PALETTE["ink"], font=get_font(17, bold=True))
+        w_sub1 = int(bar_w * 0.82)
+        bx = 24
+        by1 = 74
+        draw.rounded_rectangle([bx, by1, bx + bar_w, by1 + bar_h], radius=10, fill="#EFE8DE", outline="#DCD3C7", width=1)
+        draw.rounded_rectangle([bx, by1, bx + w_sub1, by1 + bar_h], radius=10, fill=PALETTE["teal_light"], outline="#CBE2D3", width=1)
+        draw.text((bx + 18, by1 + 13), "82% Subcutaneous Safe Buffer (218 cm³)", fill=PALETTE["teal"], font=get_font(15, bold=True))
+        draw.rounded_rectangle([bx + w_sub1, by1, bx + bar_w, by1 + bar_h], radius=10, fill=PALETTE["rust_light"], outline=PALETTE["rust"], width=1)
+        draw.text((bx + w_sub1 + 10, by1 + 13), "18% VAT", fill=PALETTE["rust"], font=get_font(14, bold=True))
         
-        draw.text((28, 212), "External body scale reads identical while internal visceral fat strangles organs.", fill=PALETTE["oxblood"], font=get_font(13, bold=True))
+        # 2. South Asian TOFI
+        by2 = 152
+        draw.text((24, 128), "South Asian TOFI (70.0 kg • BMI 22.8) — Ectopic Organ Saturation (+283% VAT)", fill=PALETTE["oxblood"], font=get_font(17, bold=True))
+        w_sub2 = int(bar_w * 0.45)
+        draw.rounded_rectangle([bx, by2, bx + bar_w, by2 + bar_h], radius=10, fill="#EFE8DE", outline="#DCD3C7", width=1)
+        draw.rounded_rectangle([bx, by2, bx + w_sub2, by2 + bar_h], radius=10, fill=PALETTE["teal_light"], outline="#CBE2D3", width=1)
+        draw.text((bx + 18, by2 + 13), "45% Subcutaneous Buffer", fill=PALETTE["teal"], font=get_font(15, bold=True))
+        draw.rounded_rectangle([bx + w_sub2, by2, bx + bar_w, by2 + bar_h], radius=10, fill=PALETTE["rust"], outline=PALETTE["oxblood"], width=2)
+        draw.text((bx + w_sub2 + 16, by2 + 13), "55% Toxic Visceral Fat (184 cm³ • 3.8x Ectopic Load)", fill="#FFF", font=get_font(15, bold=True))
+        
+        # 3. Clinical Summary Banner (Full Height & Complete Text)
+        by3 = 230
+        draw.rounded_rectangle([bx, by3, bx + bar_w, by3 + 60], radius=10, fill="#FAF3EB", outline=PALETTE["rust"], width=2)
+        draw.text((bx + 18, by3 + 10), "⚡ Steer DEXA Protocol: Prioritize visceral organ fat clearance before tapering doses.", fill=PALETTE["oxblood"], font=get_font(16, bold=True))
+        draw.text((bx + 18, by3 + 34), "Standard scales measure total gravity. Steer DEXA scans quantify the visceral fat causing diabetes.", fill=PALETTE["clay"], font=get_font(14))
 
     return img
 
